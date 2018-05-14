@@ -87,8 +87,8 @@ class block_ucpfigures extends block_base {
 			$this->content->text .= "<strong> $nbviews->number</strong> consultations <hr>";*/
 
 			$verifrole = explode("@", $USER->email);
-			if (($verifrole[1] == "u-cergy.fr")) {
-				$this->content->text .= "<br><a href = '$CFG->wwwroot/blocks/ucpfigures/figures.php'>Plus de chiffres...</a>";
+			if (($verifrole[1] == "u-cergy.fr")) {				
+				$this->content->text .= "<br><a href = '$CFG->wwwroot/blocks/ucpfigures/figures.php'>Plus de chiffres...</a>";				
 			}
             if (! empty($this->config->text)) {
                 $this->content->text .= $this->config->text;
