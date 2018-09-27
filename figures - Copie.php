@@ -76,36 +76,25 @@ $PAGE->set_title($title);
 $PAGE->set_heading($title);
 echo $OUTPUT->header();
 
-$composantes = $DB->get_records('block_ucpfigures_ufr');
-
 // Réinventer tout ce qu'il y a après.
 
-echo "<div onclick=flipflop('section1'); style='text-align:center;width:100%;font-weight:bold;padding:5px;color:white;
-		background-color:#731472;border-radius:5px 5px 0 0'>".get_string('textsection1', 'block_ucpfigures')."</div>
-		<div id =section1 class=content style=width:100%;display:none><br>";
+$composantes = $DB->get_records('block_ucpfigures_ufr');
+?>
 
+<div onclick="flipflop('heade');" style="text-align:center;width:100%;font-weight:bold;padding:5px;color:white;
+	background-color:#731472;border-radius:5px 5px 0 0">
+    Nombre de promotions, de cours et d'étudiants déclarés dans Apogée
+</div>
+<div id ="heade" class="content" style='width:100%;display:none'>
+<br>
+
+
+<?php
 $totalknowncourses = 0;
 $totalknownstudents = 0;
-$totalnbrvets =0;	
+$totalnbrvets =0;
 
-// Promotions déclarées.
-
-$tableexpectedpromo = new html_table();
-$tableexpectedpromo->head  = array(get_string('ufr', 'block_ucpfigures'), get_string('expectedpromos', 'block_ucpfigures'));
-$tableexpectedpromo->colclasses = array('leftalign ufr', 'leftalign exceptedpromos');
-$tableexpectedpromo->id = 'expectedpromos';
-$tableexpectedpromo->attributes['class'] = 'admintable generaltable';
-
-//$tableexpectedpromo->data = $data;
-echo html_writer::table($tableexpectedpromo);
-
-echo "</div>";
-		
-echo $OUTPUT->footer();
-
-/* 
-
-
+//Promotions déclarées
 echo "<table width='1200'>";
 echo "<tr><td width='700' bgcolor='#731472'><FONT COLOR='#731472'>";
 $csv = "Nombre de promotions déclarées £µ£";
@@ -691,7 +680,7 @@ echo "<strong>".format_number($nblogs)."</strong> actions réalisées sur la pla
 <br>
 
 <?php
- */
+echo $OUTPUT->footer();
 
 //Groupe les chiffres d'un grand nombre par 3
 function format_number($nb) {

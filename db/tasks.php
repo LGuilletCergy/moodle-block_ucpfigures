@@ -21,18 +21,26 @@
  * 95011 Cergy-Pontoise cedex
  * FRANCE
  *
- * Block displaying stats about the site.
+ * Create the accounts of students and teachers based on xml files and fill tables used for statistics.
  *
- * @package    block_ucpfigures
- * @author     Brice Errandonea <brice.errandonea@u-cergy.fr>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   block_ucpfigures
+ * @copyright 2018 Laurent Guillet <laurent.guillet@u-cergy.fr>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
- *
- * File : version.php
- * Version number
- *
+ * File : tasks.php
+ * List the moodle tasks and their frequency.
  */
 
-$plugin->component = 'block_ucpfigures';  // Recommended since 2.0.2 (MDL-26035). Required since 3.0 (MDL-48494)
-$plugin->version = 2018092700;  // YYYYMMDDHH (year, month, day, 24-hr time)
-$plugin->requires   = 2014051200; // Moodle 2.7
+defined('MOODLE_INTERNAL') || die();
+
+$tasks = array(
+    array(
+        'classname' => 'block_ucpfigures\task\dailystats',
+        'blocking' => 0,
+        'minute' => '30',
+        'hour' => '6',
+        'day' => '*',
+        'dayofweek' => '*',
+        'month' => '*'
+    ),
+);
