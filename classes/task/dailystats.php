@@ -117,13 +117,6 @@ class dailystats extends \core\task\scheduled_task {
             $ufrarray[$startcomposante]->nbvets++;
         }
 
-        foreach ($listufrs as $ufr) {
-
-            $composantecode = substr($ufr->code, 6);
-
-            $DB->update_record('block_ucpfigures_ufr', $ufrarray[$composantecode]);
-        }
-
         // Statistiques d'étudiants dans Etudiants_Inscriptions.
 
         $xmldocstudents = new \DOMDocument();
@@ -151,6 +144,17 @@ class dailystats extends \core\task\scheduled_task {
 
         // Nombre de cours avec une cohorte.
 
+
+
+
+
         
+
+        foreach ($listufrs as $ufr) {
+
+            $composantecode = substr($ufr->code, 6);
+
+            $DB->update_record('block_ucpfigures_ufr', $ufrarray[$composantecode]);
+        }
     }
 }
