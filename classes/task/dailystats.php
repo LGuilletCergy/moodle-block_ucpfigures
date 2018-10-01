@@ -132,7 +132,7 @@ class dailystats extends \core\task\scheduled_task {
 
         // Statistiques de cours dans Offre_pédagogiques.
 
-        $listcourses = $xpathvarpedago->query('//Diplome/Version_diplome/Etape/ELP');
+        $listcourses = $xpathvarpedago->query('//Diplome/Version_diplome/Etape/Version_etape/ELP');
 
         foreach ($listcourses as $course) {
 
@@ -148,7 +148,7 @@ class dailystats extends \core\task\scheduled_task {
 
 
 
-        
+
 
         foreach ($listufrs as $ufr) {
 
