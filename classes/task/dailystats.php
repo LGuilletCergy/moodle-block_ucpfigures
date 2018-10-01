@@ -39,7 +39,7 @@ namespace block_ucpfigures\task;
 class dailystats extends \core\task\scheduled_task {
 
     public function get_name() {
-        // Shown in admin screens
+        // Shown in admin screens.
 
         return get_string('dailystats', 'block_ucpfigures');
     }
@@ -48,14 +48,16 @@ class dailystats extends \core\task\scheduled_task {
 
         global $DB, $CFG;
 
-        $xmldoc = new \DOMDocument();
-        $xmldoc->load('/home/referentiel/dokeos_offre_pedagogique.xml');
-        $xpathvar = new \Domxpath($xmldoc);
-        $listdiplomes = $xpathvar->query('//Diplome');
+        $xmldocpedago = new \DOMDocument();
+        $xmldocpedago->load('/home/referentiel/dokeos_offre_pedagogique.xml');
+        $xpathvarpedago = new \Domxpath($xmldocpedago);
+        $listdiplomes = $xpathvarpedago->query('//Diplome');
 
         foreach ($listdiplomes as $diplome) {
 
-            $codediplome = $CFG->thisyear . '-' . $diplome->getAttribute('Composante');
+            $startcomposante = substr($diplome->getAttribute('Composante'), 0, 1);
+
+            $codediplome = $CFG->yearprefix.'-'.$startcomposante;
 
             if ($DB->record_exists('block_ucpfigures_ufr', array('code' => $codediplome))) {
 
@@ -66,11 +68,13 @@ class dailystats extends \core\task\scheduled_task {
 
                 if ($DB->record_exists('course_categories', array('idnumber' => $codediplome))) {
 
-                    $recordstatsufr = new stdClass();
+                    $category = $DB->get_record('course_categories', array('idnumber' => $codediplome));
+
+                    $recordstatsufr = new \stdClass();
                     $recordstatsufr->categoryid = $DB->get_record('course_categories',
                             array('idnumber' => $codediplome))->id;
                     $recordstatsufr->code = $codediplome;
-                    $recordstatsufr->name = $diplome->getAttribute('Lib_composante');
+                    $recordstatsufr->name = $category->name;
 
 
                     $DB->insert_record('block_ucpfigures_ufr', $recordstatsufr);
@@ -78,24 +82,75 @@ class dailystats extends \core\task\scheduled_task {
             }
         }
 
+        $ufrarray = array();
+
         $listufrs = $DB->get_records('block_ucpfigures_ufr', array());
 
         foreach ($listufrs as $ufr) {
 
-            $composantecode = substr($ufr, 5);
+            // On réinitialise les statistiques.
 
-            $nbvets = 0;
+            $ufr->nbvets = 0;
+            $ufr->nbstudents = 0;
+            $ufr->nbcourses = 0;
+            $ufr->nbavailablecourses = 0;
+            $ufr->nbavailablevets = 0;
+            $ufr->nbcreatedcourses = 0;
+            $ufr->nbenroledstudents = 0;
+            $ufr->nbactivestudents = 0;
+            $ufr->nbcreatedvets = 0;
 
-            $listdiplomesufr = $xpathvar->query("//Diplome[@Composante=$composantecode]/Version_diplome/Etape");
+            $composantecode = substr($ufr->code, 6);
 
-            foreach ($listdiplomesufr as $ufr) {
-
-                $nbvets++;
-            }
-
-            $ufr->nbvets = $nbvets;
-
-            $DB->update_record('block_ucpfigures_ufr', $ufr);
+            $ufrarray[$composantecode] = $ufr;
         }
+
+        // Statistiques de vets disponibles dans Offre_pédagogiques.
+
+        $listetapes = $xpathvarpedago->query('//Diplome/Version_diplome/Etape');
+
+        foreach ($listetapes as $etape) {
+
+            $composante = $etape->parentNode->parentNode->getAttribute('Composante');
+            $startcomposante = substr($composante, 0, 1);
+
+            $ufrarray[$startcomposante]->nbvets++;
+        }
+
+        foreach ($listufrs as $ufr) {
+
+            $composantecode = substr($ufr->code, 6);
+
+            $DB->update_record('block_ucpfigures_ufr', $ufrarray[$composantecode]);
+        }
+
+        // Statistiques d'étudiants dans Etudiants_Inscriptions.
+
+        $xmldocstudents = new \DOMDocument();
+        $xmldocstudents->load('/home/referentiel/DOKEOS_Etudiants_Inscriptions.xml');
+        $xpathvarstudents = new \Domxpath($xmldocstudents);
+        $listunivyear = $xpathvarstudents->query("//Student/Annee_universitaire[@AnneeUniv=$CFG->thisyear]");
+
+        foreach ($listunivyear as $univyear) {
+
+            $startcomposante = substr($univyear->getAttribute('CodeComposante'), 0, 1);
+            $ufrarray[$startcomposante]->nbstudents++;
+        }
+
+        // Statistiques de cours dans Offre_pédagogiques.
+
+        $listcourses = $xpathvarpedago->query('//Diplome/Version_diplome/Etape/ELP');
+
+        foreach ($listcourses as $course) {
+
+            $composante = $course->parentNode->parentNode->parentNode->getAttribute('Composante');
+            $startcomposante = substr($composante, 0, 1);
+
+            $ufrarray[$startcomposante]->nbcourses++;
+        }
+
+        // Nombre de cours avec une cohorte.
+
+        
     }
 }
