@@ -136,7 +136,7 @@ class dailystats extends \core\task\scheduled_task {
 
         foreach ($listcourses as $course) {
 
-            $composante = $course->parentNode->parentNode->parentNode->getAttribute('Composante');
+            $composante = $course->parentNode->parentNode->parentNode->parentNode->getAttribute('Composante');
             $startcomposante = substr($composante, 0, 1);
 
             $ufrarray[$startcomposante]->nbcourses++;
