@@ -181,7 +181,9 @@ class dailystats extends \core\task\scheduled_task {
 
             $startcomposante = substr($ufr->code, 6, 1);
 
-            $sqlcourses = "SELECT * FROM {course} WHERE idnumber LIKE $ufr->code%";
+            $combinedufrcode = $ufr->code.'%';
+
+            $sqlcourses = "SELECT * FROM {course} WHERE idnumber LIKE $combinedufrcode";
 
             $listcourses = $DB->get_records_sql($sqlcourses);
 
