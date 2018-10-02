@@ -162,7 +162,7 @@ class dailystats extends \core\task\scheduled_task {
 
         // Nombre de vets avec une cohorte.
 
-        $listvetcohorts = $DB->get_records('local_cohortmanager_info', array('type' => 'vet'));
+        $listvetcohorts = $DB->get_records('local_cohortmanager_info', array('typecohort' => 'vet'));
 
         foreach ($listvetcohorts as $vetcohort) {
 
