@@ -144,7 +144,21 @@ class dailystats extends \core\task\scheduled_task {
 
         // Nombre de cours avec une cohorte.
 
+        $xmldocelpetu = new \DOMDocument();
+        $xmldocelpetu->load('/home/referentiel/dokeos_elp_etu_ens.xml');
+        $xpathvarelpetu = new \Domxpath($xmldocelpetu);
+        $listcourseselpetu = $xpathvarelpetu->query("//Structure_diplome/Cours");
 
+        foreach ($listcourseselpetu as $courseelpetu) {
+
+            $composante = $courseelpetu->parentNode->getAttribute('Libelle_composante_superieure');
+            $startcomposante = substr($composante, 0, 1);
+
+            if ($courseelpetu->hasChildNodes()) {
+
+                $ufrarray[$startcomposante]->nbavailablecourses++;
+            }
+        }
 
 
 
