@@ -204,6 +204,8 @@ class dailystats extends \core\task\scheduled_task {
             $liststudentsid = $DB->get_records_sql($sqlstudents);
             $localstudentroleid = $DB->get_record('role', array('shortname' => 'localstudent'))->id;
 
+            $lastmonth = time() - 30*24*3600;
+
             foreach ($liststudentsid as $studentid) {
 
                 // Vérifier que c'est un étudiant et dans le bon ufr.
@@ -215,14 +217,29 @@ class dailystats extends \core\task\scheduled_task {
                             array('roleid' => $localstudentroleid, 'userid' => $studentid->userid))) {
 
                         $ufrarray[$startcomposante]->nbenroledstudents++;
+
+                        // Vérifier qu'il est actif.
+
+                        $sqlactivity = "SELECT * FROM {logstore_standard_log} WHERE"
+                                . " timecreated > $lastmonth AND userid = $studentid->userid";
+
+                        if ($DB->record_exists_sql($sqlactivity)) {
+
+                            $ufrarray[$startcomposante]->nbactivestudents++;
+                        }
                     }
                 }
             }
+
+            // Nombre de vets avec au moins un cours.
+
+            $sqlusedvets = "SELECT * FROM {course_categories} WHERE idnumber LIKE $combinedufrcode AND coursecount > 0";
+
+            foreach ($sqlusedvets as $usedvet) {
+
+                $ufrarray[$startcomposante]->nbcreatedvets++;
+            }
         }
-
-
-
-
 
         foreach ($listufrs as $ufr) {
 
