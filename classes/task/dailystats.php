@@ -166,10 +166,13 @@ class dailystats extends \core\task\scheduled_task {
 
         foreach ($listvetcohorts as $vetcohort) {
 
-            $maincohort = $DB->get_record('cohort', array('id' => $vetcohort->idnumber));
-            $startcomposante = substr($maincohort->idnumber, 6, 1);
+            if ($DB->record_exists('cohort', array('id' => $vetcohort->cohortid))) {
 
-            $ufrarray[$startcomposante]->nbavailablevets++;
+                $maincohort = $DB->get_record('cohort', array('id' => $vetcohort->cohortid));
+                $startcomposante = substr($maincohort->idnumber, 6, 1);
+
+                $ufrarray[$startcomposante]->nbavailablevets++;
+            }
         }
 
         // Nombre de cours créés.
