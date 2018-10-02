@@ -179,7 +179,9 @@ class dailystats extends \core\task\scheduled_task {
 
         foreach ($listufrs as $ufr) {
 
-            $sqlcourses = "SELECT COUNT id FROM {course} WHERE idnumber LIKE $ufr->code*";
+            $combinedcode = $ufr->code.'*';
+
+            $sqlcourses = "SELECT COUNT id FROM {course} WHERE idnumber LIKE $combinedcode";
 
             $ufrarray[$startcomposante]->nbcourses = $DB->count_records_sql($sqlcourses);
         }
