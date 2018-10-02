@@ -175,15 +175,15 @@ class dailystats extends \core\task\scheduled_task {
             }
         }
 
-//        // Nombre de cours créés.
-//
-//        foreach ($listufrs as $ufr) {
-//
-//            $combinedcode = '\''.$ufr->code.'%\'';
-//
-//            $ufrarray[$startcomposante]->nbcourses = $DB->count_records_sql('SELECT COUNT (c.id) FROM {course} c'
-//                    . ' WHERE c.idnumber LIKE :combinedcode', array('combinedcode' => $combinedcode));
-//        }
+        // Nombre de cours créés.
+
+        foreach ($listufrs as $ufr) {
+
+            $combinedcode = ''.$ufr->code.'%';
+
+            $ufrarray[$startcomposante]->nbcourses = $DB->count_records_sql('SELECT COUNT (c.id) FROM {course} c'
+                    . ' WHERE c.idnumber LIKE :combinedcode', array('combinedcode' => $combinedcode));
+        }
 
 
 
