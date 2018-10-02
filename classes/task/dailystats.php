@@ -189,7 +189,7 @@ class dailystats extends \core\task\scheduled_task {
 
             foreach ($listcourses as $course) {
 
-                $ufrarray[$startcomposante]->ncreatedcourses++;
+                $ufrarray[$startcomposante]->nbcreatedcourses++;
             }
         }
 
