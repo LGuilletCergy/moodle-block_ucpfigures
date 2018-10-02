@@ -185,6 +185,8 @@ class dailystats extends \core\task\scheduled_task {
 
             $sqlcourses = "SELECT * FROM {course} WHERE idnumber LIKE $combinedufrcode";
 
+            echo $sqlcourses;
+
             $listcourses = $DB->get_records_sql($sqlcourses);
 
             foreach ($listcourses as $course) {
