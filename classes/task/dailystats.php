@@ -182,7 +182,7 @@ class dailystats extends \core\task\scheduled_task {
             $startcomposante = substr($ufr->code, 6, 1);
 
             $combinedufrcode = '\''.$ufr->code.'%\'';
-            $combinedufrcodecommonspace = $combinedufrcode.'COMMON-%';
+            $combinedufrcodecommonspace = '\''.$ufr->code.'COMMON-%\'';
 
             $sqlcourses = "SELECT * FROM {course} WHERE idnumber LIKE $combinedufrcode";
 
@@ -201,13 +201,22 @@ class dailystats extends \core\task\scheduled_task {
                     . " instanceid IN (SELECT id FROM {course} WHERE idnumber LIKE $combinedufrcode AND "
                     . "idnumber NOT LIKE $combinedufrcodecommonspace))";
 
-            $liststudents = $DB->get_records_sql($sqlstudents);
+            $liststudentsid = $DB->get_records_sql($sqlstudents);
+            $localstudentroleid = $DB->get_record('role', array('shortname' => 'localstudent'))->id;
 
-            foreach ($liststudents as $student) {
+            foreach ($liststudentsid as $studentid) {
 
                 // Vérifier que c'est un étudiant et dans le bon ufr.
 
-                $ufrarray[$startcomposante]->nbenroledstudents++;
+                if ($DB->record_exists('local_usercreation_ufr',
+                        array('userid' => $studentid->userid, 'ufrcode' => $ufr->code))) {
+
+                    if ($DB->record_exists('role_assignments',
+                            array('roleid' => $localstudentroleid, 'userid' => $studentid->userid))) {
+
+                        $ufrarray[$startcomposante]->nbenroledstudents++;
+                    }
+                }
             }
         }
 
