@@ -233,7 +233,10 @@ class dailystats extends \core\task\scheduled_task {
 
             // Nombre de vets avec au moins un cours.
 
-            $sqlusedvets = "SELECT * FROM {course_categories} WHERE idnumber LIKE $combinedufrcode AND coursecount > 0";
+            $sqlusedvets = "SELECT * FROM {course_categories} WHERE idnumber LIKE $combinedufrcode AND"
+                    . " coursecount > 0 AND depth = 4";
+
+            echo $sqlusedvets."<br>";
 
             foreach ($sqlusedvets as $usedvet) {
 
