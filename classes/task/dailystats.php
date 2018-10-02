@@ -175,7 +175,7 @@ class dailystats extends \core\task\scheduled_task {
             }
         }
 
-        // Nombre de cours créés.
+        // Nombre de cours créés et d'étudiants inscrits.
 
         foreach ($listufrs as $ufr) {
 
@@ -190,6 +190,20 @@ class dailystats extends \core\task\scheduled_task {
             foreach ($listcourses as $course) {
 
                 $ufrarray[$startcomposante]->nbcreatedcourses++;
+            }
+
+            $studentrole = $DB->get_record('role', array('shortname' => 'student'))->id;
+            $contextcourselevel = CONTEXT_COURSE;
+
+            $sqlstudents = "SELECT distinct userid FROM {role_assignments} WHERE roleid = $studentrole AND "
+                    . "contextid IN (SELECT id FROM {context} WHERE contextlevel = $contextcourselevel AND"
+                    . " instanceid IN (SELECT id FROM {course} WHERE idnumber LIKE $combinedufrcode))";
+
+            $liststudents = $DB->get_records_sql($sqlstudents);
+
+            foreach ($liststudents as $student) {
+
+                $ufrarray[$startcomposante]->nbenroledstudents++;
             }
         }
 
