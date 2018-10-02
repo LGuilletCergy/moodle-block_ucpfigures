@@ -182,6 +182,7 @@ class dailystats extends \core\task\scheduled_task {
             $startcomposante = substr($ufr->code, 6, 1);
 
             $combinedufrcode = '\''.$ufr->code.'%\'';
+            $combinedufrcodecommonspace = $combinedufrcode.'COMMON-%';
 
             $sqlcourses = "SELECT * FROM {course} WHERE idnumber LIKE $combinedufrcode";
 
@@ -197,11 +198,14 @@ class dailystats extends \core\task\scheduled_task {
 
             $sqlstudents = "SELECT distinct userid FROM {role_assignments} WHERE roleid = $studentrole AND "
                     . "contextid IN (SELECT id FROM {context} WHERE contextlevel = $contextcourselevel AND"
-                    . " instanceid IN (SELECT id FROM {course} WHERE idnumber LIKE $combinedufrcode))";
+                    . " instanceid IN (SELECT id FROM {course} WHERE idnumber LIKE $combinedufrcode AND "
+                    . "idnumber NOT LIKE $combinedufrcodecommonspace))";
 
             $liststudents = $DB->get_records_sql($sqlstudents);
 
             foreach ($liststudents as $student) {
+
+                // Vérifier que c'est un étudiant et dans le bon ufr.
 
                 $ufrarray[$startcomposante]->nbenroledstudents++;
             }
