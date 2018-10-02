@@ -160,6 +160,27 @@ class dailystats extends \core\task\scheduled_task {
             }
         }
 
+        // Nombre de vets avec une cohorte.
+
+        $listvetcohorts = $DB->get_records('local_cohortmanager_info', array('type' => 'vet'));
+
+        foreach ($listvetcohorts as $vetcohort) {
+
+            $maincohort = $DB->get_record('cohort', array('id' => $vetcohort->idnumber));
+            $startcomposante = substr($maincohort->idnumber, 6, 1);
+
+            $ufrarray[$startcomposante]->nbavailablevets++;
+        }
+
+        // Nombre de cours créés.
+
+        foreach ($listufrs as $ufr) {
+
+            $sqlcourses = "SELECT COUNT id FROM {course} WHERE idnumber LIKE $ufr->code*";
+
+            $ufrarray[$startcomposante]->nbcourses = $DB->count_records_sql($sqlcourses);
+        }
+
 
 
 
