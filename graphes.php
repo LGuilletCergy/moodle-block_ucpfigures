@@ -46,9 +46,10 @@ function graphevets() {
     $labels = $DB->get_records_sql($sqllabels);
 
     $chart = new \core\chart_pie();
-    $chart->add_series($nbvets); // On pie charts we just need to set one series.
+    $series = new \core\chart_series(get_string('test', 'block_ucpfigures'), $nbvets);
+    $chart->add_series($series); // On pie charts we just need to set one series.
     $chart->set_labels($labels);
-    $chart->set_title(get_string('grephevets', 'block_ucpfigures'));
+    $chart->set_title(get_string('graphevets', 'block_ucpfigures'));
 
     return $chart;
 }
