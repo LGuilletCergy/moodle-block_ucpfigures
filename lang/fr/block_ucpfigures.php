@@ -8,3 +8,4 @@ $string['textsection1'] = 'Nombre de promotions, de cours et d\'étudiants décl
 $string['ufr'] = 'Composante';
 $string['expectedpromos'] = 'Promotions déclarées';
 $string['dailystats'] = 'Remplit les tables de la base de données stockant les statistiques.';
+$string['nbvets'] = 'Nombre de promotions';

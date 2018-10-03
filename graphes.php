@@ -50,10 +50,10 @@ function graphevets() {
     }
 
     $chart = new \core\chart_pie();
-    $series = new \core\chart_series(get_string('test', 'block_ucpfigures'), $nbvets);
+    $series = new \core\chart_series(get_string('nbvets', 'block_ucpfigures'), $nbvets);
     $chart->add_series($series);
     $chart->set_labels($labels);
-    $chart->set_title(get_string('graphevets', 'block_ucpfigures'));
+    $chart->set_title(get_string('expectedpromos', 'block_ucpfigures'));
 
     return $chart;
 }

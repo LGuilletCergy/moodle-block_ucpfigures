@@ -8,3 +8,4 @@ $string['textsection1'] = 'Number of promotions, courses and students in Apogée
 $string['ufr'] = 'UFR';
 $string['expectedpromos'] = 'Expected promotions';
 $string['dailystats'] = 'Fill statistics table.';
+$string['nbvets'] = 'Number of VETs';
