@@ -109,9 +109,7 @@ foreach ($listufrs as $ufr) {
     $data[] = $row = new html_table_row($line);
 }
 
-
-
-//$tableexpectedpromo->data = $data;
+$tableexpectedpromo->data = $data;
 echo html_writer::table($tableexpectedpromo);
 
 echo "</div>";
