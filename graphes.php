@@ -39,15 +39,19 @@ function graphevets() {
 
     global $DB;
 
-    $sqlvet = "SELECT nbvets FROM {block_ucpfigures_ufr} WHERE 1";
-    $nbvets = $DB->get_records_sql($sqlvet);
+    $listufrs = $DB->get_records('block_ucpfigures_ufr');
+    $nbvets = array();
+    $labels = array();
 
-    $sqllabels = "SELECT name FROM {block_ucpfigures_ufr} WHERE 1";
-    $labels = $DB->get_records_sql($sqllabels);
+    foreach ($listufrs as $ufr) {
+
+        $nbvets[] = $ufr->nbvets;
+        $labels[] = $ufr->name;
+    }
 
     $chart = new \core\chart_pie();
     $series = new \core\chart_series(get_string('test', 'block_ucpfigures'), $nbvets);
-    $chart->add_series($series); // On pie charts we just need to set one series.
+    $chart->add_series($series);
     $chart->set_labels($labels);
     $chart->set_title(get_string('graphevets', 'block_ucpfigures'));
 
