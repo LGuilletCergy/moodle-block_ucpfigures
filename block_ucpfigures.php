@@ -20,17 +20,17 @@
  * 33, boulevard du Port
  * 95011 Cergy-Pontoise cedex
  * FRANCE
- * 
+ *
  * Block displaying stats about the site.
- *  
+ *
  * @package    block_ucpfigures
- * @author     Brice Errandonea <brice.errandonea@u-cergy.fr>
+ * @author     Laurent Guillet <laurent.guillet@u-cergy.fr>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * 
- * 
+ *
+ *
  * File : block_ucpfigures.php
  * Block class definition
- * 
+ *
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -45,37 +45,37 @@ class block_ucpfigures extends block_base {
 
         global $CFG, $DB, $OUTPUT, $PAGE, $USER;
         if ($this->content !== null) {
-			
+
             return $this->content;
         }
         if (empty($this->instance)) {
-			
+
             $this->content = '';
             return $this->content;
         }
-		
+
         $this->content = new stdClass();
         $this->content->items = array();
         $this->content->icons = array();
         $this->content->footer = '';
 
         if (!empty($this->config->text)) {
-			
+
             $this->content->text = $this->config->text;
         }
         $this->content->text = '';
-		
+
 		// A supprimer.
-        
+
         if (($USER->username != 'lguillet') && ($USER->username != 'berrando')) {
-			
+
 			return $this->content;
 		}
-		
+
 		// Fin à supprimer.
 
 	    if (isloggedin()) {
-			
+
 			$sqlenligne = "SELECT COUNT( DISTINCT s.userid) FROM {sessions} AS s";
 			$resenligne = $DB->count_records_sql($sqlenligne);
 			$this->content->text  .= "<strong> $resenligne</strong> connectés<br>";
@@ -84,35 +84,35 @@ class block_ucpfigures extends block_base {
 			$rescourse = $DB->count_records_sql($sqlcourse);
 			$nextyear = $CFG->thisyear + 1;
 			$this->content->text .= "<strong> $rescourse</strong> cours $CFG->thisyear-$nextyear<br>";
-			
+
 			$nbdistinctteachers = 0;
-			
+
 			$rolelocalteacher = $DB->get_record('role', array('shortname' => 'localteacher'))->id;
 			$roleeditingteacher = $DB->get_record('role', array('shortname' => 'editingteacher'))->id;
 			$roleteacher = $DB->get_record('role', array('shortname' => 'teacher'))->id;
 			$listteachers = $DB->get_records('role_assignments', array('roleid' => $rolelocalteacher, 'contextid' => 1));
-			
+
 			foreach ($listteachers as $teacher) {
-				
+
 				if ($DB->record_exists('role_assignments', array('userid' => $teacher->id, 'roleid' => $roleeditingteacher))) {
-					
+
 					$nbdistinctteachers++;
 				} else if ($DB->record_exists('role_assignments', array('userid' => $teacher->id, 'roleid' => $roleteacher))) {
-					
+
 					$nbdistinctteachers++;
 				}
 			}
 
 			$this->content->text .= "<strong> $nbdistinctteachers</strong> enseignants<br>";
-			
+
 			$context = context_system::instance();
 
 			if (has_capability('block/ucpfigures:viewinfo', $context)) {
-			
-				$this->content->text .= "<br><a href = '$CFG->wwwroot/blocks/ucpfigures/figures.php'>Plus de chiffres...</a>";				
+
+				$this->content->text .= "<br><a href = '$CFG->wwwroot/blocks/ucpfigures/figures.php'>Plus de chiffres...</a>";
 			}
             if (!empty($this->config->text)) {
-				
+
                 $this->content->text .= $this->config->text;
             }
             return $this->content;
@@ -120,7 +120,7 @@ class block_ucpfigures extends block_base {
     }
 
     public function applicable_formats() {
-		
+
         return array('all' => true,
                      'site' => true,
                      'site-index' => true,
@@ -132,7 +132,7 @@ class block_ucpfigures extends block_base {
     }
 
     public function instance_allow_multiple() {
-		
+
           return false;
     }
 

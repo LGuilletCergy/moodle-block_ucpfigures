@@ -24,7 +24,7 @@
  * Block displaying stats about the site.
  *
  * @package    block_ucpfigures
- * @author     Brice Errandonea <brice.errandonea@u-cergy.fr>
+ * @author     Laurent Guillet <laurent.guillet@u-cergy.fr>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  *
@@ -37,6 +37,7 @@ require('../../config.php');
 require_once($CFG->dirroot.'/course/lib.php');
 require_once($CFG->dirroot.'/report/log/locallib.php');
 require_once($CFG->libdir.'/adminlib.php');
+require_once('graphes.php');
 
 ?>
 <script type='text/javascript'>
@@ -111,6 +112,8 @@ foreach ($listufrs as $ufr) {
 
 $tableexpectedpromo->data = $data;
 echo html_writer::table($tableexpectedpromo);
+
+echo $OUTPUT->render(graphevets());
 
 echo "</div>";
 

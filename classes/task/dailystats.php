@@ -25,7 +25,7 @@
  * Block displaying stats about the site.
  *
  * @package    block_ucpfigures
- * @author     Brice Errandonea <brice.errandonea@u-cergy.fr>
+ * @author     Laurent Guillet <laurent.guillet@u-cergy.fr>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  *
