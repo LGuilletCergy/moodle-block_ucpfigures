@@ -20,17 +20,17 @@
  * 33, boulevard du Port
  * 95011 Cergy-Pontoise cedex
  * FRANCE
- * 
+ *
  * Block displaying stats about the site.
- *  
+ *
  * @package    block_ucpfigures
  * @author     Brice Errandonea <brice.errandonea@u-cergy.fr>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * 
- * 
+ *
+ *
  * File : figures.php
  * Stats page
- * 
+ *
  */
 
 require('../../config.php');
@@ -86,7 +86,7 @@ echo "<div onclick=flipflop('section1'); style='text-align:center;width:100%;fon
 
 $totalknowncourses = 0;
 $totalknownstudents = 0;
-$totalnbrvets =0;	
+$totalnbrvets =0;
 
 // Promotions déclarées.
 
@@ -96,14 +96,29 @@ $tableexpectedpromo->colclasses = array('leftalign ufr', 'leftalign exceptedprom
 $tableexpectedpromo->id = 'expectedpromos';
 $tableexpectedpromo->attributes['class'] = 'admintable generaltable';
 
+$listufrs = $DB->get_records('block_ucpfigures_ufr');
+
+$data = array();
+
+foreach ($listufrs as $ufr) {
+
+    $line = array();
+    $line[] = $ufr->name;
+    $line[] = $ufr->nbvets;
+
+    $data[] = $row = new html_table_row($line);
+}
+
+
+
 //$tableexpectedpromo->data = $data;
 echo html_writer::table($tableexpectedpromo);
 
 echo "</div>";
-		
+
 echo $OUTPUT->footer();
 
-/* 
+/*
 
 
 echo "<table width='1200'>";
@@ -115,7 +130,7 @@ echo "<td style='text-align:center' bgcolor='#731472'><FONT COLOR='#731472'><h3>
 $csv .= "Composante;Promotions déclarées£µ£";
 
 foreach ($composantes as $composante) {
-    
+
     echo "<tr>";
     $sql = "SELECT COUNT(DISTINCT vets.id) AS nbrvets
             FROM {cat_demandecours} niveau, {cat_demandecours} vets
@@ -220,7 +235,7 @@ echo "<tr style ='font-weight:bold'><td>TOTAL</td><td style='text-align:center'>
 $csv .= "Total;$totalknowncourses;£µ£";
 echo "</table>";
 if (isset($csv)) {
-    
+
     $tabcsv = explode("£µ£", $csv);
     $charbefore = '"';
     $charafter = "'";
