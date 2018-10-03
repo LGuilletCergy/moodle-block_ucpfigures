@@ -35,8 +35,6 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-require_once(__DIR__.'/lib.php');
-
 function graphevets() {
 
     global $DB;
