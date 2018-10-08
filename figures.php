@@ -117,7 +117,8 @@ echo html_writer::table($tableexpectedpromo);
 
 echo $OUTPUT->render(graphevets());
 
-echo "<div><button href='figures?&csv=expectedpromos'>Test</button></div></div>";
+echo "<div><button href='figures?&csv=expectedpromos'>".get_string('csvexport', 'block_ucpfigures')
+        ."</button></div></div>";
 
 echo $OUTPUT->footer();
 
