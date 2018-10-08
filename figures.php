@@ -48,6 +48,8 @@ function flipflop(id) {
 </script>
 <?php
 
+$csv = optional_param('csv', null, PARAM_TEXT);
+
 global $CFG;
 
 $thisyear = $CFG->yearprefix;
@@ -115,9 +117,14 @@ echo html_writer::table($tableexpectedpromo);
 
 echo $OUTPUT->render(graphevets());
 
-echo "</div>";
+echo "</div><div><button href='figures?&csv=expectedpromos'>Test</button></div>";
 
 echo $OUTPUT->footer();
+
+if ($csv == 'expectedpromo') {
+
+    $csvwriter = new csv_export_writer();
+}
 
 /*
 
