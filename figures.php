@@ -117,7 +117,7 @@ echo html_writer::table($tableexpectedpromo);
 
 echo $OUTPUT->render(graphevets());
 
-echo "</div><div><button href='figures?&csv=expectedpromos'>Test</button></div>";
+echo "<div><button href='figures?&csv=expectedpromos'>Test</button></div></div>";
 
 echo $OUTPUT->footer();
 
