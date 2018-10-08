@@ -9,4 +9,4 @@ $string['ufr'] = 'UFR';
 $string['expectedpromos'] = 'Expected promotions';
 $string['dailystats'] = 'Fill statistics table.';
 $string['nbvets'] = 'Number of VETs';
-$string['csvexport'] = 'Export in a csv file';
+$string['csvexport'] = 'Export in a CSV file';
