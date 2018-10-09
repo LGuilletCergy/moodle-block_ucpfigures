@@ -122,15 +122,21 @@ if (!$csv) {
 
     $listufrs = $DB->get_records('block_ucpfigures_ufr');
 
+    $totalexpectedpromos = 0;
+
     foreach ($listufrs as $ufr) {
 
         $dataexpectedpromo = array();
 
         $dataexpectedpromo[] = utf8_decode($ufr->name);
         $dataexpectedpromo[] = $ufr->nbvets;
+        $totalexpectedpromos += $ufr->nbvets;
 
         $csvwriter->add_data($dataexpectedpromo);
     }
+
+    $footer = array(get_string('total', block_ucpfigures), $totalexpectedpromos);
+    $csvwriter->add_data($footer);
 
     $csvwriter->download_file();
 }

@@ -11,3 +11,4 @@ $string['dailystats'] = 'Fill statistics table.';
 $string['nbvets'] = 'Number of VETs';
 $string['csvexport'] = 'Export in a CSV file';
 $string['introexpectedpromos'] = 'There are {$a} expected promotions on the website distributed as follow : ';
+$string['total'] = 'Total';

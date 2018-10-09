@@ -10,4 +10,5 @@ $string['expectedpromos'] = 'Promotions déclarées';
 $string['dailystats'] = 'Remplit les tables de la base de données stockant les statistiques.';
 $string['nbvets'] = 'Nombre de promotions';
 $string['csvexport'] = 'Exporter vers un fichier CSV';
-$string['introexpectedpromos'] = 'Il y a un total de {$a} promotions déclarées sur la plateforme réparti comme suit : ';
+$string['introexpectedpromos'] = 'Il y a un total de {$a} promotions déclarées sur la plateforme répartis comme suit : ';
+$string['total'] = 'Total';
