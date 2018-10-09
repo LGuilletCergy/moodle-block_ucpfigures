@@ -263,14 +263,15 @@ if (!$csv) {
         $data = array();
 
         $data[] = utf8_decode($ufr->name);
-        $data[] = $ufr->nbavailablecourses."/".$ufr->nbcourses." (".round($nbavailablecourses *100/$nbcourses, 1).")";
+        $data[] = $ufr->nbavailablecourses."/".$ufr->nbcourses." (".
+                round($ufr->nbavailablecourses *100/$ufr->nbcourses, 1).")";
         $total1 += $ufr->nbavailablecourses;
         $total2 += $ufr->nbcourses;
 
         $csvwriter->add_data($data);
     }
 
-    $total = $total1."/".$total2." (".round($nbavailablecourses *100/$nbcourses, 1).")";
+    $total = $total1."/".$total2." (".round($total1 *100/$total2, 1).")";
     $footer = array(get_string('total', block_ucpfigures), $total);
     $csvwriter->add_data($footer);
 
