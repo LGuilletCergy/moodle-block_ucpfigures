@@ -5,6 +5,7 @@ $string['ucpfigures:addinstance'] = 'Ajouter le bloc CoursUCP en chiffres';
 $string['ucpfigures:myaddinstance'] = 'Ajouter le bloc CoursUCP en chiffres à mon tableau de bord';
 $string['ucpfigures:viewinfo'] = 'Voir les statistiques';
 $string['textsection1'] = 'Nombre de promotions, de cours et d\'étudiants déclarés dans Apogée';
+$string['textsection2'] = 'Nombre de cours et VETs avec cohortes';
 $string['ufr'] = 'Composante';
 $string['dailystats'] = 'Remplit les tables de la base de données stockant les statistiques.';
 $string['csvexport'] = 'Exporter vers un fichier CSV';
