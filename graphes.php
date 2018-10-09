@@ -121,7 +121,6 @@ function grapheavailablecourses() {
     }
 
     $chart = new \core\chart_bar();
-    $chart->set_stacked(true);
     $series1 = new \core\chart_series(get_string('nbavailablecourses', 'block_ucpfigures'), $seriesdata1);
     $series2 = new \core\chart_series(get_string('nbcourses', 'block_ucpfigures'), $seriesdata2);
     $chart->add_series($series1);
@@ -149,7 +148,6 @@ function grapheavailablevets() {
     }
 
     $chart = new \core\chart_bar();
-    $chart->set_stacked(true);
     $series1 = new \core\chart_series(get_string('nbavailablevets', 'block_ucpfigures'), $seriesdata1);
     $series2 = new \core\chart_series(get_string('nbvets', 'block_ucpfigures'), $seriesdata2);
     $chart->add_series($series1);

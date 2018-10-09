@@ -27,5 +27,5 @@ $string['nbcourses'] = 'Number of courses';
 $string['courses'] = 'Courses';
 $string['nbavailablecourses'] = 'Number of available courses';
 $string['availablecourses'] = 'Available courses';
-$string['nbavailablecourses'] = 'Number of available VETs';
-$string['availablecourses'] = 'Available VETs';
+$string['nbavailablevets'] = 'Number of available VETs';
+$string['availablevets'] = 'Available VETs';
