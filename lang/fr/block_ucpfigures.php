@@ -15,3 +15,6 @@ $string['expectedpromos'] = 'Promotions déclarées';
 $string['introstudents'] = 'Il y a un total de {$a} étudiants sur la plateforme répartis comme suit : ';
 $string['nbstudents'] = 'Nombre d\'étudiants';
 $string['students'] = 'Etudiants déclarées';
+$string['introcourses'] = 'Il y a un total de {$a} cours sur la plateforme répartis comme suit : ';
+$string['nbcourses'] = 'Nombre de cours';
+$string['courses'] = 'Cours';

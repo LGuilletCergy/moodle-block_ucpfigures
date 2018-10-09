@@ -120,7 +120,7 @@ if (!$csv) {
     echo $OUTPUT->render(grapheexpectedpromos());
 
     echo "<div><a class='btn btn-secondary' href='figures.php?csv=expectedpromos'>".
-            get_string('csvexport', 'block_ucpfigures')."</a></div>";
+            get_string('csvexport', 'block_ucpfigures')."</a></div><br>";
 
     // Etudiants déclarées.
 
@@ -129,7 +129,7 @@ if (!$csv) {
     echo $OUTPUT->render(graphestudents());
 
     echo "<div><a class='btn btn-secondary' href='figures.php?csv=students'>".
-            get_string('csvexport', 'block_ucpfigures')."</a></div>";
+            get_string('csvexport', 'block_ucpfigures')."</a></div><br>";
 
     // Cours déclarées.
 
@@ -138,7 +138,7 @@ if (!$csv) {
     echo $OUTPUT->render(graphecourses());
 
     echo "<div><a class='btn btn-secondary' href='figures.php?csv=courses'>".
-            get_string('csvexport', 'block_ucpfigures')."</a></div>";
+            get_string('csvexport', 'block_ucpfigures')."</a></div><br>";
 
 
     echo "</div>";
