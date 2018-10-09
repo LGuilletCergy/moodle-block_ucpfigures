@@ -117,7 +117,7 @@ $totalnbrvets =0;
 
 echo $OUTPUT->render(graphevets());
 
-echo "<div><a class='btn btn-secondary' href='figures?&csv=expectedpromos'>".
+echo "<div><a class='btn btn-secondary' href='figures.php?&csv=expectedpromos'>".
         get_string('csvexport', 'block_ucpfigures')."</a></div></div>";
 
 echo $OUTPUT->footer();
