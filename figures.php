@@ -125,8 +125,9 @@ echo $OUTPUT->footer();
 if ($csv == 'expectedpromo') {
 
     $csvwriter = new csv_export_writer();
-    $csvwriter->set_filename(get_string('expectedpromos', 'block_ucpfigures'));
-    $header = array(get_string('ufr', 'block_ucpfigures'), get_string('expectedpromos', 'block_ucpfigures'));
+    $csvwriter->set_filename(utf8_decode(get_string('expectedpromos', 'block_ucpfigures')));
+    $header = array(utf8_decode(get_string('ufr', 'block_ucpfigures')),
+        utf8_decode(get_string('expectedpromos', 'block_ucpfigures')));
     $csvwriter->add_data($header);
 
     $listufrs = $DB->get_records('block_ucpfigures_ufr');
@@ -135,7 +136,7 @@ if ($csv == 'expectedpromo') {
 
     foreach ($listufrs as $ufr) {
 
-        $dataexpectedpromo[] = $ufr->name;
+        $dataexpectedpromo[] = utf8_decode($ufr->name);
         $dataexpectedpromo[] = format_number($ufr->nbvets);
 
         $csvwriter->add_data($dataexpectedpromo);
