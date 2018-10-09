@@ -101,7 +101,7 @@ if (!$csv) {
         $totalexpectedpromos += $ufr->nbvets;
     }
 
-    echo get_string('introexpectedpromos', $totalexpectedpromos);
+    echo get_string('introexpectedpromos', 'block_ucpfigures', $totalexpectedpromos);
 
     echo $OUTPUT->render(graphevets());
 
