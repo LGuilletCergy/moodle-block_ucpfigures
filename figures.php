@@ -38,126 +38,99 @@ require_once($CFG->dirroot.'/course/lib.php');
 require_once($CFG->dirroot.'/report/log/locallib.php');
 require_once($CFG->libdir.'/adminlib.php');
 require_once('graphes.php');
-
-?>
-<script type='text/javascript'>
-function flipflop(id) {
-    if (document.getElementById(id).style.display == 'none') document.getElementById(id).style.display = 'block';
-    else document.getElementById(id).style.display = 'none';
-}
-</script>
-<?php
+require_once($CFG->libdir . '/csvlib.class.php');
 
 $csv = optional_param('csv', null, PARAM_TEXT);
 
 global $CFG;
 
-$thisyear = $CFG->yearprefix;
+if (!$csv) {
 
-$PAGE->set_url('/blocks/ucpfigures/figures.php');
-$PAGE->set_pagelayout('standard');
-$context = context_system::instance();
-$PAGE->set_context($context);
+    ?>
+    <script type='text/javascript'>
+    function flipflop(id) {
+        if (document.getElementById(id).style.display == 'none') document.getElementById(id).style.display = 'block';
+        else document.getElementById(id).style.display = 'none';
+    }
+    </script>
+    <?php
+
+    $thisyear = $CFG->yearprefix;
+
+    $PAGE->set_url('/blocks/ucpfigures/figures.php');
+    $PAGE->set_pagelayout('standard');
+    $context = context_system::instance();
+    $PAGE->set_context($context);
 
 
-// Navigation node.
-$settingsnode = $PAGE->settingsnav->add(get_string('sitepages'));
-$editurl = new moodle_url('/blocks/ucpfigures/figures.php');
-$title = get_string('pluginname', 'block_ucpfigures');
-$editnode = $settingsnode->add($title, $editurl);
-$editnode->make_active();
+    // Navigation node.
+    $settingsnode = $PAGE->settingsnav->add(get_string('sitepages'));
+    $editurl = new moodle_url('/blocks/ucpfigures/figures.php');
+    $title = get_string('pluginname', 'block_ucpfigures');
+    $editnode = $settingsnode->add($title, $editurl);
+    $editnode->make_active();
 
-require_login();
+    require_login();
 
-require_capability('block/ucpfigures:viewinfo', $context);
+    require_capability('block/ucpfigures:viewinfo', $context);
 
 
-$PAGE->set_pagetype('site-index');
-$PAGE->set_docs_path('');
-$PAGE->set_pagelayout('report');
-$PAGE->set_title($title);
-$PAGE->set_heading($title);
-echo $OUTPUT->header();
+    $PAGE->set_pagetype('site-index');
+    $PAGE->set_docs_path('');
+    $PAGE->set_pagelayout('report');
+    $PAGE->set_title($title);
+    $PAGE->set_heading($title);
+    echo $OUTPUT->header();
 
-$composantes = $DB->get_records('block_ucpfigures_ufr');
+    $composantes = $DB->get_records('block_ucpfigures_ufr');
 
-// Réinventer tout ce qu'il y a après.
+    // Réinventer tout ce qu'il y a après.
 
-echo "<div onclick=flipflop('section1'); style='text-align:center;width:100%;font-weight:bold;padding:5px;color:white;
-		background-color:#731472;border-radius:5px 5px 0 0'>".get_string('textsection1', 'block_ucpfigures')."</div>
-		<div id =section1 class=content style=width:100%;display:none><br>";
+    echo "<div onclick=flipflop('section1'); style='text-align:center;width:100%;font-weight:bold;padding:5px;color:white;
+                    background-color:#731472;border-radius:5px 5px 0 0'>".get_string('textsection1', 'block_ucpfigures')."</div>
+                    <div id =section1 class=content style=width:100%;display:none><br>";
 
-$totalknowncourses = 0;
-$totalknownstudents = 0;
-$totalnbrvets =0;
+    // Promotions déclarées.
 
-// Promotions déclarées.
+    $totalexpectedpromos = 0;
 
-//$tableexpectedpromo = new html_table();
-//$tableexpectedpromo->head  = array(get_string('ufr', 'block_ucpfigures'), get_string('expectedpromos', 'block_ucpfigures'));
-//$tableexpectedpromo->colclasses = array('leftalign ufr', 'leftalign exceptedpromos');
-//$tableexpectedpromo->id = 'expectedpromos';
-//$tableexpectedpromo->attributes['class'] = 'admintable generaltable';
-//
-//$listufrs = $DB->get_records('block_ucpfigures_ufr');
-//
-//$data = array();
-//
-//foreach ($listufrs as $ufr) {
-//
-//    $lineexpectedpromo = array();
-//    $lineexpectedpromo[] = $ufr->name;
-//    $lineexpectedpromo[] = format_number($ufr->nbvets);
-//
-//    $dataexpectedpromo[] = $row = new html_table_row($lineexpectedpromo);
-//}
-//
-//$tableexpectedpromo->data = $dataexpectedpromo;
-//echo html_writer::table($tableexpectedpromo);
+    $listufrs = $DB->get_records('block_ucpfigures_ufr');
 
-echo $OUTPUT->render(graphevets());
+    foreach ($listufrs as $ufr) {
 
-echo "<div><a class='btn btn-secondary' href='figures.php?csv=expectedpromos'>".
-        get_string('csvexport', 'block_ucpfigures')."</a></div></div>";
+        $totalexpectedpromos += $ufr->nbvets;
+    }
 
-echo $OUTPUT->footer();
+    echo get_string('introexpectedpromos', $totalexpectedpromos);
 
-if ($csv == 'expectedpromos') {
+    echo $OUTPUT->render(graphevets());
+
+    echo "<div><a class='btn btn-secondary' href='figures.php?csv=expectedpromos'>".
+            get_string('csvexport', 'block_ucpfigures')."</a></div>";
+
+
+    echo "</div>";
+
+    echo $OUTPUT->footer();
+} else if ($csv == 'expectedpromos') {
 
     $csvwriter = new csv_export_writer();
-    $csvwriter->set_filename(utf8_decode(get_string('expectedpromos', 'block_ucpfigures')));
+    $csvwriter->set_filename(get_string('expectedpromos', 'block_ucpfigures'));
     $header = array(utf8_decode(get_string('ufr', 'block_ucpfigures')),
         utf8_decode(get_string('expectedpromos', 'block_ucpfigures')));
     $csvwriter->add_data($header);
 
     $listufrs = $DB->get_records('block_ucpfigures_ufr');
 
-    $dataexpectedpromo = array();
-
     foreach ($listufrs as $ufr) {
 
+        $dataexpectedpromo = array();
+
         $dataexpectedpromo[] = utf8_decode($ufr->name);
-        $dataexpectedpromo[] = format_number($ufr->nbvets);
+        $dataexpectedpromo[] = $ufr->nbvets;
 
         $csvwriter->add_data($dataexpectedpromo);
     }
 
     $csvwriter->download_file();
-}
-
-//Groupe les chiffres d'un grand nombre par 3
-function format_number($nb) {
-    $nblength = strlen($nb);
-    $nbgroups = ceil($nblength / 3);
-    $modulo = $nblength % 3;
-    $result = substr($nb, 0, $modulo);
-    $nbremains = substr($nb, $modulo);
-    for ($i = 1; $i < $nbgroups; $i++) {
-        $result .= " ".substr($nbremains, 0, 3);
-        $nbremains = substr($nbremains, 3);
-    }
-    if (!$modulo) {
-        $result .= " ".$nbremains;
-    }
-    return $result;
 }
