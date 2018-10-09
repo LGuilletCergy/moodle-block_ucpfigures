@@ -35,25 +35,71 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-function graphevets() {
+function grapheexpectedpromos() {
 
     global $DB;
 
     $listufrs = $DB->get_records('block_ucpfigures_ufr');
-    $nbvets = array();
+    $seriesdata = array();
     $labels = array();
 
     foreach ($listufrs as $ufr) {
 
-        $nbvets[] = $ufr->nbvets;
+        $seriesdata[] = $ufr->nbvets;
         $labels[] = $ufr->name;
     }
 
     $chart = new \core\chart_pie();
-    $series = new \core\chart_series(get_string('nbvets', 'block_ucpfigures'), $nbvets);
+    $series = new \core\chart_series(get_string('nbvets', 'block_ucpfigures'), $seriesdata);
     $chart->add_series($series);
     $chart->set_labels($labels);
     $chart->set_title(get_string('expectedpromos', 'block_ucpfigures'));
+
+    return $chart;
+}
+
+function graphestudents() {
+
+    global $DB;
+
+    $listufrs = $DB->get_records('block_ucpfigures_ufr');
+    $seriesdata = array();
+    $labels = array();
+
+    foreach ($listufrs as $ufr) {
+
+        $seriesdata[] = $ufr->nbstudents;
+        $labels[] = $ufr->name;
+    }
+
+    $chart = new \core\chart_pie();
+    $series = new \core\chart_series(get_string('nbstudents', 'block_ucpfigures'), $seriesdata);
+    $chart->add_series($series);
+    $chart->set_labels($labels);
+    $chart->set_title(get_string('students', 'block_ucpfigures'));
+
+    return $chart;
+}
+
+function graphecourses() {
+
+    global $DB;
+
+    $listufrs = $DB->get_records('block_ucpfigures_ufr');
+    $seriesdata = array();
+    $labels = array();
+
+    foreach ($listufrs as $ufr) {
+
+        $seriesdata[] = $ufr->nbcourses;
+        $labels[] = $ufr->name;
+    }
+
+    $chart = new \core\chart_pie();
+    $series = new \core\chart_series(get_string('nbcourses', 'block_ucpfigures'), $seriesdata);
+    $chart->add_series($series);
+    $chart->set_labels($labels);
+    $chart->set_title(get_string('courses', 'block_ucpfigures'));
 
     return $chart;
 }

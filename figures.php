@@ -84,28 +84,60 @@ if (!$csv) {
 
     $composantes = $DB->get_records('block_ucpfigures_ufr');
 
-    // Réinventer tout ce qu'il y a après.
-
     echo "<div onclick=flipflop('section1'); style='text-align:center;width:100%;font-weight:bold;padding:5px;color:white;
                     background-color:#731472;border-radius:5px 5px 0 0'>".get_string('textsection1', 'block_ucpfigures')."</div>
                     <div id =section1 class=content style=width:100%;display:none><br>";
 
-    // Promotions déclarées.
-
     $totalexpectedpromos = 0;
+    $totalexpectedstudents = 0;
+    $totalexpectedcourses = 0;
+    $totalavailablecourses = 0;
+    $totalavailablevets = 0;
+    $totalcreatedcourses = 0;
+    $totalenroledstudents = 0;
+    $totalactivestudents = 0;
+    $totalcreatedvets = 0;
 
     $listufrs = $DB->get_records('block_ucpfigures_ufr');
 
     foreach ($listufrs as $ufr) {
 
         $totalexpectedpromos += $ufr->nbvets;
+        $totalstudents += $ufr->nbstudents;
+        $totalcourses += $ufr->nbcourses;
+        $totalavailablecourses += $ufr->nbavailablecourses;
+        $totalavailablevets += $ufr->nbavailablevets;
+        $totalcreatedcourses += $ufr->nbcreatedcourses;
+        $totalenroledstudents += $ufr->nbenroledstudents;
+        $totalactivestudents += $ufr->nbactivestudents;
+        $totalcreatedvets += $ufr->nbcreatedvets;
     }
+
+    // Promotions déclarées.
 
     echo get_string('introexpectedpromos', 'block_ucpfigures', $totalexpectedpromos);
 
-    echo $OUTPUT->render(graphevets());
+    echo $OUTPUT->render(grapheexpectedpromos());
 
     echo "<div><a class='btn btn-secondary' href='figures.php?csv=expectedpromos'>".
+            get_string('csvexport', 'block_ucpfigures')."</a></div>";
+
+    // Etudiants déclarées.
+
+    echo get_string('introstudents', 'block_ucpfigures', $totalstudents);
+
+    echo $OUTPUT->render(graphestudents());
+
+    echo "<div><a class='btn btn-secondary' href='figures.php?csv=students'>".
+            get_string('csvexport', 'block_ucpfigures')."</a></div>";
+
+    // Cours déclarées.
+
+    echo get_string('introcourses', 'block_ucpfigures', $totalcourses);
+
+    echo $OUTPUT->render(graphecourses());
+
+    echo "<div><a class='btn btn-secondary' href='figures.php?csv=courses'>".
             get_string('csvexport', 'block_ucpfigures')."</a></div>";
 
 
@@ -122,20 +154,74 @@ if (!$csv) {
 
     $listufrs = $DB->get_records('block_ucpfigures_ufr');
 
-    $totalexpectedpromos = 0;
+    $total = 0;
 
     foreach ($listufrs as $ufr) {
 
-        $dataexpectedpromo = array();
+        $data = array();
 
-        $dataexpectedpromo[] = utf8_decode($ufr->name);
-        $dataexpectedpromo[] = $ufr->nbvets;
-        $totalexpectedpromos += $ufr->nbvets;
+        $data[] = utf8_decode($ufr->name);
+        $data[] = $ufr->nbvets;
+        $total += $ufr->nbvets;
 
-        $csvwriter->add_data($dataexpectedpromo);
+        $csvwriter->add_data($data);
     }
 
-    $footer = array(get_string('total', block_ucpfigures), $totalexpectedpromos);
+    $footer = array(get_string('total', block_ucpfigures), $total);
+    $csvwriter->add_data($footer);
+
+    $csvwriter->download_file();
+} else if ($csv == 'students') {
+
+    $csvwriter = new csv_export_writer();
+    $csvwriter->set_filename(get_string('students', 'block_ucpfigures'));
+    $header = array(utf8_decode(get_string('ufr', 'block_ucpfigures')),
+        utf8_decode(get_string('students', 'block_ucpfigures')));
+    $csvwriter->add_data($header);
+
+    $listufrs = $DB->get_records('block_ucpfigures_ufr');
+
+    $total = 0;
+
+    foreach ($listufrs as $ufr) {
+
+        $data = array();
+
+        $data[] = utf8_decode($ufr->name);
+        $data[] = $ufr->nbstudents;
+        $total += $ufr->nbstudents;
+
+        $csvwriter->add_data($data);
+    }
+
+    $footer = array(get_string('total', block_ucpfigures), $total);
+    $csvwriter->add_data($footer);
+
+    $csvwriter->download_file();
+} else if ($csv == 'courses') {
+
+    $csvwriter = new csv_export_writer();
+    $csvwriter->set_filename(get_string('courses', 'block_ucpfigures'));
+    $header = array(utf8_decode(get_string('ufr', 'block_ucpfigures')),
+        utf8_decode(get_string('courses', 'block_ucpfigures')));
+    $csvwriter->add_data($header);
+
+    $listufrs = $DB->get_records('block_ucpfigures_ufr');
+
+    $total = 0;
+
+    foreach ($listufrs as $ufr) {
+
+        $data = array();
+
+        $data[] = utf8_decode($ufr->name);
+        $data[] = $ufr->nbvets;
+        $total += $ufr->nbcourses;
+
+        $csvwriter->add_data($data);
+    }
+
+    $footer = array(get_string('total', block_ucpfigures), $total);
     $csvwriter->add_data($footer);
 
     $csvwriter->download_file();
