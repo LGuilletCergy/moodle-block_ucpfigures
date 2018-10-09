@@ -160,6 +160,13 @@ if (!$csv) {
     echo "<div><a class='btn btn-secondary' href='figures.php?csv=availablecourses'>".
             get_string('csvexport', 'block_ucpfigures')."</a></div><br>";
 
+    // Promotions disponibles/Promotions déclarées.
+
+    echo $OUTPUT->render(grapheavailablevets());
+
+    echo "<div><a class='btn btn-secondary' href='figures.php?csv=availablevets'>".
+            get_string('csvexport', 'block_ucpfigures')."</a></div><br>";
+
     echo "</div>";
 
     echo $OUTPUT->footer();
@@ -244,9 +251,7 @@ if (!$csv) {
     $csvwriter->add_data($footer);
 
     $csvwriter->download_file();
-}
-
- else if ($csv == 'availablecourses') {
+} else if ($csv == 'availablecourses') {
 
     $csvwriter = new csv_export_writer();
     $csvwriter->set_filename(get_string('availablecourses', 'block_ucpfigures'));
@@ -256,7 +261,8 @@ if (!$csv) {
 
     $listufrs = $DB->get_records('block_ucpfigures_ufr');
 
-    $total = 0;
+    $total1 = 0;
+    $total2 = 0;
 
     foreach ($listufrs as $ufr) {
 
@@ -264,14 +270,45 @@ if (!$csv) {
 
         $data[] = utf8_decode($ufr->name);
         $data[] = $ufr->nbavailablecourses."/".$ufr->nbcourses." (".
-                round($ufr->nbavailablecourses *100/$ufr->nbcourses, 1).")";
+                round($ufr->nbavailablecourses *100/$ufr->nbcourses, 1)."%)";
         $total1 += $ufr->nbavailablecourses;
         $total2 += $ufr->nbcourses;
 
         $csvwriter->add_data($data);
     }
 
-    $total = $total1."/".$total2." (".round($total1 *100/$total2, 1).")";
+    $total = $total1."/".$total2." (".round($total1 *100/$total2, 1)."%)";
+    $footer = array(get_string('total', block_ucpfigures), $total);
+    $csvwriter->add_data($footer);
+
+    $csvwriter->download_file();
+} else if ($csv == 'availablevets') {
+
+    $csvwriter = new csv_export_writer();
+    $csvwriter->set_filename(get_string('availablevets', 'block_ucpfigures'));
+    $header = array(utf8_decode(get_string('ufr', 'block_ucpfigures')),
+        utf8_decode(get_string('availablevets', 'block_ucpfigures')));
+    $csvwriter->add_data($header);
+
+    $listufrs = $DB->get_records('block_ucpfigures_ufr');
+
+    $total1 = 0;
+    $total2 = 0;
+
+    foreach ($listufrs as $ufr) {
+
+        $data = array();
+
+        $data[] = utf8_decode($ufr->name);
+        $data[] = $ufr->nbavailablevets."/".$ufr->nbvets." (".
+                round($ufr->nbavailablevets *100/$ufr->nbvets, 1)."%)";
+        $total1 += $ufr->nbavailablevets;
+        $total2 += $ufr->nbvets;
+
+        $csvwriter->add_data($data);
+    }
+
+    $total = $total1."/".$total2." (".round($total1 *100/$total2, 1)."%)";
     $footer = array(get_string('total', block_ucpfigures), $total);
     $csvwriter->add_data($footer);
 

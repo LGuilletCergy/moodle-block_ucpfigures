@@ -131,3 +131,31 @@ function grapheavailablecourses() {
 
     return $chart;
 }
+
+function grapheavailablevets() {
+
+    global $DB;
+
+    $listufrs = $DB->get_records('block_ucpfigures_ufr');
+    $seriesdata1 = array();
+    $seriesdata2 = array();
+    $labels = array();
+
+    foreach ($listufrs as $ufr) {
+
+        $seriesdata1[] = $ufr->nbavailablevets;
+        $seriesdata2[] = $ufr->nbvets;
+        $labels[] = $ufr->name;
+    }
+
+    $chart = new \core\chart_bar();
+    $chart->set_stacked(true);
+    $series1 = new \core\chart_series(get_string('nbavailablevets', 'block_ucpfigures'), $seriesdata1);
+    $series2 = new \core\chart_series(get_string('nbvets', 'block_ucpfigures'), $seriesdata2);
+    $chart->add_series($series1);
+    $chart->add_series($series2);
+    $chart->set_labels($labels);
+    $chart->set_title(get_string('availablevets', 'block_ucpfigures'));
+
+    return $chart;
+}
