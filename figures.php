@@ -93,38 +93,55 @@ $totalnbrvets =0;
 
 // Promotions déclarées.
 
-$tableexpectedpromo = new html_table();
-$tableexpectedpromo->head  = array(get_string('ufr', 'block_ucpfigures'), get_string('expectedpromos', 'block_ucpfigures'));
-$tableexpectedpromo->colclasses = array('leftalign ufr', 'leftalign exceptedpromos');
-$tableexpectedpromo->id = 'expectedpromos';
-$tableexpectedpromo->attributes['class'] = 'admintable generaltable';
-
-$listufrs = $DB->get_records('block_ucpfigures_ufr');
-
-$data = array();
-
-foreach ($listufrs as $ufr) {
-
-    $line = array();
-    $line[] = $ufr->name;
-    $line[] = format_number($ufr->nbvets);
-
-    $data[] = $row = new html_table_row($line);
-}
-
-$tableexpectedpromo->data = $data;
-echo html_writer::table($tableexpectedpromo);
+//$tableexpectedpromo = new html_table();
+//$tableexpectedpromo->head  = array(get_string('ufr', 'block_ucpfigures'), get_string('expectedpromos', 'block_ucpfigures'));
+//$tableexpectedpromo->colclasses = array('leftalign ufr', 'leftalign exceptedpromos');
+//$tableexpectedpromo->id = 'expectedpromos';
+//$tableexpectedpromo->attributes['class'] = 'admintable generaltable';
+//
+//$listufrs = $DB->get_records('block_ucpfigures_ufr');
+//
+//$data = array();
+//
+//foreach ($listufrs as $ufr) {
+//
+//    $lineexpectedpromo = array();
+//    $lineexpectedpromo[] = $ufr->name;
+//    $lineexpectedpromo[] = format_number($ufr->nbvets);
+//
+//    $dataexpectedpromo[] = $row = new html_table_row($lineexpectedpromo);
+//}
+//
+//$tableexpectedpromo->data = $dataexpectedpromo;
+//echo html_writer::table($tableexpectedpromo);
 
 echo $OUTPUT->render(graphevets());
 
-echo "<div><button href='figures?&csv=expectedpromos'>".get_string('csvexport', 'block_ucpfigures')
-        ."</button></div></div>";
+echo "<div><button class='btn btn-secondary' href='figures?&csv=expectedpromos'>".
+        get_string('csvexport', 'block_ucpfigures')."</button></div></div>";
 
 echo $OUTPUT->footer();
 
 if ($csv == 'expectedpromo') {
 
     $csvwriter = new csv_export_writer();
+    $csvwriter->set_filename(get_string('expectedpromos', 'block_ucpfigures'));
+    $header = array(get_string('ufr', 'block_ucpfigures'), get_string('expectedpromos', 'block_ucpfigures'));
+    $csvwriter->add_data($header);
+
+    $listufrs = $DB->get_records('block_ucpfigures_ufr');
+
+    $dataexpectedpromo = array();
+
+    foreach ($listufrs as $ufr) {
+
+        $dataexpectedpromo[] = $ufr->name;
+        $dataexpectedpromo[] = format_number($ufr->nbvets);
+
+        $csvwriter->add_data($dataexpectedpromo);
+    }
+
+    $csvwriter->download_file();
 }
 
 //Groupe les chiffres d'un grand nombre par 3
