@@ -142,7 +142,7 @@ if (!$csv) {
     echo "<div><a class='btn btn-secondary' href='figures.php?csv=courses'>".
             get_string('csvexport', 'block_ucpfigures')."</a></div><br>";
 
-    echo "</div>";
+    echo "</div><br>";
 
     // Section 2.
 
@@ -263,14 +263,14 @@ if (!$csv) {
         $data = array();
 
         $data[] = utf8_decode($ufr->name);
-        $data[] = $ufr->nbavailablecourses."/".$ufr->nbcourses;
+        $data[] = $ufr->nbavailablecourses."/".$ufr->nbcourses." (".round($nbavailablecourses *100/$nbcourses, 1).")";
         $total1 += $ufr->nbavailablecourses;
         $total2 += $ufr->nbcourses;
 
         $csvwriter->add_data($data);
     }
 
-    $total = $total1."/".$total2." (".round(nbavailablecourses *100 / nbcourses, 1).")";
+    $total = $total1."/".$total2." (".round($nbavailablecourses *100/$nbcourses, 1).")";
     $footer = array(get_string('total', block_ucpfigures), $total);
     $csvwriter->add_data($footer);
 
