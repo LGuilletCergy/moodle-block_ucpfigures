@@ -82,12 +82,6 @@ if (!$csv) {
     $PAGE->set_heading($title);
     echo $OUTPUT->header();
 
-    $composantes = $DB->get_records('block_ucpfigures_ufr');
-
-    echo "<div onclick=flipflop('section1'); style='text-align:center;width:100%;font-weight:bold;padding:5px;color:white;
-                    background-color:#731472;border-radius:5px 5px 0 0'>".get_string('textsection1', 'block_ucpfigures')."</div>
-                    <div id =section1 class=content style=width:100%;display:none><br>";
-
     $totalexpectedpromos = 0;
     $totalexpectedstudents = 0;
     $totalexpectedcourses = 0;
@@ -112,6 +106,14 @@ if (!$csv) {
         $totalactivestudents += $ufr->nbactivestudents;
         $totalcreatedvets += $ufr->nbcreatedvets;
     }
+
+    // Section 1.
+
+    echo "<div onclick=flipflop('section1'); style='text-align:center;width:100%;font-weight:bold;padding:5px;color:white;
+                    background-color:#731472;border-radius:5px 5px 0 0'>".get_string('textsection1', 'block_ucpfigures')."</div>
+                    <div id =section1 class=content style=width:100%;display:none><br>";
+
+    echo get_string('introsection1', 'block_ucpfigures');
 
     // Promotions déclarées.
 
@@ -140,6 +142,23 @@ if (!$csv) {
     echo "<div><a class='btn btn-secondary' href='figures.php?csv=courses'>".
             get_string('csvexport', 'block_ucpfigures')."</a></div><br>";
 
+    echo "</div>";
+
+    // Section 2.
+
+    echo "<div onclick=flipflop('section2'); style='text-align:center;width:100%;font-weight:bold;padding:5px;
+        color:white;background-color:#731472;border-radius:5px 5px 0 0'>"
+        .get_string('textsection2', 'block_ucpfigures').
+        "</div><div id =section2 class=content style=width:100%;display:none><br>";
+
+    echo get_string('introsection2', 'block_ucpfigures');
+
+    // Cours disponibles/Cours déclarés.
+
+    echo $OUTPUT->render(grapheavailablecourses());
+
+    echo "<div><a class='btn btn-secondary' href='figures.php?csv=availablecourses'>".
+            get_string('csvexport', 'block_ucpfigures')."</a></div><br>";
 
     echo "</div>";
 
@@ -215,12 +234,43 @@ if (!$csv) {
         $data = array();
 
         $data[] = utf8_decode($ufr->name);
-        $data[] = $ufr->nbvets;
+        $data[] = $ufr->nbcourses;
         $total += $ufr->nbcourses;
 
         $csvwriter->add_data($data);
     }
 
+    $footer = array(get_string('total', block_ucpfigures), $total);
+    $csvwriter->add_data($footer);
+
+    $csvwriter->download_file();
+}
+
+ else if ($csv == 'availablecourses') {
+
+    $csvwriter = new csv_export_writer();
+    $csvwriter->set_filename(get_string('availablecourses', 'block_ucpfigures'));
+    $header = array(utf8_decode(get_string('ufr', 'block_ucpfigures')),
+        utf8_decode(get_string('availablecourses', 'block_ucpfigures')));
+    $csvwriter->add_data($header);
+
+    $listufrs = $DB->get_records('block_ucpfigures_ufr');
+
+    $total = 0;
+
+    foreach ($listufrs as $ufr) {
+
+        $data = array();
+
+        $data[] = utf8_decode($ufr->name);
+        $data[] = $ufr->nbavailablecourses."/".$ufr->nbcourses;
+        $total1 += $ufr->nbavailablecourses;
+        $total2 += $ufr->nbcourses;
+
+        $csvwriter->add_data($data);
+    }
+
+    $total = $total1."/".$total2." (".round(nbavailablecourses *100 / nbcourses, 1).")";
     $footer = array(get_string('total', block_ucpfigures), $total);
     $csvwriter->add_data($footer);
 
