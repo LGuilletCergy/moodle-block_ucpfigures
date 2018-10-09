@@ -122,7 +122,7 @@ echo "<div><a class='btn btn-secondary' href='figures.php?csv=expectedpromos'>".
 
 echo $OUTPUT->footer();
 
-if ($csv == 'expectedpromo') {
+if ($csv == 'expectedpromos') {
 
     $csvwriter = new csv_export_writer();
     $csvwriter->set_filename(utf8_decode(get_string('expectedpromos', 'block_ucpfigures')));
