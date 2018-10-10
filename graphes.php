@@ -290,6 +290,8 @@ function graphelogins() {
         $seriesdata[] = $nblogins[$i+1] - $nblogins[$i];
     }
 
+    print_object($seriesdata);
+
     $chart = new \core\chart_line();
     $series = new \core\chart_series(get_string('nblogin2', 'block_ucpfigures'), $seriesdata);
     $chart->add_series($series);
