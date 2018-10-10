@@ -45,11 +45,12 @@ $string['activestudents'] = 'Etudiants actifs';
 $string['nbcreatedvets'] = 'Nombre de VETs avec cours';
 $string['createdvets'] = 'VETs avec cours';
 $string['distinctteachers'] = '{$a->value} enseignants distincts ont créé des cours sur la '
-        . 'plateforme depuis le {$a->startdate}.<br>';
-$string['nblogin'] = '{$a} connexions depuis une semaine.<br>';
-$string['nblogin2'] = 'Connexions depuis une semaine<br>';
-$string['nbgrades'] = '{$a->value} notes attribuées depuis le {$a->startdate}.<br>';
-$string['nbfiles'] = '{$a->value} fichiers déposés depuis le {$a->startdate}.<br>';
-$string['nbviews'] = '{$a->value} consultations de cours ou documents depuis le {$a->startdate}.<br>';
+        . 'plateforme depuis le {$a->startdate}.<br><br>';
+$string['nblogin'] = '{$a} connexions depuis une semaine.<br><br>';
+$string['nblogin2'] = 'Connexions depuis une semaine<br><br>';
+$string['nbgrades'] = '{$a->value} notes attribuées depuis le {$a->startdate}.<br><br>';
+$string['nbfiles'] = '{$a->value} fichiers déposés depuis le {$a->startdate}.<br><br>';
+$string['nbviews'] = '{$a->value} consultations de cours ou documents depuis le {$a->startdate}.<br><br>';
 $string['nbactions'] = '{$a->value} actions réalisées sur la plateforme '
-        . '(consultation d\'un document, envoi d\'un message, remise d\'un devoir, etc.) depuis le {$a->startdate}.<br>';
+        . '(consultation d\'un document, envoi d\'un message, remise d\'un devoir, etc.) '
+        . 'depuis le {$a->startdate}.<br><br>';

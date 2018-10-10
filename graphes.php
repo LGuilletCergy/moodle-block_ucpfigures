@@ -281,7 +281,7 @@ function graphelogins() {
 
         $idaysago = $now - $i * 24 * 3600;
 
-        $nblogins[$i] = $DB->get_record('block_ucpfigures_stats',array('name' => 'login'.$i.'daysago'))->values;
+        $nblogins[$i] = $DB->get_record('block_ucpfigures_stats',array('name' => 'login'.$i.'daysago'))->value;
         $seriesdata[] = $nblogins[$i+1] - $nblogins[$i];
         $labels[] = date('d/m/Y', $idaysago);
     }

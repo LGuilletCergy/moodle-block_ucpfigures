@@ -167,7 +167,7 @@ if (!$csv) {
     echo "<div><a class='btn btn-secondary' href='figures.php?csv=availablevets'>".
             get_string('csvexport', 'block_ucpfigures')."</a></div><br>";
 
-    echo "</div>";
+    echo "</div><br>";
 
     // Section 3.
 
@@ -206,7 +206,7 @@ if (!$csv) {
     echo "<div><a class='btn btn-secondary' href='figures.php?csv=createdvets'>".
             get_string('csvexport', 'block_ucpfigures')."</a></div><br>";
 
-    echo "</div>";
+    echo "</div><br>";
 
     // Section 4.
 
