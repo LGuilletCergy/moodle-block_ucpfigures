@@ -284,7 +284,7 @@ class dailystats extends \core\task\scheduled_task {
         echo "test3<br>";
 
         $sqltotallogin = "SELECT COUNT(DISTINCT id) AS nblogin FROM {logstore_standard_log} "
-                . "WHERE action LIKE loggedin  AND timecreated > $timestatbeginning";
+                . "WHERE action LIKE 'loggedin'  AND timecreated > $timestatbeginning";
         echo "test4<br>";
         $nbtotallogin = $DB->get_record_sql($sqltotallogin)->nblogin;
         echo "test5<br>";
