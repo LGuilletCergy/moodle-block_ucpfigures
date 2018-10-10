@@ -282,15 +282,17 @@ function graphelogins() {
         $idaysago = $now - $i * 24 * 3600;
 
         $nblogins[$i] = $DB->get_record('block_ucpfigures_stats',array('name' => 'login'.$i.'daysago'))->value;
-        $labels[] = date('d/m/Y', $idaysago);
+
+        if ($i != 0) {
+
+            $labels[] = date('d/m/Y', $idaysago);
+        }
     }
 
     for ($i = 6; $i >= 0; $i--) {
 
         $seriesdata[] = $nblogins[$i+1] - $nblogins[$i];
     }
-
-    print_object($seriesdata);
 
     $chart = new \core\chart_line();
     $series = new \core\chart_series(get_string('nblogin2', 'block_ucpfigures'), $seriesdata);
