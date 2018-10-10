@@ -279,7 +279,7 @@ class dailystats extends \core\task\scheduled_task {
 
         $sqltotallogin = "SELECT COUNT(distinct id) AS nblogin FROM {logstore_standard_log} "
                 . "WHERE action LIKE loggedin  AND timemodified > $timestatbeginning";
-        $nbtotallogin = $DB->count_records_sql($sqltotallogin);
+        $nbtotallogin = $DB->get_record_sql($sqltotallogin)->nblogin;
         $record->name = 'login';
         $record->value = $nbtotallogin;
 
@@ -319,7 +319,7 @@ class dailystats extends \core\task\scheduled_task {
 
         $sqlgrades = "SELECT COUNT(distinct id) AS nbgrades FROM {grade_grades} "
                 . "WHERE finalgrade IS NOT NULL AND timemodified > $timestatbeginning";
-        $nbgrades = $DB->count_records_sql($sqlgrades);
+        $nbgrades = $DB->get_record_sql($sqlgrades)->nbgrades;
         $record->name = 'grades';
         $record->value = $nbgrades;
 
