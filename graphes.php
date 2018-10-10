@@ -277,7 +277,7 @@ function graphelogins() {
 
     $now = time();
 
-    for ($i = 0; $i < 7; $i++) {
+    for ($i = 7; $i >= 0; $i--) {
 
         $idaysago = $now - $i * 24 * 3600;
 
@@ -285,7 +285,7 @@ function graphelogins() {
         $labels[] = date('d/m/Y', $idaysago);
     }
 
-    for ($i = 0; $i < 7; $i++) {
+    for ($i = 6; $i >= 0; $i--) {
 
         $seriesdata[] = $nblogins[$i+1] - $nblogins[$i];
     }
