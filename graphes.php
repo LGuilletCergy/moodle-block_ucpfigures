@@ -295,6 +295,9 @@ function graphelogins() {
     }
 
     $chart = new \core\chart_line();
+    $yaxis = $chart->get_yaxis(0, true);
+    $yaxis->set_min(0);
+    $chart->set_yaxis($yaxis);
     $series = new \core\chart_series(get_string('nblogin2', 'block_ucpfigures'), $seriesdata);
     $chart->add_series($series);
     $chart->set_labels($labels);
