@@ -260,7 +260,7 @@ class dailystats extends \core\task\scheduled_task {
             $timestatbeginningtemp['tm_mday'], $timestatbeginningtemp['tm_year']+1900);
 
         $roleteacherid = $DB->get_record('role', array('shortname' => 'editingteacher'))->id;
-        $sqldistinctteachers = "SELECT COUNT(DISTINCT userid) AS nbdistinctteachers FROM mdl_role_assignments "
+        $sqldistinctteachers = "SELECT COUNT(DISTINCT userid) AS nbdistinctteachers FROM {role_assignments} "
                 . "WHERE roleid = $roleteacherid AND timemodified > $timestatbeginning";
         $nbdistinctteachers = $DB->get_record_sql($sqldistinctteachers)->nbdistinctteachers;
         $record->name = 'distinctteachers';
@@ -268,30 +268,44 @@ class dailystats extends \core\task\scheduled_task {
 
         if ($DB->record_exists('block_ucpfigures_stats', array('name' => 'distinctteachers'))) {
 
+            echo "test1<br>";
+
             $newrecord = $DB->get_record('block_ucpfigures_stats', array('name' => 'distinctteachers'));
             $newrecord->value = $nbdistinctteachers;
             $DB->update_record('block_ucpfigures_stats', $newrecord);
 
         } else {
 
+            echo "test2<br>";
+
             $DB->insert_record('block_ucpfigures_stats', $record);
         }
 
-        $sqltotallogin = "SELECT COUNT(distinct id) AS nblogin FROM {logstore_standard_log} "
+        echo "test3<br>";
+
+        $sqltotallogin = "SELECT COUNT(DISTINCT id) AS nblogin FROM {logstore_standard_log} "
                 . "WHERE action LIKE loggedin  AND timemodified > $timestatbeginning";
+        echo "test4<br>";
         $nbtotallogin = $DB->get_record_sql($sqltotallogin)->nblogin;
+        echo "test5<br>";
         $record->name = 'login';
         $record->value = $nbtotallogin;
 
         if ($DB->record_exists('block_ucpfigures_stats', array('name' => 'login'))) {
+
+            echo "test6<br>";
 
             $newrecord = $DB->get_record('block_ucpfigures_stats', array('name' => 'login'));
             $newrecord->value = $nbtotallogin;
             $DB->update_record('block_ucpfigures_stats', $newrecord);
         } else {
 
+            echo "test7<br>";
+
             $DB->insert_record('block_ucpfigures_stats', $record);
         }
+
+        echo "test8<br>";
 
         $now = time();
         $nblogins = array();
