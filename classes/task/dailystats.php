@@ -250,5 +250,136 @@ class dailystats extends \core\task\scheduled_task {
 
             $DB->update_record('block_ucpfigures_ufr', $ufrarray[$composantecode]);
         }
+
+        // Statistics that take a long time to compute.
+
+        $record = new \stdClass();
+
+        $timestatbeginningtemp = strptime('01/07/'.$CFG->thisyear, '%d/%m/%Y');
+        $timestatbeginning = mktime(0, 0, 0, $timestatbeginningtemp['tm_mon']+1,
+            $timestatbeginningtemp['tm_mday'], $timestatbeginningtemp['tm_year']+1900);
+
+        $roleteacherid = $DB->get_record('role', array('shortname' => 'editingteacher'))->id;
+        $sqldistinctteachers = "SELECT COUNT(DISTINCT userid) AS nbdistinctteachers FROM mdl_role_assignments "
+                . "WHERE roleid = $roleteacherid AND timemodified > $timestatbeginning";
+        $nbdistinctteachers = $DB->get_record_sql($sqldistinctteachers)->nbdistinctteachers;
+        $record->name = 'distinctteachers';
+        $record->value = $nbdistinctteachers;
+
+        if ($DB->record_exists('block_ucpfigures_stats', array('name' => 'distinctteachers'))) {
+
+            $newrecord = $DB->get_record('block_ucpfigures_stats', array('name' => 'distinctteachers'));
+            $newrecord->value = $nbdistinctteachers;
+            $DB->update_record('block_ucpfigures_stats', $newrecord);
+
+        } else {
+
+            $DB->insert_record('block_ucpfigures_stats', $record);
+        }
+
+        $sqltotallogin = "SELECT COUNT(distinct id) AS nblogin FROM {logstore_standard_log} "
+                . "WHERE action LIKE loggedin  AND timemodified > $timestatbeginning";
+        $nbtotallogin = $DB->count_records_sql($sqltotallogin);
+        $record->name = 'login';
+        $record->value = $nbtotallogin;
+
+        if ($DB->record_exists('block_ucpfigures_stats', array('name' => 'login'))) {
+
+            $newrecord = $DB->get_record('block_ucpfigures_stats', array('name' => 'login'));
+            $newrecord->value = $nbtotallogin;
+            $DB->update_record('block_ucpfigures_stats', $newrecord);
+        } else {
+
+            $DB->insert_record('block_ucpfigures_stats', $record);
+        }
+
+        $now = time();
+        $nblogins = array();
+
+        for ($i = 0; $i <= 7; $i++) {
+
+            $idaysago = $now - $i * 24 * 3600;
+
+            $sql = "SELECT COUNT(id) AS nblogins FROM {logstore_standard_log} WHERE action =  'loggedin' "
+                    . "AND timecreated > $idaysago" ;
+            $nblogins = $DB->get_record_sql($sql)->nblogins;
+            $record->name = 'login'.$i.'daysago';
+            $record->value = $nblogins;
+
+            if ($DB->record_exists('block_ucpfigures_stats', array('name' => 'login'.$i.'daysago'))) {
+
+                $newrecord = $DB->get_record('block_ucpfigures_stats', array('name' => 'login'.$i.'daysago'));
+                $newrecord->value = $nblogins;
+                $DB->update_record('block_ucpfigures_stats', $newrecord);
+            } else {
+
+                $DB->insert_record('block_ucpfigures_stats', $record);
+            }
+        }
+
+        $sqlgrades = "SELECT COUNT(distinct id) AS nbgrades FROM {grade_grades} "
+                . "WHERE finalgrade IS NOT NULL AND timemodified > $timestatbeginning";
+        $nbgrades = $DB->count_records_sql($sqlgrades);
+        $record->name = 'grades';
+        $record->value = $nbgrades;
+
+        if ($DB->record_exists('block_ucpfigures_stats', array('name' => 'grades'))) {
+
+            $newrecord = $DB->get_record('block_ucpfigures_stats', array('name' => 'grades'));
+            $newrecord->value = $nbgrades;
+            $DB->update_record('block_ucpfigures_stats', $newrecord);
+        } else {
+
+            $DB->insert_record('block_ucpfigures_stats', $record);
+        }
+
+        $sqlfiles = "SELECT COUNT(id) AS nbfiles FROM {files} WHERE timemodified > $timestatbeginning";
+        $nbfiles = $DB->get_record_sql($sqlfiles)->nbfiles;
+        $record->name = 'files';
+        $record->value = $nbfiles;
+
+        if ($DB->record_exists('block_ucpfigures_stats', array('name' => 'files'))) {
+
+            $newrecord = $DB->get_record('block_ucpfigures_stats', array('name' => 'files'));
+            $newrecord->value = $nbfiles;
+            $DB->update_record('block_ucpfigures_stats', $newrecord);
+        } else {
+
+            $DB->insert_record('block_ucpfigures_stats', $record);
+        }
+
+        $sqlviews = "SELECT COUNT(id) AS nbviews FROM {logstore_standard_log} "
+                . "WHERE action LIKE viewed AND timecreated > $timestatbeginning";
+        $nbviews = $DB->get_record_sql($sqlviews)->nbviews;
+        echo get_string('nbviews', 'block_ucpfigures', $nbviews);
+        $record->name = 'views';
+        $record->value = $nbviews;
+
+        if ($DB->record_exists('block_ucpfigures_stats', array('name' => 'views'))) {
+
+            $newrecord = $DB->get_record('block_ucpfigures_stats', array('name' => 'views'));
+            $newrecord->value = $nbviews;
+            $DB->update_record('block_ucpfigures_stats', $newrecord);
+        } else {
+
+            $DB->insert_record('block_ucpfigures_stats', $record);
+        }
+
+        $sqlactions = "SELECT COUNT(id) AS nbactions FROM {logstore_standard_log} "
+                . "WHERE timecreated > $timestatbeginning";
+        $nbactions = $DB->get_record_sql($sqlactions)->nbactions;
+        echo get_string('nbactions', 'block_ucpfigures', $nbactions);
+        $record->name = 'actions';
+        $record->value = $nbactions;
+
+        if ($DB->record_exists('block_ucpfigures_stats', array('name' => 'actions'))) {
+
+            $newrecord = $DB->get_record('block_ucpfigures_stats', array('name' => 'actions'));
+            $newrecord->value = $nbviews;
+            $DB->update_record('block_ucpfigures_stats', $newrecord);
+        } else {
+
+            $DB->insert_record('block_ucpfigures_stats', $record);
+        }
     }
 }

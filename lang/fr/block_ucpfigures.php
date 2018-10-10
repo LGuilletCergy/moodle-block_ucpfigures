@@ -6,6 +6,9 @@ $string['ucpfigures:myaddinstance'] = 'Ajouter le bloc CoursUCP en chiffres à m
 $string['ucpfigures:viewinfo'] = 'Voir les statistiques';
 $string['textsection1'] = 'Nombre de promotions, de cours et d\'étudiants déclarés dans Apogée';
 $string['textsection2'] = 'Nombre de cours et VETs avec cohortes';
+$string['textsection3'] = 'Nombre de cours créés, de VETs avec cours, d\'étudiants inscrits à des cours'
+        . ' et d\'étudiants réellement actifs';
+$string['textsection4'] = 'Divers';
 $string['ufr'] = 'Composante';
 $string['dailystats'] = 'Remplit les tables de la base de données stockant les statistiques.';
 $string['csvexport'] = 'Exporter vers un fichier CSV';
@@ -19,7 +22,7 @@ $string['introsection2'] = '<br>Pour qu\'un cours apparaisse automatiquement dan
     Pour celà, la composante doit créer le groupe dans Apogée
     et l\'associer à au moins un évènement futur dans CELCAT :<br>';
 $string['commentactivestudents'] = 'Sont considérés comme actifs les étudiants qui, au cours des 30 derniers jours,'
-        . ' se sont connectés à la plateforme.';
+        . ' se sont connectés à la plateforme.<br>';
 $string['introexpectedpromos'] = 'Il y a un total de {$a} promotions déclarées sur la plateforme réparties comme suit : ';
 $string['nbvets'] = 'Nombre de promotions';
 $string['expectedpromos'] = 'Promotions déclarées';
@@ -33,3 +36,20 @@ $string['nbavailablecourses'] = 'Nombre de cours avec une cohorte';
 $string['availablecourses'] = 'Cours avec une cohorte';
 $string['nbavailablevets'] = 'Nombre de VETs avec une cohorte';
 $string['availablevets'] = 'VETs avec une cohorte';
+$string['nbcreatedcourses'] = 'Nombre de cours créés';
+$string['createdcourses'] = 'Cours créés';
+$string['nbenroledstudents'] = 'Nombre d\'étudiants inscrits';
+$string['enroledstudents'] = 'Etudiants inscrits';
+$string['nbactivestudents'] = 'Nombre d\'étudiants actifs';
+$string['activestudents'] = 'Etudiants actifs';
+$string['nbcreatedvets'] = 'Nombre de VETs avec cours';
+$string['createdvets'] = 'VETs avec cours';
+$string['distinctteachers'] = '{$a->value} enseignants distincts ont créé des cours sur la '
+        . 'plateforme depuis le {$a->startdate}.<br>';
+$string['nblogin'] = '{$a} connexions depuis une semaine.<br>';
+$string['nblogin2'] = 'Connexions depuis une semaine<br>';
+$string['nbgrades'] = '{$a->value} notes attribuées depuis le {$a->startdate}.<br>';
+$string['nbfiles'] = '{$a->value} fichiers déposés depuis le {$a->startdate}.<br>';
+$string['nbviews'] = '{$a->value} consultations de cours ou documents depuis le {$a->startdate}.<br>';
+$string['nbactions'] = '{$a->value} actions réalisées sur la plateforme '
+        . '(consultation d\'un document, envoi d\'un message, remise d\'un devoir, etc.) depuis le {$a->startdate}.<br>';

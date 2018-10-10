@@ -157,3 +157,140 @@ function grapheavailablevets() {
 
     return $chart;
 }
+
+function graphecreatedcourses() {
+
+    global $DB;
+
+    $listufrs = $DB->get_records('block_ucpfigures_ufr');
+    $seriesdata1 = array();
+    $seriesdata2 = array();
+    $labels = array();
+
+    foreach ($listufrs as $ufr) {
+
+        $seriesdata1[] = $ufr->nbcreatedcourses;
+        $seriesdata2[] = $ufr->nbcourses;
+        $labels[] = $ufr->name;
+    }
+
+    $chart = new \core\chart_bar();
+    $series1 = new \core\chart_series(get_string('nbcreatedcourses', 'block_ucpfigures'), $seriesdata1);
+    $series2 = new \core\chart_series(get_string('nbcourses', 'block_ucpfigures'), $seriesdata2);
+    $chart->add_series($series1);
+    $chart->add_series($series2);
+    $chart->set_labels($labels);
+    $chart->set_title(get_string('createdcourses', 'block_ucpfigures'));
+
+    return $chart;
+}
+
+function grapheenroledstudents() {
+
+    global $DB;
+
+    $listufrs = $DB->get_records('block_ucpfigures_ufr');
+    $seriesdata1 = array();
+    $seriesdata2 = array();
+    $labels = array();
+
+    foreach ($listufrs as $ufr) {
+
+        $seriesdata1[] = $ufr->nbenroledstudents;
+        $seriesdata2[] = $ufr->nbstudents;
+        $labels[] = $ufr->name;
+    }
+
+    $chart = new \core\chart_bar();
+    $series1 = new \core\chart_series(get_string('nbenroledstudents', 'block_ucpfigures'), $seriesdata1);
+    $series2 = new \core\chart_series(get_string('nbstudents', 'block_ucpfigures'), $seriesdata2);
+    $chart->add_series($series1);
+    $chart->add_series($series2);
+    $chart->set_labels($labels);
+    $chart->set_title(get_string('enroledstudents', 'block_ucpfigures'));
+
+    return $chart;
+}
+
+function grapheactivestudents() {
+
+    global $DB;
+
+    $listufrs = $DB->get_records('block_ucpfigures_ufr');
+    $seriesdata1 = array();
+    $seriesdata2 = array();
+    $labels = array();
+
+    foreach ($listufrs as $ufr) {
+
+        $seriesdata1[] = $ufr->nbactivestudents;
+        $seriesdata2[] = $ufr->nbstudents;
+        $labels[] = $ufr->name;
+    }
+
+    $chart = new \core\chart_bar();
+    $series1 = new \core\chart_series(get_string('nbactivestudents', 'block_ucpfigures'), $seriesdata1);
+    $series2 = new \core\chart_series(get_string('nbstudents', 'block_ucpfigures'), $seriesdata2);
+    $chart->add_series($series1);
+    $chart->add_series($series2);
+    $chart->set_labels($labels);
+    $chart->set_title(get_string('activestudents', 'block_ucpfigures'));
+
+    return $chart;
+}
+
+function graphecreatedvets() {
+
+    global $DB;
+
+    $listufrs = $DB->get_records('block_ucpfigures_ufr');
+    $seriesdata1 = array();
+    $seriesdata2 = array();
+    $labels = array();
+
+    foreach ($listufrs as $ufr) {
+
+        $seriesdata1[] = $ufr->nbcreatedvets;
+        $seriesdata2[] = $ufr->nbvets;
+        $labels[] = $ufr->name;
+    }
+
+    $chart = new \core\chart_bar();
+    $series1 = new \core\chart_series(get_string('nbcreatedvets', 'block_ucpfigures'), $seriesdata1);
+    $series2 = new \core\chart_series(get_string('nbvets', 'block_ucpfigures'), $seriesdata2);
+    $chart->add_series($series1);
+    $chart->add_series($series2);
+    $chart->set_labels($labels);
+    $chart->set_title(get_string('createdvets', 'block_ucpfigures'));
+
+    return $chart;
+}
+
+function graphelogins() {
+
+    global $DB;
+
+    $seriesdata = array();
+    $labels = array();
+
+    $nblogins = array();
+
+    $now = time();
+
+    for ($i = 0; $i < 7; $i++) {
+
+        $idaysago = $now - $i * 24 * 3600;
+
+        $nblogins[$i] = $DB->get_record('block_ucpfigures_stats',array('name' => 'login'.$i.'daysago'))->values;
+        $seriesdata[] = $nblogins[$i+1] - $nblogins[$i];
+        $labels[] = date('d/m/Y', $idaysago);
+    }
+
+    $chart = new \core\chart_line();
+    $series = new \core\chart_series(get_string('nblogin2', 'block_ucpfigures'), $seriesdata);
+    $chart->add_series($series);
+    $chart->set_labels($labels);
+    $chart->set_title(get_string('nblogin2', 'block_ucpfigures'));
+
+    return $chart;
+}

@@ -169,6 +169,94 @@ if (!$csv) {
 
     echo "</div>";
 
+    // Section 3.
+
+    echo "<div onclick=flipflop('section3'); style='text-align:center;width:100%;font-weight:bold;padding:5px;
+        color:white;background-color:#731472;border-radius:5px 5px 0 0'>"
+        .get_string('textsection3', 'block_ucpfigures').
+        "</div><div id =section3 class=content style=width:100%;display:none><br>";
+
+    // Cours créés sur la plateforme.
+
+    echo $OUTPUT->render(graphecreatedcourses());
+
+    echo "<div><a class='btn btn-secondary' href='figures.php?csv=createdcourses'>".
+            get_string('csvexport', 'block_ucpfigures')."</a></div><br>";
+
+    // Étudiants inscrits.
+
+    echo $OUTPUT->render(grapheenroledstudents());
+
+    echo "<div><a class='btn btn-secondary' href='figures.php?csv=enroledstudents'>".
+            get_string('csvexport', 'block_ucpfigures')."</a></div><br>";
+
+    // Étudiants actifs.
+
+    echo $OUTPUT->render(grapheactivestudents());
+
+    echo "<div><a class='btn btn-secondary' href='figures.php?csv=activestudents'>".
+            get_string('csvexport', 'block_ucpfigures')."</a></div><br>";
+
+    echo get_string('commentactivestudents', 'block_ucpfigures');
+
+    // Promotions concernées.
+
+    echo $OUTPUT->render(graphecreatedvets());
+
+    echo "<div><a class='btn btn-secondary' href='figures.php?csv=createdvets'>".
+            get_string('csvexport', 'block_ucpfigures')."</a></div><br>";
+
+    echo "</div>";
+
+    // Section 4.
+
+    echo "<div onclick=flipflop('section4'); style='text-align:center;width:100%;font-weight:bold;padding:5px;
+        color:white;background-color:#731472;border-radius:5px 5px 0 0'>"
+        .get_string('textsection4', 'block_ucpfigures').
+        "</div><div id =section4 class=content style=width:100%;display:none><br>";
+
+    $timestatbeginningtemp = strptime('01/07/'.$CFG->thisyear, '%d/%m/%Y');
+    $timestatbeginning = mktime(0, 0, 0, $timestatbeginningtemp['tm_mon']+1,
+            $timestatbeginningtemp['tm_mday'], $timestatbeginningtemp['tm_year']+1900);
+
+
+    $nbdistinctteachers = $DB->get_record('block_ucpfigures_stats', array('name' => 'distinctteachers'))->value;
+    $datastringdistinctteachers = new stdClass();
+    $datastringdistinctteachers->value = $nbdistinctteachers;
+    $datastringdistinctteachers->startdate = '01/07/'.$CFG->thisyear;
+    echo get_string('distinctteachers', 'block_ucpfigures', $datastringdistinctteachers);
+
+    $nblogin = $DB->get_record('block_ucpfigures_stats', array('name' => 'login'))->value;
+    echo get_string('nblogin', 'block_ucpfigures', $nblogin);
+
+    echo $OUTPUT->render(graphelogins());
+
+    $nbgrades = $DB->get_record('block_ucpfigures_stats', array('name' => 'grades'))->value;
+    $datastringgrades = new stdClass();
+    $datastringgrades->value = $nbgrades;
+    $datastringgrades->startdate = '01/07/'.$CFG->thisyear;
+    echo get_string('nbgrades', 'block_ucpfigures', $datastringgrades);
+
+    $nbfiles = $DB->get_record('block_ucpfigures_stats', array('name' => 'files'))->value;
+    $datastringfiles = new stdClass();
+    $datastringfiles->value = $nbfiles;
+    $datastringfiles->startdate = '01/07/'.$CFG->thisyear;
+    echo get_string('nbfiles', 'block_ucpfigures', $datastringfiles);
+
+    $nbviews = $DB->get_record('block_ucpfigures_stats', array('name' => 'views'))->value;
+    $datastringviews = new stdClass();
+    $datastringviews->value = $nbviews;
+    $datastringviews->startdate = '01/07/'.$CFG->thisyear;
+    echo get_string('nbviews', 'block_ucpfigures', $datastringviews);
+
+    $nbactions = $DB->get_record('block_ucpfigures_stats', array('name' => 'actions'))->value;
+    $datastringactions = new stdClass();
+    $datastringactions->value = $nbactions;
+    $datastringactions->startdate = '01/07/'.$CFG->thisyear;
+    echo get_string('nbactions', 'block_ucpfigures', $datastringactions);
+
+    echo "</div>";
+
     echo $OUTPUT->footer();
 } else if ($csv == 'expectedpromos') {
 
@@ -303,6 +391,130 @@ if (!$csv) {
         $data[] = $ufr->nbavailablevets."/".$ufr->nbvets." (".
                 round($ufr->nbavailablevets *100/$ufr->nbvets, 1)."%)";
         $total1 += $ufr->nbavailablevets;
+        $total2 += $ufr->nbvets;
+
+        $csvwriter->add_data($data);
+    }
+
+    $total = $total1."/".$total2." (".round($total1 *100/$total2, 1)."%)";
+    $footer = array(get_string('total', block_ucpfigures), $total);
+    $csvwriter->add_data($footer);
+
+    $csvwriter->download_file();
+} else if ($csv == 'createdcourses') {
+
+    $csvwriter = new csv_export_writer();
+    $csvwriter->set_filename(get_string('createdcourses', 'block_ucpfigures'));
+    $header = array(utf8_decode(get_string('ufr', 'block_ucpfigures')),
+        utf8_decode(get_string('createdcourses', 'block_ucpfigures')));
+    $csvwriter->add_data($header);
+
+    $listufrs = $DB->get_records('block_ucpfigures_ufr');
+
+    $total1 = 0;
+    $total2 = 0;
+
+    foreach ($listufrs as $ufr) {
+
+        $data = array();
+
+        $data[] = utf8_decode($ufr->name);
+        $data[] = $ufr->nbcreatedcourses."/".$ufr->nbcourses." (".
+                round($ufr->nbcreatedcourses *100/$ufr->nbcourses, 1)."%)";
+        $total1 += $ufr->nbcreatedcourses;
+        $total2 += $ufr->nbcourses;
+
+        $csvwriter->add_data($data);
+    }
+
+    $total = $total1."/".$total2." (".round($total1 *100/$total2, 1)."%)";
+    $footer = array(get_string('total', block_ucpfigures), $total);
+    $csvwriter->add_data($footer);
+
+    $csvwriter->download_file();
+} else if ($csv == 'enroledstudents') {
+
+    $csvwriter = new csv_export_writer();
+    $csvwriter->set_filename(get_string('enroledstudents', 'block_ucpfigures'));
+    $header = array(utf8_decode(get_string('ufr', 'block_ucpfigures')),
+        utf8_decode(get_string('enroledstudents', 'block_ucpfigures')));
+    $csvwriter->add_data($header);
+
+    $listufrs = $DB->get_records('block_ucpfigures_ufr');
+
+    $total1 = 0;
+    $total2 = 0;
+
+    foreach ($listufrs as $ufr) {
+
+        $data = array();
+
+        $data[] = utf8_decode($ufr->name);
+        $data[] = $ufr->nbenroledstudents."/".$ufr->nbstudents." (".
+                round($ufr->nbenroledstudents *100/$ufr->nbstudents, 1)."%)";
+        $total1 += $ufr->nbenroledstudents;
+        $total2 += $ufr->nbstudents;
+
+        $csvwriter->add_data($data);
+    }
+
+    $total = $total1."/".$total2." (".round($total1 *100/$total2, 1)."%)";
+    $footer = array(get_string('total', block_ucpfigures), $total);
+    $csvwriter->add_data($footer);
+
+    $csvwriter->download_file();
+} else if ($csv == 'activestudents') {
+
+    $csvwriter = new csv_export_writer();
+    $csvwriter->set_filename(get_string('activestudents', 'block_ucpfigures'));
+    $header = array(utf8_decode(get_string('ufr', 'block_ucpfigures')),
+        utf8_decode(get_string('activestudents', 'block_ucpfigures')));
+    $csvwriter->add_data($header);
+
+    $listufrs = $DB->get_records('block_ucpfigures_ufr');
+
+    $total1 = 0;
+    $total2 = 0;
+
+    foreach ($listufrs as $ufr) {
+
+        $data = array();
+
+        $data[] = utf8_decode($ufr->name);
+        $data[] = $ufr->nbactivestudents."/".$ufr->nbstudents." (".
+                round($ufr->nbactivestudents *100/$ufr->nbstudents, 1)."%)";
+        $total1 += $ufr->nbactivestudents;
+        $total2 += $ufr->nbstudents;
+
+        $csvwriter->add_data($data);
+    }
+
+    $total = $total1."/".$total2." (".round($total1 *100/$total2, 1)."%)";
+    $footer = array(get_string('total', block_ucpfigures), $total);
+    $csvwriter->add_data($footer);
+
+    $csvwriter->download_file();
+} else if ($csv == 'createdvets') {
+
+    $csvwriter = new csv_export_writer();
+    $csvwriter->set_filename(get_string('createdvets', 'block_ucpfigures'));
+    $header = array(utf8_decode(get_string('ufr', 'block_ucpfigures')),
+        utf8_decode(get_string('createdvets', 'block_ucpfigures')));
+    $csvwriter->add_data($header);
+
+    $listufrs = $DB->get_records('block_ucpfigures_ufr');
+
+    $total1 = 0;
+    $total2 = 0;
+
+    foreach ($listufrs as $ufr) {
+
+        $data = array();
+
+        $data[] = utf8_decode($ufr->name);
+        $data[] = $ufr->nbcreatedvets."/".$ufr->nbvets." (".
+                round($ufr->nbcreatedvets *100/$ufr->nbvets, 1)."%)";
+        $total1 += $ufr->nbcreatedvets;
         $total2 += $ufr->nbvets;
 
         $csvwriter->add_data($data);
