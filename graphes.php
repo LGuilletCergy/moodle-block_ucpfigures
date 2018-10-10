@@ -282,8 +282,12 @@ function graphelogins() {
         $idaysago = $now - $i * 24 * 3600;
 
         $nblogins[$i] = $DB->get_record('block_ucpfigures_stats',array('name' => 'login'.$i.'daysago'))->value;
-        $seriesdata[] = $nblogins[$i+1] - $nblogins[$i];
         $labels[] = date('d/m/Y', $idaysago);
+    }
+
+    for ($i = 0; $i < 7; $i++) {
+
+        $seriesdata[] = $nblogins[$i+1] - $nblogins[$i];
     }
 
     $chart = new \core\chart_line();
