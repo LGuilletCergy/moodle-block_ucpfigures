@@ -268,26 +268,18 @@ class dailystats extends \core\task\scheduled_task {
 
         if ($DB->record_exists('block_ucpfigures_stats', array('name' => 'distinctteachers'))) {
 
-            echo "test1<br>";
-
             $newrecord = $DB->get_record('block_ucpfigures_stats', array('name' => 'distinctteachers'));
             $newrecord->value = $nbdistinctteachers;
             $DB->update_record('block_ucpfigures_stats', $newrecord);
 
         } else {
 
-            echo "test2<br>";
-
             $DB->insert_record('block_ucpfigures_stats', $record);
         }
 
-        echo "test3<br>";
-
         $sqltotallogin = "SELECT COUNT(DISTINCT id) AS nblogin FROM {logstore_standard_log} "
-                . "WHERE action LIKE loggedin  AND timemodified > $timestatbeginning";
-        echo "test4<br>";
+                . "WHERE action LIKE loggedin  AND timecreated > $timestatbeginning";
         $nbtotallogin = $DB->get_record_sql($sqltotallogin)->nblogin;
-        echo "test5<br>";
         $record->name = 'login';
         $record->value = $nbtotallogin;
 
