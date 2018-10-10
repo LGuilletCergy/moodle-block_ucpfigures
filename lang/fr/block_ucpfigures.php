@@ -47,7 +47,7 @@ $string['createdvets'] = 'VETs avec cours';
 $string['distinctteachers'] = '{$a->value} enseignants distincts ont créé des cours sur la '
         . 'plateforme depuis le {$a->startdate}.<br><br>';
 $string['nblogin'] = '{$a} connexions depuis une semaine.<br><br>';
-$string['nblogin2'] = 'Connexions depuis une semaine<br><br>';
+$string['nblogin2'] = 'Connexions depuis une semaine';
 $string['nbgrades'] = '{$a->value} notes attribuées depuis le {$a->startdate}.<br><br>';
 $string['nbfiles'] = '{$a->value} fichiers déposés depuis le {$a->startdate}.<br><br>';
 $string['nbviews'] = '{$a->value} consultations de cours ou documents depuis le {$a->startdate}.<br><br>';
