@@ -20,8 +20,8 @@ $string['introsection1'] = '<br>Les cours déclarés dans Apogée apparaissent a
 $string['introsection2'] = '<br>Pour qu\'un cours apparaisse automatiquement dans la rubrique
     "Cours disponibles à la création", le cours doit avoir au moins une cohorte lié au cours disponible.
     Pour celà, la composante doit créer le groupe dans Apogée
-    et l\'associer à au moins un évènement futur dans CELCAT.';
-$string['commentactivestudents'] = 'Sont considérés comme actifs les étudiants qui, au cours des 30 derniers jours,'
+    et l\'associer à au moins un évènement futur dans CELCAT. ';
+$string['commentactivestudents'] = ' Sont considérés comme actifs les étudiants qui, au cours des 30 derniers jours,'
         . ' se sont connectés à la plateforme.<br>';
 $string['introexpectedpromos'] = 'Il y a un total de {$a} promotions déclarées sur la plateforme réparties comme suit : ';
 $string['nbvets'] = 'Nombre de promotions';
@@ -44,7 +44,7 @@ $string['createdcourses'] = 'Cours créés';
 $string['introenroledstudents'] = 'Il y a {$a} étudiants inscrits sur la plateforme.<br>';
 $string['nbenroledstudents'] = 'Nombre d\'étudiants inscrits';
 $string['enroledstudents'] = 'Etudiants inscrits';
-$string['introactivestudents'] = 'Il y a {$a} étudiants actifs sur la plateforme.<br>';
+$string['introactivestudents'] = 'Il y a {$a} étudiants actifs sur la plateforme.';
 $string['nbactivestudents'] = 'Nombre d\'étudiants actifs';
 $string['activestudents'] = 'Etudiants actifs';
 $string['introcreatedvets'] = 'Il y a {$a} VETs avec cours sur la plateforme.<br>';

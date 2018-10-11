@@ -16,8 +16,8 @@ $string['introsection1'] = 'Courses filled in Apogée automatically in the cours
         . ' Students declared in Apogée are automatically registered to the website (but not to courses)';
 $string['introsection2'] = 'A course appear in this category if at least one cohort is linked to it.'
         . ' To link a cohort to a course the UFR must create the group in Apogée'
-        . ' and link it to at least one future event in CELCAT.';
-$string['commentactivestudents'] = 'A student is active if he connected at least once int the last 30 days to the website';
+        . ' and link it to at least one future event in CELCAT. ';
+$string['commentactivestudents'] = ' A student is active if he connected at least once int the last 30 days to the website';
 $string['introexpectedpromos'] = 'There are {$a} expected promotions on the website distributed as follow : ';
 $string['nbvets'] = 'Number of VETs';
 $string['expectedpromos'] = 'Expected promotions';
@@ -39,7 +39,7 @@ $string['createdcourses'] = 'Created courses';
 $string['introenroledstudents'] = 'There are {$a} enroled students on this website.<br>';
 $string['nbenroledstudents'] = 'Number of enroled students';
 $string['enroledstudents'] = 'Enroled students';
-$string['introactivestudents'] = 'There are {$a} active students on this website.<br>';
+$string['introactivestudents'] = 'There are {$a} active students on this website.';
 $string['nbactivestudents'] = 'Number of active students';
 $string['activestudents'] = 'Active students';
 $string['introcreatedvets'] = 'There are {$a} VETS with courses on this website.<br>';
