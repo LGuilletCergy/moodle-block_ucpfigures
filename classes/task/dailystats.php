@@ -375,7 +375,7 @@ class dailystats extends \core\task\scheduled_task {
         if ($DB->record_exists('block_ucpfigures_stats', array('name' => 'actions'))) {
 
             $newrecord = $DB->get_record('block_ucpfigures_stats', array('name' => 'actions'));
-            $newrecord->value = $nbviews;
+            $newrecord->value = $nbactions;
             $DB->update_record('block_ucpfigures_stats', $newrecord);
         } else {
 
