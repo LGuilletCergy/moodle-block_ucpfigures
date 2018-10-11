@@ -20,7 +20,7 @@ $string['introsection1'] = '<br>Les cours déclarés dans Apogée apparaissent a
 $string['introsection2'] = '<br>Pour qu\'un cours apparaisse automatiquement dans la rubrique
     "Cours disponibles à la création", le cours doit avoir au moins une cohorte lié au cours disponible.
     Pour celà, la composante doit créer le groupe dans Apogée
-    et l\'associer à au moins un évènement futur dans CELCAT :<br>';
+    et l\'associer à au moins un évènement futur dans CELCAT.';
 $string['commentactivestudents'] = 'Sont considérés comme actifs les étudiants qui, au cours des 30 derniers jours,'
         . ' se sont connectés à la plateforme.<br>';
 $string['introexpectedpromos'] = 'Il y a un total de {$a} promotions déclarées sur la plateforme réparties comme suit : ';
@@ -32,16 +32,22 @@ $string['students'] = 'Etudiants déclarées';
 $string['introcourses'] = 'Il y a un total de {$a} cours déclarés sur la plateforme répartis comme suit : ';
 $string['nbcourses'] = 'Nombre de cours';
 $string['courses'] = 'Cours';
+$string['introavailablecourses'] = 'Il y a {$a} cours avec une cohorte sur la plateforme.<br>';
 $string['nbavailablecourses'] = 'Nombre de cours avec une cohorte';
 $string['availablecourses'] = 'Cours avec une cohorte';
+$string['introavailablevets'] = 'Il y a {$a} VETs avec une cohorte sur la plateforme.<br>';
 $string['nbavailablevets'] = 'Nombre de VETs avec une cohorte';
 $string['availablevets'] = 'VETs avec une cohorte';
+$string['introcreatedcourses'] = 'Il y a {$a} cours créés sur la plateforme.<br>';
 $string['nbcreatedcourses'] = 'Nombre de cours créés';
 $string['createdcourses'] = 'Cours créés';
+$string['introenroledstudents'] = 'Il y a {$a} étudiants inscrits sur la plateforme.<br>';
 $string['nbenroledstudents'] = 'Nombre d\'étudiants inscrits';
 $string['enroledstudents'] = 'Etudiants inscrits';
+$string['introactivestudents'] = 'Il y a {$a} étudiants actifs sur la plateforme.<br>';
 $string['nbactivestudents'] = 'Nombre d\'étudiants actifs';
 $string['activestudents'] = 'Etudiants actifs';
+$string['introcreatedvets'] = 'Il y a {$a} VETs avec cours sur la plateforme.<br>';
 $string['nbcreatedvets'] = 'Nombre de VETs avec cours';
 $string['createdvets'] = 'VETs avec cours';
 $string['distinctteachers'] = '{$a->value} enseignants distincts ont créé des cours sur la '

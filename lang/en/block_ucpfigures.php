@@ -16,7 +16,7 @@ $string['introsection1'] = 'Courses filled in Apogée automatically in the cours
         . ' Students declared in Apogée are automatically registered to the website (but not to courses)';
 $string['introsection2'] = 'A course appear in this category if at least one cohort is linked to it.'
         . ' To link a cohort to a course the UFR must create the group in Apogée'
-        . ' and link it to at least one future event in CELCAT: ';
+        . ' and link it to at least one future event in CELCAT.';
 $string['commentactivestudents'] = 'A student is active if he connected at least once int the last 30 days to the website';
 $string['introexpectedpromos'] = 'There are {$a} expected promotions on the website distributed as follow : ';
 $string['nbvets'] = 'Number of VETs';
@@ -27,16 +27,22 @@ $string['students'] = 'Students';
 $string['introcourses'] = 'There are {$a} expected courses on the website distributed as follow : ';
 $string['nbcourses'] = 'Number of courses';
 $string['courses'] = 'Courses';
-$string['nbavailablecourses'] = 'Number of available courses';
-$string['availablecourses'] = 'Available courses';
-$string['nbavailablevets'] = 'Number of available VETs';
-$string['availablevets'] = 'Available VETs';
+$string['introavailablecourses'] = 'There are {$a} courses with cohort on this website.<br>';
+$string['nbavailablecourses'] = 'Number of courses with cohort';
+$string['availablecourses'] = 'Courses with cohort';
+$string['introavailablevets'] = 'There are {$a} VETs with cohort on this website.<br>';
+$string['nbavailablevets'] = 'Number of VETs with cohort';
+$string['availablevets'] = 'VETs with cohort';
+$string['introcreatedcourses'] = 'There are {$a} created courses on this website.<br>';
 $string['nbcreatedcourses'] = 'Number of created courses';
 $string['createdcourses'] = 'Created courses';
+$string['introenroledstudents'] = 'There are {$a} enroled students on this website.<br>';
 $string['nbenroledstudents'] = 'Number of enroled students';
 $string['enroledstudents'] = 'Enroled students';
+$string['introactivestudents'] = 'There are {$a} active students on this website.<br>';
 $string['nbactivestudents'] = 'Number of active students';
 $string['activestudents'] = 'Active students';
+$string['introcreatedvets'] = 'There are {$a} VETS with courses on this website.<br>';
 $string['nbcreatedvets'] = 'Number of VETs with courses';
 $string['createdvets'] = 'VETs with courses';
 $string['distinctteachers'] = '{$a->value} different teachers have created courses since {$a->startdate}.<br><br>';

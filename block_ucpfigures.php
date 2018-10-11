@@ -43,7 +43,7 @@ class block_ucpfigures extends block_base {
     }
     function get_content() {
 
-        global $CFG, $DB, $OUTPUT, $PAGE, $USER;
+        global $CFG, $DB;
         if ($this->content !== null) {
 
             return $this->content;
@@ -65,70 +65,58 @@ class block_ucpfigures extends block_base {
         }
         $this->content->text = '';
 
-		// A supprimer.
+        if (isloggedin()) {
 
-        if (($USER->username != 'lguillet') && ($USER->username != 'berrando')) {
+            $sqlenligne = "SELECT COUNT( DISTINCT s.userid) FROM {sessions} AS s";
+            $resenligne = $DB->count_records_sql($sqlenligne);
+            $this->content->text  .= "<strong> $resenligne</strong> connectés<br>";
 
-			return $this->content;
-		}
+            $sqlcourse = "SELECT COUNT( DISTINCT c.id) FROM {course} AS c WHERE idnumber LIKE '$CFG->yearprefix-%'";
+            $rescourse = $DB->count_records_sql($sqlcourse);
+            $nextyear = $CFG->thisyear + 1;
+            $this->content->text .= "<strong> $rescourse</strong> cours $CFG->thisyear-$nextyear<br>";
 
-		// Fin à supprimer.
+            $nbdistinctteachers = 0;
 
-	    if (isloggedin()) {
+            $rolelocalteacher = $DB->get_record('role', array('shortname' => 'localteacher'))->id;
+            $roleeditingteacher = $DB->get_record('role', array('shortname' => 'editingteacher'))->id;
+            $roleteacher = $DB->get_record('role', array('shortname' => 'teacher'))->id;
+            $listteachers = $DB->get_records('role_assignments', array('roleid' => $rolelocalteacher, 'contextid' => 1));
 
-			$sqlenligne = "SELECT COUNT( DISTINCT s.userid) FROM {sessions} AS s";
-			$resenligne = $DB->count_records_sql($sqlenligne);
-			$this->content->text  .= "<strong> $resenligne</strong> connectés<br>";
+            foreach ($listteachers as $teacher) {
 
-			$sqlcourse = "SELECT COUNT( DISTINCT c.id) FROM {course} AS c WHERE idnumber LIKE '$CFG->yearprefix-%'";
-			$rescourse = $DB->count_records_sql($sqlcourse);
-			$nextyear = $CFG->thisyear + 1;
-			$this->content->text .= "<strong> $rescourse</strong> cours $CFG->thisyear-$nextyear<br>";
+                if ($DB->record_exists('role_assignments',
+                        array('userid' => $teacher->id, 'roleid' => $roleeditingteacher))) {
 
-			$nbdistinctteachers = 0;
+                        $nbdistinctteachers++;
+                } else if ($DB->record_exists('role_assignments',
+                        array('userid' => $teacher->id, 'roleid' => $roleteacher))) {
 
-			$rolelocalteacher = $DB->get_record('role', array('shortname' => 'localteacher'))->id;
-			$roleeditingteacher = $DB->get_record('role', array('shortname' => 'editingteacher'))->id;
-			$roleteacher = $DB->get_record('role', array('shortname' => 'teacher'))->id;
-			$listteachers = $DB->get_records('role_assignments', array('roleid' => $rolelocalteacher, 'contextid' => 1));
-
-			foreach ($listteachers as $teacher) {
-
-				if ($DB->record_exists('role_assignments', array('userid' => $teacher->id, 'roleid' => $roleeditingteacher))) {
-
-					$nbdistinctteachers++;
-				} else if ($DB->record_exists('role_assignments', array('userid' => $teacher->id, 'roleid' => $roleteacher))) {
-
-					$nbdistinctteachers++;
-				}
-			}
-
-			$this->content->text .= "<strong> $nbdistinctteachers</strong> enseignants<br>";
-
-			$context = context_system::instance();
-
-			if (has_capability('block/ucpfigures:viewinfo', $context)) {
-
-				$this->content->text .= "<br><a href = '$CFG->wwwroot/blocks/ucpfigures/figures.php'>Plus de chiffres...</a>";
-			}
-            if (!empty($this->config->text)) {
-
-                $this->content->text .= $this->config->text;
+                        $nbdistinctteachers++;
+                }
             }
-            return $this->content;
-	    }
+
+            $this->content->text .= "<strong> $nbdistinctteachers</strong> enseignants<br>";
+
+            $context = context_system::instance();
+
+            if (has_capability('block/ucpfigures:viewinfo', $context)) {
+
+                    $this->content->text .= "<br><a href = '$CFG->wwwroot/blocks/ucpfigures/figures.php'>"
+                            . "Plus de chiffres...</a>";
+            }
+        if (!empty($this->config->text)) {
+
+            $this->content->text .= $this->config->text;
+        }
+        return $this->content;
+        }
     }
 
     public function applicable_formats() {
 
-        return array('all' => true,
-                     'site' => true,
-                     'site-index' => true,
-                     'course-view' => true,
-                     'course-view-social' => false,
-                     'mod' => true,
-					 'my' => true,
-                     'mod-quiz' => false);
+        return array('all' => true, 'site' => true, 'site-index' => true, 'course-view' => true,
+            'course-view-social' => false, 'mod' => true, 'my' => true, 'mod-quiz' => false);
     }
 
     public function instance_allow_multiple() {

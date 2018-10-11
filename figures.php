@@ -109,9 +109,10 @@ if (!$csv) {
 
     // Section 1.
 
-    echo "<div onclick=flipflop('section1'); style='text-align:center;width:100%;font-weight:bold;padding:5px;color:white;
-                    background-color:#731472;border-radius:5px 5px 0 0'>".get_string('textsection1', 'block_ucpfigures')."</div>
-                    <div id =section1 class=content style=width:100%;display:none><br>";
+    echo "<div onclick=flipflop('section1'); style='text-align:center;width:100%;
+        font-weight:bold;padding:5px;color:white;background-color:#731472;border-radius:5px 5px 0 0'>"
+    .get_string('textsection1', 'block_ucpfigures')."</div>"
+            . "<div id =section1 class=content style=width:100%;display:none><br>";
 
     echo get_string('introsection1', 'block_ucpfigures');
 
@@ -155,12 +156,16 @@ if (!$csv) {
 
     // Cours disponibles/Cours déclarés.
 
+    echo get_string('introavailablevets', 'block_ucpfigures', $totalavailablecourses);
+
     echo $OUTPUT->render(grapheavailablecourses());
 
     echo "<div><a class='btn btn-secondary' href='figures.php?csv=availablecourses'>".
             get_string('csvexport', 'block_ucpfigures')."</a></div><br>";
 
     // Promotions disponibles/Promotions déclarées.
+
+    echo get_string('introavailablevets', 'block_ucpfigures', $totalavailablevets);
 
     echo $OUTPUT->render(grapheavailablevets());
 
@@ -178,6 +183,8 @@ if (!$csv) {
 
     // Cours créés sur la plateforme.
 
+    echo get_string('introcreatedcourses', 'block_ucpfigures', $totalcreatedcourses);
+
     echo $OUTPUT->render(graphecreatedcourses());
 
     echo "<div><a class='btn btn-secondary' href='figures.php?csv=createdcourses'>".
@@ -185,12 +192,16 @@ if (!$csv) {
 
     // Étudiants inscrits.
 
+    echo get_string('introenroledstudents', 'block_ucpfigures', $totalenroledstudents);
+
     echo $OUTPUT->render(grapheenroledstudents());
 
     echo "<div><a class='btn btn-secondary' href='figures.php?csv=enroledstudents'>".
             get_string('csvexport', 'block_ucpfigures')."</a></div><br>";
 
     // Étudiants actifs.
+
+    echo get_string('introactivestudents', 'block_ucpfigures', $totalactivestudents);
 
     echo $OUTPUT->render(grapheactivestudents());
 
@@ -200,6 +211,8 @@ if (!$csv) {
     echo get_string('commentactivestudents', 'block_ucpfigures');
 
     // Promotions concernées.
+
+    echo get_string('introcreatedvets', 'block_ucpfigures', $totalcreatedvets);
 
     echo $OUTPUT->render(graphecreatedvets());
 
