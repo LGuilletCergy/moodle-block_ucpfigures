@@ -281,7 +281,7 @@ function graphelogins() {
 
         $idaysago = $now - $i * 24 * 3600;
 
-        $nblogins[$i] = $DB->get_record('block_ucpfigures_stats',array('name' => 'login'.$i.'daysago'))->value;
+        $nblogins[$i] = $DB->get_record('block_ucpfigures_stats', array('name' => 'login'.$i.'daysago'))->value;
 
         if ($i != 0) {
 
@@ -291,7 +291,7 @@ function graphelogins() {
 
     for ($i = 6; $i >= 0; $i--) {
 
-        $seriesdata[] = $nblogins[$i+1] - $nblogins[$i];
+        $seriesdata[] = $nblogins[$i + 1] - $nblogins[$i];
     }
 
     $chart = new \core\chart_line();

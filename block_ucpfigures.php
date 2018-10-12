@@ -37,11 +37,12 @@ defined('MOODLE_INTERNAL') || die();
 
 class block_ucpfigures extends block_base {
 
-    function init() {
+    public function init() {
 
         $this->title = get_string('pluginname', 'block_ucpfigures');
     }
-    function get_content() {
+
+    public function get_content() {
 
         global $CFG, $DB;
         if ($this->content !== null) {
@@ -67,7 +68,7 @@ class block_ucpfigures extends block_base {
 
         if (isloggedin()) {
 
-            $sqlenligne = "SELECT COUNT( DISTINCT s.userid) FROM {sessions} AS s";
+            $sqlenligne = "SELECT COUNT( DISTINCT userid) FROM {sessions}";
             $resenligne = $DB->count_records_sql($sqlenligne);
             $this->content->text  .= "<strong> $resenligne</strong> connectés<br>";
 
@@ -105,11 +106,12 @@ class block_ucpfigures extends block_base {
                     $this->content->text .= "<br><a href = '$CFG->wwwroot/blocks/ucpfigures/figures.php'>"
                             . "Plus de chiffres...</a>";
             }
-        if (!empty($this->config->text)) {
 
-            $this->content->text .= $this->config->text;
-        }
-        return $this->content;
+            if (!empty($this->config->text)) {
+
+                $this->content->text .= $this->config->text;
+            }
+            return $this->content;
         }
     }
 
@@ -124,5 +126,8 @@ class block_ucpfigures extends block_base {
           return false;
     }
 
-    function has_config() {return true;}
+    public function has_config() {
+        
+        return true;
+    }
 }

@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -35,6 +34,8 @@
  */
 
 namespace block_ucpfigures\task;
+
+defined('MOODLE_INTERNAL') || die;
 
 class dailystats extends \core\task\scheduled_task {
 
@@ -75,7 +76,6 @@ class dailystats extends \core\task\scheduled_task {
                             array('idnumber' => $codediplome))->id;
                     $recordstatsufr->code = $codediplome;
                     $recordstatsufr->name = $category->name;
-
 
                     $DB->insert_record('block_ucpfigures_ufr', $recordstatsufr);
                 }
@@ -204,7 +204,7 @@ class dailystats extends \core\task\scheduled_task {
             $liststudentsid = $DB->get_records_sql($sqlstudents);
             $localstudentroleid = $DB->get_record('role', array('shortname' => 'localstudent'))->id;
 
-            $lastmonth = time() - 30*24*3600;
+            $lastmonth = time() - 30 * 24 * 3600;
 
             foreach ($liststudentsid as $studentid) {
 
@@ -256,8 +256,8 @@ class dailystats extends \core\task\scheduled_task {
         $record = new \stdClass();
 
         $timestatbeginningtemp = strptime('01/07/'.$CFG->thisyear, '%d/%m/%Y');
-        $timestatbeginning = mktime(0, 0, 0, $timestatbeginningtemp['tm_mon']+1,
-            $timestatbeginningtemp['tm_mday'], $timestatbeginningtemp['tm_year']+1900);
+        $timestatbeginning = mktime(0, 0, 0, $timestatbeginningtemp['tm_mon'] + 1,
+            $timestatbeginningtemp['tm_mday'], $timestatbeginningtemp['tm_year'] + 1900);
 
         $roleteacherid = $DB->get_record('role', array('shortname' => 'editingteacher'))->id;
         $sqldistinctteachers = "SELECT COUNT(DISTINCT userid) AS nbdistinctteachers FROM {role_assignments} "
@@ -301,7 +301,7 @@ class dailystats extends \core\task\scheduled_task {
             $idaysago = $now - $i * 24 * 3600;
 
             $sql = "SELECT COUNT(id) AS nblogins FROM {logstore_standard_log} WHERE action LIKE 'loggedin' "
-                    . "AND timecreated > $idaysago" ;
+                    . "AND timecreated > $idaysago";
             $nblogins = $DB->get_record_sql($sql)->nblogins;
             $record->name = 'login'.$i.'daysago';
             $record->value = $nblogins;

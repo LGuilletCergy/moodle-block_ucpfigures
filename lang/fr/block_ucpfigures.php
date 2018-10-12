@@ -1,4 +1,37 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Initially developped for :
+ * Université de Cergy-Pontoise
+ * 33, boulevard du Port
+ * 95011 Cergy-Pontoise cedex
+ * FRANCE
+ *
+ * Block displaying stats about the site.
+ *
+ * @package    block_ucpfigures
+ * @author     Laurent Guillet <laurent.guillet@u-cergy.fr>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
+ *
+ * File : lang/fr/block_ucpfigures.php
+ * French language file.
+ *
+ */
 $string['pluginname'] = 'CoursUCP en chiffres';
 $string['ucpfigures'] = 'CoursUCP en chiffres';
 $string['ucpfigures:addinstance'] = 'Ajouter le bloc CoursUCP en chiffres';
@@ -13,14 +46,14 @@ $string['ufr'] = 'Composante';
 $string['dailystats'] = 'Remplit les tables de la base de données stockant les statistiques.';
 $string['csvexport'] = 'Exporter vers un fichier CSV';
 $string['total'] = 'Total';
-$string['introsection1'] = '<br>Les cours déclarés dans Apogée apparaissent automatiquement dans l`\'outil '
+$string['introsection1'] = '<br>Les cours déclarés dans Apogée apparaissent automatiquement dans l\'outil '
         . '"Ajout d\'un nouveau cours", en haut du tableau de bord.'
         . ' Les étudiants déclarés dans Apogée sont automatiquement inscrits à la plateforme pédagogique '
         . '(mais pas forcément à des cours).<br>';
-$string['introsection2'] = '<br>Pour qu\'un cours apparaisse automatiquement dans la rubrique
-    "Cours disponibles à la création", le cours doit avoir au moins une cohorte lié au cours disponible.
-    Pour celà, la composante doit créer le groupe dans Apogée
-    et l\'associer à au moins un évènement futur dans CELCAT. ';
+$string['introsection2'] = '<br>Pour qu\'un cours apparaisse automatiquement dans la rubrique'
+        .'"Cours disponibles à la création", le cours doit avoir au moins une cohorte lié au cours disponible.'
+        .'Pour celà, la composante doit créer le groupe dans Apogée'
+        .'et l\'associer à au moins un évènement futur dans CELCAT. ';
 $string['commentactivestudents'] = ' Sont considérés comme actifs les étudiants qui, au cours des 30 derniers jours,'
         . ' se sont connectés à la plateforme.<br>';
 $string['introexpectedpromos'] = 'Il y a un total de {$a} promotions déclarées sur la plateforme réparties comme suit : ';

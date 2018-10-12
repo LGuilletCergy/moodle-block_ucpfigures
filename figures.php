@@ -190,7 +190,7 @@ if (!$csv) {
     echo "<div><a class='btn btn-secondary' href='figures.php?csv=createdcourses'>".
             get_string('csvexport', 'block_ucpfigures')."</a></div><br>";
 
-    // Étudiants inscrits.
+    // Etudiants inscrits.
 
     echo get_string('introenroledstudents', 'block_ucpfigures', $totalenroledstudents);
 
@@ -199,7 +199,7 @@ if (!$csv) {
     echo "<div><a class='btn btn-secondary' href='figures.php?csv=enroledstudents'>".
             get_string('csvexport', 'block_ucpfigures')."</a></div><br>";
 
-    // Étudiants actifs.
+    // Etudiants actifs.
 
     echo get_string('introactivestudents', 'block_ucpfigures', $totalactivestudents);
     echo get_string('commentactivestudents', 'block_ucpfigures');
@@ -228,8 +228,8 @@ if (!$csv) {
         "</div><div id =section4 class=content style=width:100%;display:none><br>";
 
     $timestatbeginningtemp = strptime('01/07/'.$CFG->thisyear, '%d/%m/%Y');
-    $timestatbeginning = mktime(0, 0, 0, $timestatbeginningtemp['tm_mon']+1,
-            $timestatbeginningtemp['tm_mday'], $timestatbeginningtemp['tm_year']+1900);
+    $timestatbeginning = mktime(0, 0, 0, $timestatbeginningtemp['tm_mon'] + 1,
+            $timestatbeginningtemp['tm_mday'], $timestatbeginningtemp['tm_year'] + 1900);
 
 
     $nbdistinctteachers = $DB->get_record('block_ucpfigures_stats', array('name' => 'distinctteachers'))->value;
@@ -370,14 +370,14 @@ if (!$csv) {
 
         $data[] = utf8_decode($ufr->name);
         $data[] = $ufr->nbavailablecourses."/".$ufr->nbcourses." (".
-                round($ufr->nbavailablecourses *100/$ufr->nbcourses, 1)."%)";
+                round($ufr->nbavailablecourses * 100 / $ufr->nbcourses, 1)."%)";
         $total1 += $ufr->nbavailablecourses;
         $total2 += $ufr->nbcourses;
 
         $csvwriter->add_data($data);
     }
 
-    $total = $total1."/".$total2." (".round($total1 *100/$total2, 1)."%)";
+    $total = $total1."/".$total2." (".round($total1 * 100 / $total2, 1)."%)";
     $footer = array(get_string('total', block_ucpfigures), $total);
     $csvwriter->add_data($footer);
 
@@ -401,14 +401,14 @@ if (!$csv) {
 
         $data[] = utf8_decode($ufr->name);
         $data[] = $ufr->nbavailablevets."/".$ufr->nbvets." (".
-                round($ufr->nbavailablevets *100/$ufr->nbvets, 1)."%)";
+                round($ufr->nbavailablevets * 100 / $ufr->nbvets, 1)."%)";
         $total1 += $ufr->nbavailablevets;
         $total2 += $ufr->nbvets;
 
         $csvwriter->add_data($data);
     }
 
-    $total = $total1."/".$total2." (".round($total1 *100/$total2, 1)."%)";
+    $total = $total1."/".$total2." (".round($total1 * 100 / $total2, 1)."%)";
     $footer = array(get_string('total', block_ucpfigures), $total);
     $csvwriter->add_data($footer);
 
@@ -432,14 +432,14 @@ if (!$csv) {
 
         $data[] = utf8_decode($ufr->name);
         $data[] = $ufr->nbcreatedcourses."/".$ufr->nbcourses." (".
-                round($ufr->nbcreatedcourses *100/$ufr->nbcourses, 1)."%)";
+                round($ufr->nbcreatedcourses * 100 / $ufr->nbcourses, 1)."%)";
         $total1 += $ufr->nbcreatedcourses;
         $total2 += $ufr->nbcourses;
 
         $csvwriter->add_data($data);
     }
 
-    $total = $total1."/".$total2." (".round($total1 *100/$total2, 1)."%)";
+    $total = $total1."/".$total2." (".round($total1 * 100 / $total2, 1)."%)";
     $footer = array(get_string('total', block_ucpfigures), $total);
     $csvwriter->add_data($footer);
 
@@ -463,14 +463,14 @@ if (!$csv) {
 
         $data[] = utf8_decode($ufr->name);
         $data[] = $ufr->nbenroledstudents."/".$ufr->nbstudents." (".
-                round($ufr->nbenroledstudents *100/$ufr->nbstudents, 1)."%)";
+                round($ufr->nbenroledstudents * 100 / $ufr->nbstudents, 1)."%)";
         $total1 += $ufr->nbenroledstudents;
         $total2 += $ufr->nbstudents;
 
         $csvwriter->add_data($data);
     }
 
-    $total = $total1."/".$total2." (".round($total1 *100/$total2, 1)."%)";
+    $total = $total1."/".$total2." (".round($total1 * 100 / $total2, 1)."%)";
     $footer = array(get_string('total', block_ucpfigures), $total);
     $csvwriter->add_data($footer);
 
@@ -494,14 +494,14 @@ if (!$csv) {
 
         $data[] = utf8_decode($ufr->name);
         $data[] = $ufr->nbactivestudents."/".$ufr->nbstudents." (".
-                round($ufr->nbactivestudents *100/$ufr->nbstudents, 1)."%)";
+                round($ufr->nbactivestudents * 100 / $ufr->nbstudents, 1)."%)";
         $total1 += $ufr->nbactivestudents;
         $total2 += $ufr->nbstudents;
 
         $csvwriter->add_data($data);
     }
 
-    $total = $total1."/".$total2." (".round($total1 *100/$total2, 1)."%)";
+    $total = $total1."/".$total2." (".round($total1 * 100 / $total2, 1)."%)";
     $footer = array(get_string('total', block_ucpfigures), $total);
     $csvwriter->add_data($footer);
 
@@ -525,14 +525,14 @@ if (!$csv) {
 
         $data[] = utf8_decode($ufr->name);
         $data[] = $ufr->nbcreatedvets."/".$ufr->nbvets." (".
-                round($ufr->nbcreatedvets *100/$ufr->nbvets, 1)."%)";
+                round($ufr->nbcreatedvets * 100 / $ufr->nbvets, 1)."%)";
         $total1 += $ufr->nbcreatedvets;
         $total2 += $ufr->nbvets;
 
         $csvwriter->add_data($data);
     }
 
-    $total = $total1."/".$total2." (".round($total1 *100/$total2, 1)."%)";
+    $total = $total1."/".$total2." (".round($total1 * 100 / $total2, 1)."%)";
     $footer = array(get_string('total', block_ucpfigures), $total);
     $csvwriter->add_data($footer);
 
