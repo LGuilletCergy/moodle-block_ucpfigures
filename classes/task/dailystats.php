@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -210,9 +209,11 @@ class dailystats extends \core\task\scheduled_task {
 
                 // Vérifier que c'est un étudiant et dans le bon ufr.
 
-                if ($DB->record_exists('local_usercreation_ufr', array('userid' => $studentid->userid, 'ufrcode' => $ufr->code))) {
+                if ($DB->record_exists('local_usercreation_ufr',
+                        array('userid' => $studentid->userid, 'ufrcode' => $ufr->code))) {
 
-                    if ($DB->record_exists('role_assignments', array('roleid' => $localstudentroleid, 'userid' => $studentid->userid))) {
+                    if ($DB->record_exists('role_assignments',
+                            array('roleid' => $localstudentroleid, 'userid' => $studentid->userid))) {
 
                         $ufrarray[$startcomposante]->nbenroledstudents++;
 
@@ -254,7 +255,8 @@ class dailystats extends \core\task\scheduled_task {
         $record = new \stdClass();
 
         $timestatbeginningtemp = strptime('01/07/' . $CFG->thisyear, '%d/%m/%Y');
-        $timestatbeginning = mktime(0, 0, 0, $timestatbeginningtemp['tm_mon'] + 1, $timestatbeginningtemp['tm_mday'], $timestatbeginningtemp['tm_year'] + 1900);
+        $timestatbeginning = mktime(0, 0, 0, $timestatbeginningtemp['tm_mon'] + 1,
+                $timestatbeginningtemp['tm_mday'], $timestatbeginningtemp['tm_year'] + 1900);
 
         $roleteacherid = $DB->get_record('role', array('shortname' => 'editingteacher'))->id;
         $sqldistinctteachers = "SELECT COUNT(DISTINCT userid) AS nbdistinctteachers FROM {role_assignments} "
