@@ -33,7 +33,9 @@
  *
  */
 
-    $capabilities = array(
+defined('MOODLE_INTERNAL') || die;
+
+$capabilities = array(
 
     'block/ucpfigures:myaddinstance' => array(
         'captype' => 'write',

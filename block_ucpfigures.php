@@ -127,7 +127,7 @@ class block_ucpfigures extends block_base {
     }
 
     public function has_config() {
-        
+
         return true;
     }
 }
