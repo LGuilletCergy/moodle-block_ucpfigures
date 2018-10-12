@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -58,7 +59,7 @@ class dailystats extends \core\task\scheduled_task {
 
             $startcomposante = substr($diplome->getAttribute('Composante'), 0, 1);
 
-            $codediplome = $CFG->yearprefix.'-'.$startcomposante;
+            $codediplome = $CFG->yearprefix . '-' . $startcomposante;
 
             if ($DB->record_exists('block_ucpfigures_ufr', array('code' => $codediplome))) {
 
@@ -72,8 +73,7 @@ class dailystats extends \core\task\scheduled_task {
                     $category = $DB->get_record('course_categories', array('idnumber' => $codediplome));
 
                     $recordstatsufr = new \stdClass();
-                    $recordstatsufr->categoryid = $DB->get_record('course_categories',
-                            array('idnumber' => $codediplome))->id;
+                    $recordstatsufr->categoryid = $DB->get_record('course_categories', array('idnumber' => $codediplome))->id;
                     $recordstatsufr->code = $codediplome;
                     $recordstatsufr->name = $category->name;
 
@@ -181,8 +181,8 @@ class dailystats extends \core\task\scheduled_task {
 
             $startcomposante = substr($ufr->code, 6, 1);
 
-            $combinedufrcode = '\''.$ufr->code.'%\'';
-            $combinedufrcodecommonspace = '\''.$ufr->code.'COMMON-%\'';
+            $combinedufrcode = '\'' . $ufr->code . '%\'';
+            $combinedufrcodecommonspace = '\'' . $ufr->code . 'COMMON-%\'';
 
             $sqlcourses = "SELECT * FROM {course} WHERE idnumber LIKE $combinedufrcode";
 
@@ -210,11 +210,9 @@ class dailystats extends \core\task\scheduled_task {
 
                 // Vérifier que c'est un étudiant et dans le bon ufr.
 
-                if ($DB->record_exists('local_usercreation_ufr',
-                        array('userid' => $studentid->userid, 'ufrcode' => $ufr->code))) {
+                if ($DB->record_exists('local_usercreation_ufr', array('userid' => $studentid->userid, 'ufrcode' => $ufr->code))) {
 
-                    if ($DB->record_exists('role_assignments',
-                            array('roleid' => $localstudentroleid, 'userid' => $studentid->userid))) {
+                    if ($DB->record_exists('role_assignments', array('roleid' => $localstudentroleid, 'userid' => $studentid->userid))) {
 
                         $ufrarray[$startcomposante]->nbenroledstudents++;
 
@@ -255,9 +253,8 @@ class dailystats extends \core\task\scheduled_task {
 
         $record = new \stdClass();
 
-        $timestatbeginningtemp = strptime('01/07/'.$CFG->thisyear, '%d/%m/%Y');
-        $timestatbeginning = mktime(0, 0, 0, $timestatbeginningtemp['tm_mon'] + 1,
-            $timestatbeginningtemp['tm_mday'], $timestatbeginningtemp['tm_year'] + 1900);
+        $timestatbeginningtemp = strptime('01/07/' . $CFG->thisyear, '%d/%m/%Y');
+        $timestatbeginning = mktime(0, 0, 0, $timestatbeginningtemp['tm_mon'] + 1, $timestatbeginningtemp['tm_mday'], $timestatbeginningtemp['tm_year'] + 1900);
 
         $roleteacherid = $DB->get_record('role', array('shortname' => 'editingteacher'))->id;
         $sqldistinctteachers = "SELECT COUNT(DISTINCT userid) AS nbdistinctteachers FROM {role_assignments} "
@@ -271,7 +268,6 @@ class dailystats extends \core\task\scheduled_task {
             $newrecord = $DB->get_record('block_ucpfigures_stats', array('name' => 'distinctteachers'));
             $newrecord->value = $nbdistinctteachers;
             $DB->update_record('block_ucpfigures_stats', $newrecord);
-
         } else {
 
             $DB->insert_record('block_ucpfigures_stats', $record);
@@ -303,12 +299,12 @@ class dailystats extends \core\task\scheduled_task {
             $sql = "SELECT COUNT(id) AS nblogins FROM {logstore_standard_log} WHERE action LIKE 'loggedin' "
                     . "AND timecreated > $idaysago";
             $nblogins = $DB->get_record_sql($sql)->nblogins;
-            $record->name = 'login'.$i.'daysago';
+            $record->name = 'login' . $i . 'daysago';
             $record->value = $nblogins;
 
-            if ($DB->record_exists('block_ucpfigures_stats', array('name' => 'login'.$i.'daysago'))) {
+            if ($DB->record_exists('block_ucpfigures_stats', array('name' => 'login' . $i . 'daysago'))) {
 
-                $newrecord = $DB->get_record('block_ucpfigures_stats', array('name' => 'login'.$i.'daysago'));
+                $newrecord = $DB->get_record('block_ucpfigures_stats', array('name' => 'login' . $i . 'daysago'));
                 $newrecord->value = $nblogins;
                 $DB->update_record('block_ucpfigures_stats', $newrecord);
             } else {
@@ -382,4 +378,5 @@ class dailystats extends \core\task\scheduled_task {
             $DB->insert_record('block_ucpfigures_stats', $record);
         }
     }
+
 }
