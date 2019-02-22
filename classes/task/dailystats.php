@@ -381,7 +381,8 @@ class dailystats extends \core\task\scheduled_task {
         }
 
         $depotid = $DB->get_record('modules', array('name' => 'depotetudiant'))->id;
-        $sqldepot = "SELECT COUNT(distinct course) as nbdepots FROM {course_modules} WHERE module = $depotid";
+        $sqldepot = "SELECT COUNT (id) FROM {course} WHERE idnumber LIKE $CFG->yearprefix AND id IN "
+                . "(SELECT distinct course as nbdepots FROM {course_modules} WHERE module = $depotid)";
         $nbdepots = $DB->get_record_sql($sqldepot)->nbdepots;
         $record->name = 'depots';
         $record->value = $nbdepots;
@@ -397,7 +398,8 @@ class dailystats extends \core\task\scheduled_task {
         }
 
         $folderid = $DB->get_record('modules', array('name' => 'folder'))->id;
-        $sqlfolder = "SELECT COUNT(distinct course) as nbfolders FROM {course_modules} WHERE module = $folderid";
+        $sqlfolder = "SELECT COUNT (id) FROM {course} WHERE idnumber LIKE $CFG->yearprefix AND id IN "
+                . "(SELECT distinct course as nbfolders FROM {course_modules} WHERE module = $folderid)";
         $nbfolders = $DB->get_record_sql($sqlfolder)->nbfolders;
         $record->name = 'folders';
         $record->value = $nbfolders;
@@ -413,7 +415,8 @@ class dailystats extends \core\task\scheduled_task {
         }
 
         $quizid = $DB->get_record('modules', array('name' => 'quiz'))->id;
-        $sqlquiz = "SELECT COUNT(distinct course) as nbquizs FROM {course_modules} WHERE module = $quizid";
+        $sqlquiz = "SELECT COUNT (id) FROM {course} WHERE idnumber LIKE $CFG->yearprefix AND id IN "
+                . "(SELECT distinct course as nbquizs FROM {course_modules} WHERE module = $quizid)";
         $nbquizs = $DB->get_record_sql($sqlquiz)->nbquizs;
         $record->name = 'quizs';
         $record->value = $nbquizs;
@@ -429,7 +432,8 @@ class dailystats extends \core\task\scheduled_task {
         }
 
         $assignid = $DB->get_record('modules', array('name' => 'assign'))->id;
-        $sqlassign = "SELECT COUNT(distinct course) as nbassigns FROM {course_modules} WHERE module = $assignid";
+        $sqlassign = "SELECT COUNT (id) FROM {course} WHERE idnumber LIKE $CFG->yearprefix AND id IN "
+                . "(SELECT distinct course as nbassigns FROM {course_modules} WHERE module = $assignid)";
         $nbassigns = $DB->get_record_sql($sqlassign)->nbassigns;
         $record->name = 'assigns';
         $record->value = $nbassigns;
@@ -443,26 +447,6 @@ class dailystats extends \core\task\scheduled_task {
 
             $DB->insert_record('block_ucpfigures_stats', $record);
         }
-
-//        $sqlall = "SELECT COUNT (id) as nball FROM {course_modules) WHERE "
-//                . "id IN (SELECT (distinct id) FROM {course_modules} WHERE module = $depotid "
-//                . "AND id IN (SELECT (distinct id) FROM {course_modules} WHERE module = $folderid "
-//                . "AND id IN (SELECT (distinct id) FROM {course_modules} WHERE module = $quizid "
-//                . "AND id IN (SELECT (distinct id) FROM {course_modules} WHERE module = $assignid))))";
-//
-//        $nball = $DB->get_record_sql($sqlall)->nball;
-//        $record->name = 'all';
-//        $record->value = $nball;
-//
-//        if ($DB->record_exists('block_ucpfigures_stats', array('name' => 'all'))) {
-//
-//            $newrecord = $DB->get_record('block_ucpfigures_stats', array('name' => 'all'));
-//            $newrecord->value = $nball;
-//            $DB->update_record('block_ucpfigures_stats', $newrecord);
-//        } else {
-//
-//            $DB->insert_record('block_ucpfigures_stats', $record);
-//        }
     }
 
 }

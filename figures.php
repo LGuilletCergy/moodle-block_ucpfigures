@@ -293,12 +293,6 @@ if (!$csv) {
     $datastringassigns->startdate = '01/07/'.$CFG->thisyear;
     echo get_string('nbassigns', 'block_ucpfigures', $datastringassigns);
 
-//    $nball = $DB->get_record('block_ucpfigures_stats', array('name' => 'all'))->value;
-//    $datastringall = new stdClass();
-//    $datastringall->value = $nball;
-//    $datastringall->startdate = '01/07/'.$CFG->thisyear;
-//    echo get_string('nball', 'block_ucpfigures', $datastringall);
-
     echo "</div>";
 
     echo $OUTPUT->footer();
