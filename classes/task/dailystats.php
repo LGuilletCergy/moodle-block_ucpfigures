@@ -351,7 +351,6 @@ class dailystats extends \core\task\scheduled_task {
         $sqlviews = "SELECT COUNT(id) AS nbviews FROM {logstore_standard_log} "
                 . "WHERE action LIKE 'viewed' AND timecreated > $timestatbeginning";
         $nbviews = $DB->get_record_sql($sqlviews)->nbviews;
-        echo get_string('nbviews', 'block_ucpfigures', $nbviews);
         $record->name = 'views';
         $record->value = $nbviews;
 
@@ -368,7 +367,6 @@ class dailystats extends \core\task\scheduled_task {
         $sqlactions = "SELECT COUNT(id) AS nbactions FROM {logstore_standard_log} "
                 . "WHERE timecreated > $timestatbeginning";
         $nbactions = $DB->get_record_sql($sqlactions)->nbactions;
-        echo get_string('nbactions', 'block_ucpfigures', $nbactions);
         $record->name = 'actions';
         $record->value = $nbactions;
 
@@ -385,7 +383,6 @@ class dailystats extends \core\task\scheduled_task {
         $depotid = $DB->get_record('modules', array('name' => 'depotetudiant'))->id;
         $sqldepot = "SELECT COUNT(distinct course) as nbdepots FROM {course_modules} WHERE module = $depotid";
         $nbdepots = $DB->get_record_sql($sqldepot)->nbdepots;
-        echo get_string('nbdepots', 'block_ucpfigures', $nbdepots);
         $record->name = 'depots';
         $record->value = $nbdepots;
 
@@ -399,10 +396,25 @@ class dailystats extends \core\task\scheduled_task {
             $DB->insert_record('block_ucpfigures_stats', $record);
         }
 
+        $folderid = $DB->get_record('modules', array('name' => 'folder'))->id;
+        $sqlfolder = "SELECT COUNT(distinct course) as nbfolders FROM {course_modules} WHERE module = $folderid";
+        $nbfolders = $DB->get_record_sql($sqlfolder)->nbfolders;
+        $record->name = 'folders';
+        $record->value = $nbfolders;
+
+        if ($DB->record_exists('block_ucpfigures_stats', array('name' => 'folders'))) {
+
+            $newrecord = $DB->get_record('block_ucpfigures_stats', array('name' => 'folders'));
+            $newrecord->value = $nbfolders;
+            $DB->update_record('block_ucpfigures_stats', $newrecord);
+        } else {
+
+            $DB->insert_record('block_ucpfigures_stats', $record);
+        }
+
         $quizid = $DB->get_record('modules', array('name' => 'quiz'))->id;
         $sqlquiz = "SELECT COUNT(distinct course) as nbquizs FROM {course_modules} WHERE module = $quizid";
         $nbquizs = $DB->get_record_sql($sqlquiz)->nbquizs;
-        echo get_string('nbquizs', 'block_ucpfigures', $nbquizs);
         $record->name = 'quizs';
         $record->value = $nbquizs;
 
@@ -419,7 +431,6 @@ class dailystats extends \core\task\scheduled_task {
         $assignid = $DB->get_record('modules', array('name' => 'assign'))->id;
         $sqlassign = "SELECT COUNT(distinct course) as nbassigns FROM {course_modules} WHERE module = $assignid";
         $nbassigns = $DB->get_record_sql($sqlassign)->nbassigns;
-        echo get_string('nbassigns', 'block_ucpfigures', $nbassigns);
         $record->name = 'assigns';
         $record->value = $nbassigns;
 
@@ -427,6 +438,26 @@ class dailystats extends \core\task\scheduled_task {
 
             $newrecord = $DB->get_record('block_ucpfigures_stats', array('name' => 'assigns'));
             $newrecord->value = $nbassigns;
+            $DB->update_record('block_ucpfigures_stats', $newrecord);
+        } else {
+
+            $DB->insert_record('block_ucpfigures_stats', $record);
+        }
+
+        $sqlall = "SELECT COUNT (id) as nball FROM {course_modules) WHERE "
+                . "id IN (SELECT (distinct id) FROM {course_modules} WHERE module = $depotid) "
+                . "AND id IN (SELECT (distinct id) FROM {course_modules} WHERE module = $folderid) "
+                . "AND id IN (SELECT (distinct id) FROM {course_modules} WHERE module = $quizid) "
+                . "AND id IN (SELECT (distinct id) FROM {course_modules} WHERE module = $assignid)";
+
+        $nball = $DB->get_record_sql($sqlall)->nball;
+        $record->name = 'all';
+        $record->value = $nball;
+
+        if ($DB->record_exists('block_ucpfigures_stats', array('name' => 'all'))) {
+
+            $newrecord = $DB->get_record('block_ucpfigures_stats', array('name' => 'all'));
+            $newrecord->value = $nball;
             $DB->update_record('block_ucpfigures_stats', $newrecord);
         } else {
 

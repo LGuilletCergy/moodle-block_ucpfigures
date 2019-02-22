@@ -273,6 +273,12 @@ if (!$csv) {
     $datastringdepots->startdate = '01/07/'.$CFG->thisyear;
     echo get_string('nbdepots', 'block_ucpfigures', $datastringdepots);
 
+    $nbfolders = $DB->get_record('block_ucpfigures_stats', array('name' => 'folders'))->value;
+    $datastringfolders = new stdClass();
+    $datastringfolders->value = $nbfolders;
+    $datastringfolders->startdate = '01/07/'.$CFG->thisyear;
+    echo get_string('nbfolders', 'block_ucpfigures', $datastringfolders);
+
     $nbquizs = $DB->get_record('block_ucpfigures_stats', array('name' => 'quizs'))->value;
     $datastringquizs = new stdClass();
     $datastringquizs->value = $nbquizs;
@@ -284,6 +290,12 @@ if (!$csv) {
     $datastringassigns->value = $nbassigns;
     $datastringassigns->startdate = '01/07/'.$CFG->thisyear;
     echo get_string('nbassigns', 'block_ucpfigures', $datastringassigns);
+
+    $nball = $DB->get_record('block_ucpfigures_stats', array('name' => 'all'))->value;
+    $datastringall = new stdClass();
+    $datastringall->value = $nball;
+    $datastringall->startdate = '01/07/'.$CFG->thisyear;
+    echo get_string('nball', 'block_ucpfigures', $datastringall);
 
     echo "</div>";
 
