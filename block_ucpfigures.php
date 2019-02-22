@@ -77,25 +77,20 @@ class block_ucpfigures extends block_base {
             $nextyear = $CFG->thisyear + 1;
             $this->content->text .= "<strong> $rescourse</strong> cours $CFG->thisyear-$nextyear<br>";
 
-            $nbdistinctteachers = 0;
-
             $rolelocalteacher = $DB->get_record('role', array('shortname' => 'localteacher'))->id;
             $roleeditingteacher = $DB->get_record('role', array('shortname' => 'editingteacher'))->id;
-            $roleteacher = $DB->get_record('role', array('shortname' => 'teacher'))->id;
-            $listteachers = $DB->get_records('role_assignments', array('roleid' => $rolelocalteacher, 'contextid' => 1));
 
-            foreach ($listteachers as $teacher) {
+            $timestatbeginningtemp = strptime('01/07/' . $CFG->thisyear, '%d/%m/%Y');
+            $timestatbeginning = mktime(0, 0, 0, $timestatbeginningtemp['tm_mon'] + 1,
+                    $timestatbeginningtemp['tm_mday'], $timestatbeginningtemp['tm_year'] + 1900);
 
-                if ($DB->record_exists('role_assignments',
-                        array('userid' => $teacher->id, 'roleid' => $roleeditingteacher))) {
+            $sqldistinctteachers = "SELECT COUNT(DISTINCT userid) AS nbdistinctteachers FROM {role_assignments} "
+                . "WHERE roleid = $roleeditingteacher AND timemodified > $timestatbeginning AND "
+                . "userid IN (SELECT userid FROM {role_assignments} WHERE roleid = $rolelocalteacher)";
 
-                        $nbdistinctteachers++;
-                } else if ($DB->record_exists('role_assignments',
-                        array('userid' => $teacher->id, 'roleid' => $roleteacher))) {
+            $nbdistinctteachers = $DB->get_record_sql($sqldistinctteachers)->nbdistinctteachers;
 
-                        $nbdistinctteachers++;
-                }
-            }
+
 
             $this->content->text .= "<strong> $nbdistinctteachers</strong> enseignants<br>";
 
