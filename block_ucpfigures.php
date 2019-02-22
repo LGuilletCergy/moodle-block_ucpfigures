@@ -77,20 +77,7 @@ class block_ucpfigures extends block_base {
             $nextyear = $CFG->thisyear + 1;
             $this->content->text .= "<strong> $rescourse</strong> cours $CFG->thisyear-$nextyear<br>";
 
-            $rolelocalteacher = $DB->get_record('role', array('shortname' => 'localteacher'))->id;
-            $roleeditingteacher = $DB->get_record('role', array('shortname' => 'editingteacher'))->id;
-
-            $timestatbeginningtemp = strptime('01/07/' . $CFG->thisyear, '%d/%m/%Y');
-            $timestatbeginning = mktime(0, 0, 0, $timestatbeginningtemp['tm_mon'] + 1,
-                    $timestatbeginningtemp['tm_mday'], $timestatbeginningtemp['tm_year'] + 1900);
-
-            $sqldistinctteachers = "SELECT COUNT(DISTINCT userid) AS nbdistinctteachers FROM {role_assignments} "
-                . "WHERE roleid = $roleeditingteacher AND timemodified > $timestatbeginning AND "
-                . "userid IN (SELECT userid FROM {role_assignments} WHERE roleid = $rolelocalteacher)";
-
-            $nbdistinctteachers = $DB->get_record_sql($sqldistinctteachers)->nbdistinctteachers;
-
-
+            $nbdistinctteachers = $DB->get_record('block_ucpfigures_stats', array('name' => 'distinctteachers'))->value;
 
             $this->content->text .= "<strong> $nbdistinctteachers</strong> enseignants<br>";
 
