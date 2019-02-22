@@ -97,5 +97,5 @@ $string['nbdepots'] = '{$a->value} cours utilisant un dépot étudiant depuis le
 $string['nbfolders'] = '{$a->value} cours utilisant un dossier depuis le {$a->startdate}.<br><br>';
 $string['nbquizs'] = '{$a->value} cours utilisant un QCM depuis le {$a->startdate}.<br><br>';
 $string['nbassigns'] = '{$a->value} cours utilisant un devoir depuis le {$a->startdate}.<br><br>';
-$string['nbassigns'] = '{$a->value} cours utilisant toutes les activités ci-dessus (dépot, dossier, QCM, devoir)'
+$string['nball'] = '{$a->value} cours utilisant toutes les activités ci-dessus (dépot, dossier, QCM, devoir)'
         . 'depuis le {$a->startdate}.<br><br>';
