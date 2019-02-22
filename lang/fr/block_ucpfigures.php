@@ -93,3 +93,6 @@ $string['nbviews'] = '{$a->value} consultations de cours ou documents depuis le 
 $string['nbactions'] = '{$a->value} actions réalisées sur la plateforme '
         . '(consultation d\'un document, envoi d\'un message, remise d\'un devoir, etc.) '
         . 'depuis le {$a->startdate}.<br><br>';
+$string['nbdepots'] = '{$a->value} cours utilisant un dépot étudiant depuis le {$a->startdate}.<br><br>';
+$string['nbquizs'] = '{$a->value} cours utilisant un QCM depuis le {$a->startdate}.<br><br>';
+$string['nbassigns'] = '{$a->value} cours utilisant un devoir depuis le {$a->startdate}.<br><br>';

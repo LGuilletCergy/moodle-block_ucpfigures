@@ -85,3 +85,6 @@ $string['nbgrades'] = '{$a->value} grades given since {$a->startdate}.<br><br>';
 $string['nbfiles'] = '{$a->value} files uploaded since {$a->startdate}.<br>';
 $string['nbviews'] = '{$a->value} courses or files viewed since {$a->startdate}.<br><br>';
 $string['nbactions'] = '{$a->value} actions taken since {$a->startdate}.<br><br>';
+$string['nbdepots'] = '{$a->value} courses with folders since {$a->startdate}.<br>';
+$string['nbquizs'] = '{$a->value} courses with quizs since {$a->startdate}.<br><br>';
+$string['nbassigns'] = '{$a->value} courses with assignments since {$a->startdate}.<br><br>';

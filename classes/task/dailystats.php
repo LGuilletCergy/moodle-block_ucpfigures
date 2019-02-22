@@ -275,7 +275,7 @@ class dailystats extends \core\task\scheduled_task {
             $DB->insert_record('block_ucpfigures_stats', $record);
         }
 
-        $sqltotallogin = "SELECT COUNT(DISTINCT id) AS nblogin FROM {logstore_standard_log} "
+        $sqltotallogin = "SELECT COUNT(DISTINCT userid) AS nblogin FROM {logstore_standard_log} "
                 . "WHERE action LIKE 'loggedin'  AND timecreated > $timestatbeginning";
         $nbtotallogin = $DB->get_record_sql($sqltotallogin)->nblogin;
         $record->name = 'login';
@@ -315,7 +315,7 @@ class dailystats extends \core\task\scheduled_task {
             }
         }
 
-        $sqlgrades = "SELECT COUNT(distinct id) AS nbgrades FROM {grade_grades} "
+        $sqlgrades = "SELECT COUNT(id) AS nbgrades FROM {grade_grades} "
                 . "WHERE finalgrade IS NOT NULL AND timemodified > $timestatbeginning";
         $nbgrades = $DB->get_record_sql($sqlgrades)->nbgrades;
         $record->name = 'grades';
@@ -374,6 +374,57 @@ class dailystats extends \core\task\scheduled_task {
 
             $newrecord = $DB->get_record('block_ucpfigures_stats', array('name' => 'actions'));
             $newrecord->value = $nbactions;
+            $DB->update_record('block_ucpfigures_stats', $newrecord);
+        } else {
+
+            $DB->insert_record('block_ucpfigures_stats', $record);
+        }
+
+        $depotid = $DB->get_record('modules', array('name' => 'depotetudiant'))->id;
+        $sqldepot = "SELECT COUNT(distinct course) as nbdepots FROM {course_modules} WHERE module = $depotid";
+        $nbdepots = $DB->get_record_sql($sqldepot)->nbdepots;
+        echo get_string('nbdepots', 'block_ucpfigures', $nbdepots);
+        $record->name = 'depots';
+        $record->value = $nbdepots;
+
+        if ($DB->record_exists('block_ucpfigures_stats', array('name' => 'depots'))) {
+
+            $newrecord = $DB->get_record('block_ucpfigures_stats', array('name' => 'depots'));
+            $newrecord->value = $nbdepots;
+            $DB->update_record('block_ucpfigures_stats', $newrecord);
+        } else {
+
+            $DB->insert_record('block_ucpfigures_stats', $record);
+        }
+
+        $quizid = $DB->get_record('modules', array('name' => 'quiz'))->id;
+        $sqlquiz = "SELECT COUNT(distinct course) as nbquizs FROM {course_modules} WHERE module = $quizid";
+        $nbquizs = $DB->get_record_sql($sqlquiz)->nbquizs;
+        echo get_string('nbquizs', 'block_ucpfigures', $nbquizs);
+        $record->name = 'quizs';
+        $record->value = $nbquizs;
+
+        if ($DB->record_exists('block_ucpfigures_stats', array('name' => 'quizs'))) {
+
+            $newrecord = $DB->get_record('block_ucpfigures_stats', array('name' => 'quizs'));
+            $newrecord->value = $nbquizs;
+            $DB->update_record('block_ucpfigures_stats', $newrecord);
+        } else {
+
+            $DB->insert_record('block_ucpfigures_stats', $record);
+        }
+
+        $assignid = $DB->get_record('modules', array('name' => 'assign'))->id;
+        $sqlassign = "SELECT COUNT(distinct course) as nbassigns FROM {course_modules} WHERE module = $assignid";
+        $nbassigns = $DB->get_record_sql($sqlassign)->nbassigns;
+        echo get_string('nbassigns', 'block_ucpfigures', $nbassigns);
+        $record->name = 'assigns';
+        $record->value = $nbassigns;
+
+        if ($DB->record_exists('block_ucpfigures_stats', array('name' => 'assigns'))) {
+
+            $newrecord = $DB->get_record('block_ucpfigures_stats', array('name' => 'assigns'));
+            $newrecord->value = $nbassigns;
             $DB->update_record('block_ucpfigures_stats', $newrecord);
         } else {
 

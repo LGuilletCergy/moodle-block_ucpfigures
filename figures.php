@@ -267,6 +267,24 @@ if (!$csv) {
     $datastringactions->startdate = '01/07/'.$CFG->thisyear;
     echo get_string('nbactions', 'block_ucpfigures', $datastringactions);
 
+    $nbdepots = $DB->get_record('block_ucpfigures_stats', array('name' => 'depots'))->value;
+    $datastringdepots = new stdClass();
+    $datastringdepots->value = $nbdepots;
+    $datastringdepots->startdate = '01/07/'.$CFG->thisyear;
+    echo get_string('nbdepots', 'block_ucpfigures', $datastringdepots);
+
+    $nbquizs = $DB->get_record('block_ucpfigures_stats', array('name' => 'quizs'))->value;
+    $datastringquizs = new stdClass();
+    $datastringquizs->value = $nbquizs;
+    $datastringquizs->startdate = '01/07/'.$CFG->thisyear;
+    echo get_string('nbquizs', 'block_ucpfigures', $datastringquizs);
+
+    $nbassigns = $DB->get_record('block_ucpfigures_stats', array('name' => 'assigns'))->value;
+    $datastringassigns = new stdClass();
+    $datastringassigns->value = $nbassigns;
+    $datastringassigns->startdate = '01/07/'.$CFG->thisyear;
+    echo get_string('nbassigns', 'block_ucpfigures', $datastringassigns);
+
     echo "</div>";
 
     echo $OUTPUT->footer();
