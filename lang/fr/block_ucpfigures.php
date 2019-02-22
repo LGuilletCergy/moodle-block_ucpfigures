@@ -83,7 +83,7 @@ $string['activestudents'] = 'Etudiants actifs';
 $string['introcreatedvets'] = 'Il y a {$a} VETs avec cours sur la plateforme.<br>';
 $string['nbcreatedvets'] = 'Nombre de VETs avec cours';
 $string['createdvets'] = 'VETs avec cours';
-$string['distinctteachers'] = '{$a->value} enseignants distincts ont créé des cours sur la '
+$string['distinctteachers'] = '{$a->value} enseignants distincts inscrits à des cours sur la '
         . 'plateforme depuis le {$a->startdate}.<br><br>';
 $string['nblogin'] = '{$a} connexions depuis une semaine.<br><br>';
 $string['nblogin2'] = 'Connexions depuis une semaine';
