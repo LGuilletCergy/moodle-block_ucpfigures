@@ -83,6 +83,8 @@ if (!$csv) {
     echo $OUTPUT->header();
 
     $totalexpectedpromos = 0;
+    $totalstudents = 0;
+    $totalcourses = 0;
     $totalexpectedstudents = 0;
     $totalexpectedcourses = 0;
     $totalavailablecourses = 0;

@@ -445,10 +445,10 @@ class dailystats extends \core\task\scheduled_task {
         }
 
         $sqlall = "SELECT COUNT (id) as nball FROM {course_modules) WHERE "
-                . "id IN (SELECT (distinct id) FROM {course_modules} WHERE module = $depotid) "
-                . "AND id IN (SELECT (distinct id) FROM {course_modules} WHERE module = $folderid) "
-                . "AND id IN (SELECT (distinct id) FROM {course_modules} WHERE module = $quizid) "
-                . "AND id IN (SELECT (distinct id) FROM {course_modules} WHERE module = $assignid)";
+                . "id IN (SELECT (distinct id) FROM {course_modules} WHERE module = $depotid "
+                . "AND id IN (SELECT (distinct id) FROM {course_modules} WHERE module = $folderid "
+                . "AND id IN (SELECT (distinct id) FROM {course_modules} WHERE module = $quizid "
+                . "AND id IN (SELECT (distinct id) FROM {course_modules} WHERE module = $assignid))))";
 
         $nball = $DB->get_record_sql($sqlall)->nball;
         $record->name = 'all';
