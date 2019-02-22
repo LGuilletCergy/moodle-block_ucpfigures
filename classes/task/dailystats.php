@@ -444,25 +444,25 @@ class dailystats extends \core\task\scheduled_task {
             $DB->insert_record('block_ucpfigures_stats', $record);
         }
 
-        $sqlall = "SELECT COUNT (id) as nball FROM {course_modules) WHERE "
-                . "id IN (SELECT (distinct id) FROM {course_modules} WHERE module = $depotid "
-                . "AND id IN (SELECT (distinct id) FROM {course_modules} WHERE module = $folderid "
-                . "AND id IN (SELECT (distinct id) FROM {course_modules} WHERE module = $quizid "
-                . "AND id IN (SELECT (distinct id) FROM {course_modules} WHERE module = $assignid))))";
-
-        $nball = $DB->get_record_sql($sqlall)->nball;
-        $record->name = 'all';
-        $record->value = $nball;
-
-        if ($DB->record_exists('block_ucpfigures_stats', array('name' => 'all'))) {
-
-            $newrecord = $DB->get_record('block_ucpfigures_stats', array('name' => 'all'));
-            $newrecord->value = $nball;
-            $DB->update_record('block_ucpfigures_stats', $newrecord);
-        } else {
-
-            $DB->insert_record('block_ucpfigures_stats', $record);
-        }
+//        $sqlall = "SELECT COUNT (id) as nball FROM {course_modules) WHERE "
+//                . "id IN (SELECT (distinct id) FROM {course_modules} WHERE module = $depotid "
+//                . "AND id IN (SELECT (distinct id) FROM {course_modules} WHERE module = $folderid "
+//                . "AND id IN (SELECT (distinct id) FROM {course_modules} WHERE module = $quizid "
+//                . "AND id IN (SELECT (distinct id) FROM {course_modules} WHERE module = $assignid))))";
+//
+//        $nball = $DB->get_record_sql($sqlall)->nball;
+//        $record->name = 'all';
+//        $record->value = $nball;
+//
+//        if ($DB->record_exists('block_ucpfigures_stats', array('name' => 'all'))) {
+//
+//            $newrecord = $DB->get_record('block_ucpfigures_stats', array('name' => 'all'));
+//            $newrecord->value = $nball;
+//            $DB->update_record('block_ucpfigures_stats', $newrecord);
+//        } else {
+//
+//            $DB->insert_record('block_ucpfigures_stats', $record);
+//        }
     }
 
 }
