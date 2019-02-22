@@ -381,7 +381,7 @@ class dailystats extends \core\task\scheduled_task {
         }
 
         $depotid = $DB->get_record('modules', array('name' => 'depotetudiant'))->id;
-        $sqldepot = "SELECT COUNT (id) FROM {course} WHERE idnumber LIKE $CFG->yearprefix AND id IN "
+        $sqldepot = "SELECT COUNT (id) AS nbdepots FROM {course} WHERE idnumber LIKE $CFG->yearprefix% AND id IN "
                 . "(SELECT distinct course FROM {course_modules} WHERE module = $depotid)";
         $nbdepots = $DB->get_record_sql($sqldepot)->nbdepots;
         $record->name = 'depots';
@@ -398,7 +398,7 @@ class dailystats extends \core\task\scheduled_task {
         }
 
         $folderid = $DB->get_record('modules', array('name' => 'folder'))->id;
-        $sqlfolder = "SELECT COUNT (id) FROM {course} WHERE idnumber LIKE $CFG->yearprefix AND id IN "
+        $sqlfolder = "SELECT COUNT (id) AS nbfolders FROM {course} WHERE idnumber LIKE $CFG->yearprefix% AND id IN "
                 . "(SELECT distinct course FROM {course_modules} WHERE module = $folderid)";
         $nbfolders = $DB->get_record_sql($sqlfolder)->nbfolders;
         $record->name = 'folders';
@@ -415,7 +415,7 @@ class dailystats extends \core\task\scheduled_task {
         }
 
         $quizid = $DB->get_record('modules', array('name' => 'quiz'))->id;
-        $sqlquiz = "SELECT COUNT (id) FROM {course} WHERE idnumber LIKE $CFG->yearprefix AND id IN "
+        $sqlquiz = "SELECT COUNT (id) AS nbquizs FROM {course} WHERE idnumber LIKE $CFG->yearprefix% AND id IN "
                 . "(SELECT distinct course FROM {course_modules} WHERE module = $quizid)";
         $nbquizs = $DB->get_record_sql($sqlquiz)->nbquizs;
         $record->name = 'quizs';
@@ -432,7 +432,7 @@ class dailystats extends \core\task\scheduled_task {
         }
 
         $assignid = $DB->get_record('modules', array('name' => 'assign'))->id;
-        $sqlassign = "SELECT COUNT (id) FROM {course} WHERE idnumber LIKE $CFG->yearprefix AND id IN "
+        $sqlassign = "SELECT COUNT (id) AS nbassigns FROM {course} WHERE idnumber LIKE $CFG->yearprefix% AND id IN "
                 . "(SELECT distinct course FROM {course_modules} WHERE module = $assignid)";
         $nbassigns = $DB->get_record_sql($sqlassign)->nbassigns;
         $record->name = 'assigns';
