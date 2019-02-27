@@ -89,3 +89,4 @@ $string['nbdepots'] = '{$a->value} courses with student folders since {$a->start
 $string['nbfolders'] = '{$a->value} courses with folders since {$a->startdate}.<br>';
 $string['nbquizs'] = '{$a->value} courses with quizs since {$a->startdate}.<br><br>';
 $string['nbassigns'] = '{$a->value} courses with assignments since {$a->startdate}.<br><br>';
+$string['nbbbb'] = '{$a->value} courses with Big Blue Button modules since {$a->startdate}.<br><br>';

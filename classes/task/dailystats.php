@@ -447,6 +447,23 @@ class dailystats extends \core\task\scheduled_task {
 
             $DB->insert_record('block_ucpfigures_stats', $record);
         }
+
+        $bbbid = $DB->get_record('modules', array('name' => 'bigbluebuttonbn'))->id;
+        $sqlbbb = "SELECT COUNT(id) AS nbbbb FROM {course} WHERE idnumber LIKE '$CFG->yearprefix%' AND id IN "
+                . "(SELECT distinct course FROM {course_modules} WHERE module = $bbbid)";
+        $nbbbb = $DB->get_record_sql($sqlbbb)->nbbbb;
+        $record->name = 'bbb';
+        $record->value = $nbbbb;
+
+        if ($DB->record_exists('block_ucpfigures_stats', array('name' => 'bbb'))) {
+
+            $newrecord = $DB->get_record('block_ucpfigures_stats', array('name' => 'bbb'));
+            $newrecord->value = $nbbbb;
+            $DB->update_record('block_ucpfigures_stats', $newrecord);
+        } else {
+
+            $DB->insert_record('block_ucpfigures_stats', $record);
+        }
     }
 
 }
