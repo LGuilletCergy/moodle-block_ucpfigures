@@ -48,6 +48,8 @@ function xmldb_block_ucpfigures_upgrade($oldversion, $block) {
         // Adding keys to table block_ucpfigures_teachertype.
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
 
+        $dbman = $DB->get_manager();
+
         // Conditionally launch create table for block_ucpfigures_teachertype.
         if (!$dbman->table_exists($table)) {
             $dbman->create_table($table);
