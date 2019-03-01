@@ -33,8 +33,10 @@
  *
  */
 
+require('../../config.php');
+
 if (is_siteadmin()) {
 
-    $domination = new teachertypestats();
-    \core\task\manager::queue_adhoc_task($domination);
+    $launchstats = new teachertypestats();
+    \core\task\manager::queue_adhoc_task($launchstats);
 }
