@@ -34,6 +34,7 @@
  */
 
 require('../../config.php');
+require('classes/task/teachertypestats.php');
 
 if (is_siteadmin()) {
 
