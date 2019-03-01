@@ -90,3 +90,4 @@ $string['nbfolders'] = '{$a->value} courses with folders since {$a->startdate}.<
 $string['nbquizs'] = '{$a->value} courses with quizs since {$a->startdate}.<br><br>';
 $string['nbassigns'] = '{$a->value} courses with assignments since {$a->startdate}.<br><br>';
 $string['nbbbb'] = '{$a->value} courses with Big Blue Button modules (Virtual classroom) since {$a->startdate}.<br><br>';
+$string['teachertypestats'] = 'Statistics on teacher types';

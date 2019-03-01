@@ -99,3 +99,4 @@ $string['nbquizs'] = '{$a->value} cours utilisant un QCM depuis le {$a->startdat
 $string['nbassigns'] = '{$a->value} cours utilisant un devoir depuis le {$a->startdate}.<br><br>';
 $string['nbbbb'] = '{$a->value} cours utilisant un module Big Blue Button (Classe virtuelle)'
         . ' depuis le {$a->startdate}.<br><br>';
+$string['teachertypestats'] = 'Statistiques des types d\'enseignants';

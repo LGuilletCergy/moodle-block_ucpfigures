@@ -37,7 +37,13 @@ namespace block_ucpfigures\task;
 
 defined('MOODLE_INTERNAL') || die;
 
-class teachertypestats extends \core\task\adhoc_task {
+class teachertypestats extends \core\task\scheduled_task {
+
+    public function get_name() {
+        // Shown in admin screens.
+
+        return get_string('teachertypestats', 'block_ucpfigures');
+    }
 
     public function execute() {
 

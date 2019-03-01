@@ -43,4 +43,14 @@ $tasks = array(
         'dayofweek' => '*',
         'month' => '*'
     ),
+
+    array(
+        'classname' => 'block_ucpfigures\task\teachertypestats',
+        'blocking' => 0,
+        'minute' => '30',
+        'hour' => '6',
+        'day' => '*',
+        'dayofweek' => '*',
+        'month' => '*'
+    ),
 );
