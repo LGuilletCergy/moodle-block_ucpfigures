@@ -28,13 +28,19 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  *
- * File : version.php
- * Version number
+ * File : classes/task/teachertypestats.php
+ * Collect statistics.
  *
  */
 
+namespace block_ucpfigures\task;
+
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->component = 'block_ucpfigures';  // Recommended since 2.0.2 (MDL-26035). Required since 3.0 (MDL-48494).
-$plugin->version = 2019030100;  // YYYYMMDDHH (year, month, day, 24-hr time).
-$plugin->requires   = 2014051200; // Moodle 2.7.
+class teachertypestats extends \core\task\adhoc_task {
+
+    public function execute() {
+
+        
+    }
+}
