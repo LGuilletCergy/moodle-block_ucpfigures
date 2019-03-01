@@ -49,7 +49,7 @@ class teachertypestats extends \core\task\scheduled_task {
 
         global $DB;
 
-        $DB->delete_records('ucpfigures_teachertype');
+        $DB->delete_records('block_ucpfigures_teachertype', array());
 
         $xmldocteachers = new \DOMDocument();
         $xmldocteachers->load('/home/referentiel/DOKEOS_Enseignants_Affectations.xml');
@@ -72,21 +72,25 @@ class teachertypestats extends \core\task\scheduled_task {
 
                 $teacherrecord = $DB->get_record('user', array('username' => $teacherlogin));
 
-                if ($DB->record_exist('role_assignments', array('roleid' => $roleteacherid,
-                    'userid' => $teacherrecord->id, 'timemodified' => $timestatbeginning))) {
+                $sqldistinctcourses = "SELECT COUNT(DISTINCT contextid) AS nbdistinctcourses FROM {role_assignments} "
+                        . "WHERE roleid = $roleteacherid AND timemodified > $timestatbeginning AND"
+                        . " userid = $teacherrecord->id";
+                $nbdistinctcourses = $DB->get_record_sql($sqldistinctcourses)->nbdistinctcourses;
+
+                if ($nbdistinctcourses) {
 
                     $hascourse = 1;
                 }
 
-                if ($DB->record_exists('ucpfigures_teachertype',
+                if ($DB->record_exists('block_ucpfigures_teachertype',
                         array('teachertype' => $teacher->getAttribute('LC_CORPS')))) {
 
-                    $teachertyperecord = $DB->get_record('ucpfigures_teachertype',
+                    $teachertyperecord = $DB->get_record('block_ucpfigures_teachertype',
                         array('teachertype' => $teacher->getAttribute('LC_CORPS')));
                     $teachertyperecord->coursecreated += $hascourse;
                     $teachertyperecord->totalusers++;
 
-                    $DB->update_record('ucpfigures_teachertype', $teachertyperecord);
+                    $DB->update_record('block_ucpfigures_teachertype', $teachertyperecord);
                 } else {
 
                     $teachertyperecord = new \stdClass();
@@ -94,7 +98,7 @@ class teachertypestats extends \core\task\scheduled_task {
                     $teachertyperecord->coursecreated = $hascourse;
                     $teachertyperecord->totalusers = 1;
 
-                    $DB->insert_record('ucpfigures_teachertype', $teachertyperecord);
+                    $DB->insert_record('block_ucpfigures_teachertype', $teachertyperecord);
                 }
             }
         }
