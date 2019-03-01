@@ -36,6 +36,8 @@ function xmldb_block_ucpfigures_upgrade($oldversion, $block) {
 
     if ($oldversion < 2019030100) {
 
+        global $DB;
+
         // Define table block_ucpfigures_teachertype to be created.
         $table = new xmldb_table('block_ucpfigures_teachertype');
 
