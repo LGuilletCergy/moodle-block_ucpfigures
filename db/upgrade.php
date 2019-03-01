@@ -60,4 +60,10 @@ function xmldb_block_ucpfigures_upgrade($oldversion, $block) {
         // Ucpfigures savepoint reached.
         upgrade_block_savepoint(true, 2019030100, 'ucpfigures');
     }
+
+    if ($oldversion < 2019030101) {
+
+        // Ucpfigures savepoint reached.
+        upgrade_block_savepoint(true, 2019030101, 'ucpfigures');
+    }
 }
