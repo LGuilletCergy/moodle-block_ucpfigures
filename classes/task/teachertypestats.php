@@ -75,11 +75,7 @@ class teachertypestats extends \core\task\scheduled_task {
                 $teacherlogin = $teacher->getAttribute('UID');
                 $teacheractivity = $teacher->getAttribute('POSITION');
 
-                echo $teacherlogin."\n";
-
                 if ($DB->record_exists('user', array('username' => $teacherlogin))) {
-
-                    echo "Test 1\n";
 
                     $teacherrecord = $DB->get_record('user', array('username' => $teacherlogin));
 
@@ -90,33 +86,21 @@ class teachertypestats extends \core\task\scheduled_task {
 
                     if ($nbdistinctcourses) {
 
-                        echo "Test 2\n";
-
                         $hascourse = 1;
                     }
 
                     if ($teacheractivity == "Sursitaire" || $teacheractivity == "Détachement") {
 
-                        echo "Test 3\n";
-
                         $isactive = 0;
                     }
-
-                    echo "Test 4\n";
 
                     $teachercorps = $teacher->getAttribute('LIBELLE_CORPS');
                     $teacherservice = $composante->getAttribute('LL_COMPOSANTE');
 
-                    echo "Test 5\n";
-
                     if (isset($teachercorps) && isset($teacherservice)) {
-
-                        echo "Test 6\n";
 
                         if ($DB->record_exists('block_ucpfigures_teachertype',
                                 array('teachertype' => $teachercorps, 'servicename' => $teacherservice))) {
-
-                            echo "Test 7\n";
 
                             $teachertyperecord = $DB->get_record('block_ucpfigures_teachertype',
                                     array('teachertype' => $teachercorps, 'servicename' => $teacherservice));
@@ -125,8 +109,6 @@ class teachertypestats extends \core\task\scheduled_task {
 
                             $DB->update_record('block_ucpfigures_teachertype', $teachertyperecord);
                         } else {
-
-                            echo "Test 8\n";
 
                             $teachertyperecord = new \stdClass();
                             $teachertyperecord->servicename = $teacherservice;
@@ -137,11 +119,7 @@ class teachertypestats extends \core\task\scheduled_task {
                             $DB->insert_record('block_ucpfigures_teachertype', $teachertyperecord);
                         }
 
-                        echo "Test 9\n";
-
                         if ($hascourse) {
-
-                            echo "Test 10\n";
 
                             $teachername = $teacherrecord->lastname;
                             $teacherfirstname = $teacherrecord->firstname;
@@ -156,8 +134,6 @@ class teachertypestats extends \core\task\scheduled_task {
 
                             $DB->insert_record('block_ucpfigures_teacherinfo', $teacherinforecord);
                         }
-
-                        echo "Test 11\n";
                     }
                 }
             }
