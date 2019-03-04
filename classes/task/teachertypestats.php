@@ -123,13 +123,13 @@ class teachertypestats extends \core\task\scheduled_task {
                                 isset($teacher->getAttribute('MAIL'))) {
 
                             $teacherinforecord = new \stdClass();
-                            $teachertyperecord->servicename = $teacherservice;
-                            $teachertyperecord->teachertype = $teachercorps;
-                            $teachertyperecord->lastname = $teacher->getAttribute('NOM_USUEL');
-                            $teachertyperecord->firstname = $teacher->getAttribute('PRENOM');
-                            $teachertyperecord->email = $teacher->getAttribute('MAIL');
+                            $teacherinforecord->servicename = $teacherservice;
+                            $teacherinforecord->teachertype = $teachercorps;
+                            $teacherinforecord->lastname = $teacher->getAttribute('NOM_USUEL');
+                            $teacherinforecord->firstname = $teacher->getAttribute('PRENOM');
+                            $teacherinforecord->email = $teacher->getAttribute('MAIL');
 
-                            $DB->insert_record('block_ucpfigures_teacherinfo', $teachertyperecord);
+                            $DB->insert_record('block_ucpfigures_teacherinfo', $teacherinforecord);
                         }
                     }
                 }
