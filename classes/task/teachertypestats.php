@@ -115,7 +115,7 @@ class teachertypestats extends \core\task\scheduled_task {
                     $DB->insert_record('block_ucpfigures_teachertype', $teachertyperecord);
                 }
 
-                if ($hascourse == 1) {
+                if ($hascourse) {
 
                     $teacherinforecord = new \stdClass();
                     $teachertyperecord->servicename = $teacherservice;
