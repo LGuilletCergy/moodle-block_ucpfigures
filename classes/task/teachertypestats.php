@@ -81,7 +81,7 @@ class teachertypestats extends \core\task\scheduled_task {
 
                     $rolelocalteacher = $DB->get_record('role', array('shortname' => 'localteacher'))->id;
 
-                    $contextid = context_system::instance()->id;
+                    $contextid = \context_system::instance()->id;
 
                     if ($DB->record_exists('role_assignments',
                             array('roleid' => $rolelocalteacher, 'contextid' => $contextid,
