@@ -52,9 +52,9 @@ class teachertypestats extends \core\task\scheduled_task {
         $DB->delete_records('block_ucpfigures_teachertype', array());
 
         $xmldocteachers = new \DOMDocument();
-        $xmldocteachers->load('/home/referentiel/DOKEOS_Enseignants_Affectations.xml');
+        $xmldocteachers->load('/home/referentiel/sefiap_personnel_composante.xml');
         $xpathvarteachers = new \Domxpath($xmldocteachers);
-        $listteachers = $xpathvarteachers->query('//Teacher');
+        $listteachers = $xpathvarteachers->query('//Composante/Service/Individu');
 
         $timestatbeginningtemp = strptime('01/07/' . $CFG->thisyear, '%d/%m/%Y');
         $timestatbeginning = mktime(0, 0, 0, $timestatbeginningtemp['tm_mon'] + 1,
@@ -66,7 +66,7 @@ class teachertypestats extends \core\task\scheduled_task {
 
             $hascourse = 0;
 
-            $teacherlogin = $teacher->getAttribute('StaffUID');
+            $teacherlogin = $teacher->getAttribute('UID');
 
             if ($DB->record_exists('user', array('username' => $teacherlogin))) {
 
@@ -83,10 +83,10 @@ class teachertypestats extends \core\task\scheduled_task {
                 }
 
                 if ($DB->record_exists('block_ucpfigures_teachertype',
-                        array('teachertype' => $teacher->getAttribute('LC_CORPS')))) {
+                        array('teachertype' => $teacher->getAttribute('LIBELLE_CORPS')))) {
 
                     $teachertyperecord = $DB->get_record('block_ucpfigures_teachertype',
-                        array('teachertype' => $teacher->getAttribute('LC_CORPS')));
+                        array('teachertype' => $teacher->getAttribute('LIBELLE_CORPS')));
                     $teachertyperecord->coursecreated += $hascourse;
                     $teachertyperecord->totalusers++;
 
@@ -94,7 +94,7 @@ class teachertypestats extends \core\task\scheduled_task {
                 } else {
 
                     $teachertyperecord = new \stdClass();
-                    $teachertyperecord->teachertype = $teacher->getAttribute('LC_CORPS');
+                    $teachertyperecord->teachertype = $teacher->getAttribute('LIBELLE_CORPS');
                     $teachertyperecord->coursecreated = $hascourse;
                     $teachertyperecord->totalusers = 1;
 
