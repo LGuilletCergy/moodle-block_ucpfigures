@@ -117,21 +117,21 @@ class teachertypestats extends \core\task\scheduled_task {
                         $DB->insert_record('block_ucpfigures_teachertype', $teachertyperecord);
                     }
 
-//                    if ($hascourse) {
-//
-//                        if (isset($teacher->getAttribute('NOM_USUEL')) && isset($teacher->getAttribute('PRENOM')) &&
-//                                isset($teacher->getAttribute('MAIL'))) {
-//
-//                            $teacherinforecord = new \stdClass();
-//                            $teacherinforecord->servicename = $teacherservice;
-//                            $teacherinforecord->teachertype = $teachercorps;
-//                            $teacherinforecord->lastname = $teacher->getAttribute('NOM_USUEL');
-//                            $teacherinforecord->firstname = $teacher->getAttribute('PRENOM');
-//                            $teacherinforecord->email = $teacher->getAttribute('MAIL');
-//
-//                            $DB->insert_record('block_ucpfigures_teacherinfo', $teacherinforecord);
-//                        }
-//                    }
+                    if ($hascourse) {
+
+                        if (isset($teacher->getAttribute('NOM_USUEL')) && isset($teacher->getAttribute('PRENOM')) &&
+                                isset($teacher->getAttribute('MAIL'))) {
+
+                            $teacherinforecord = new \stdClass();
+                            $teacherinforecord->servicename = $teacherservice;
+                            $teacherinforecord->teachertype = $teachercorps;
+                            $teacherinforecord->lastname = $teacher->getAttribute('NOM_USUEL');
+                            $teacherinforecord->firstname = $teacher->getAttribute('PRENOM');
+                            $teacherinforecord->email = $teacher->getAttribute('MAIL');
+
+                            $DB->insert_record('block_ucpfigures_teacherinfo', $teacherinforecord);
+                        }
+                    }
                 }
             }
         }
