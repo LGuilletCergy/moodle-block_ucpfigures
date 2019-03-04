@@ -47,7 +47,7 @@ class teachertypestats extends \core\task\scheduled_task {
 
     public function execute() {
 
-        global $DB;
+        global $DB, $CFG;
 
         $DB->delete_records('block_ucpfigures_teachertype', array());
         $DB->delete_records('block_ucpfigures_teacherinfo', array());
