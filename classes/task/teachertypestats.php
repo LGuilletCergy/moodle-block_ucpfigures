@@ -119,7 +119,11 @@ class teachertypestats extends \core\task\scheduled_task {
 
                     if ($hascourse) {
 
-                        if (true) {
+                        $teachername = $teacher->getAttribute('NOM_USUEL');
+                        $teacherfirstname = $teacher->getAttribute('PRENOM');
+                        $teachermail = $teacher->getAttribute('MAIL');
+
+                        if (isset($teachername) && isset($teacherfirstname) && isset($teachermail)) {
 
                             $teacherinforecord = new \stdClass();
                             $teacherinforecord->servicename = $teacherservice;
