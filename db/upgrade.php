@@ -61,9 +61,40 @@ function xmldb_block_ucpfigures_upgrade($oldversion, $block) {
         upgrade_block_savepoint(true, 2019030100, 'ucpfigures');
     }
 
-    if ($oldversion < 2019030102) {
+    if ($oldversion < 2019030400) {
+
+        global $DB;
+        $dbman = $DB->get_manager();
+
+        // Define field servicename to be added to block_ucpfigures_teachertype.
+        $table = new xmldb_table('block_ucpfigures_teachertype');
+        $field = new xmldb_field('servicename', XMLDB_TYPE_CHAR, '50', null, XMLDB_NOTNULL, null, 'empty', 'id');
+
+        // Conditionally launch add field servicename.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define table block_ucpfigures_teacherinfo to be created.
+        $table = new xmldb_table('block_ucpfigures_teacherinfo');
+
+        // Adding fields to table block_ucpfigures_teacherinfo.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('servicename', XMLDB_TYPE_CHAR, '50', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('teachertype', XMLDB_TYPE_CHAR, '50', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('lastname', XMLDB_TYPE_CHAR, '50', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('firstname', XMLDB_TYPE_CHAR, '50', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('email', XMLDB_TYPE_CHAR, '50', null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table block_ucpfigures_teacherinfo.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+
+        // Conditionally launch create table for block_ucpfigures_teacherinfo.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
 
         // Ucpfigures savepoint reached.
-        upgrade_block_savepoint(true, 2019030102, 'ucpfigures');
+        upgrade_block_savepoint(true, 2019030400, 'ucpfigures');
     }
 }
