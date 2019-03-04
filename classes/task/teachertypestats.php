@@ -119,21 +119,18 @@ class teachertypestats extends \core\task\scheduled_task {
 
                     if ($hascourse) {
 
-                        $teachername = $teacher->getAttribute('NOM_USUEL');
-                        $teacherfirstname = $teacher->getAttribute('PRENOM');
-                        $teachermail = $teacher->getAttribute('MAIL');
+                        $teachername = $teacherrecord->lastname;
+                        $teacherfirstname = $teacherrecord->firstname;
+                        $teachermail = $teacherrecord->email;
 
-                        if (isset($teachername) && isset($teacherfirstname) && isset($teachermail)) {
+                        $teacherinforecord = new \stdClass();
+                        $teacherinforecord->servicename = $teacherservice;
+                        $teacherinforecord->teachertype = $teachercorps;
+                        $teacherinforecord->lastname = $teachername;
+                        $teacherinforecord->firstname = $teacherfirstname;
+                        $teacherinforecord->email = $teachermail;
 
-                            $teacherinforecord = new \stdClass();
-                            $teacherinforecord->servicename = $teacherservice;
-                            $teacherinforecord->teachertype = $teachercorps;
-                            $teacherinforecord->lastname = $teacher->getAttribute('NOM_USUEL');
-                            $teacherinforecord->firstname = $teacher->getAttribute('PRENOM');
-                            $teacherinforecord->email = $teacher->getAttribute('MAIL');
-
-                            $DB->insert_record('block_ucpfigures_teacherinfo', $teacherinforecord);
-                        }
+                        $DB->insert_record('block_ucpfigures_teacherinfo', $teacherinforecord);
                     }
                 }
             }
