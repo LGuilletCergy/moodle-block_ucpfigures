@@ -70,67 +70,70 @@ class teachertypestats extends \core\task\scheduled_task {
             $hascourse = 0;
             $isactive = 1;
 
-            $teacherlogin = $teacher->getAttribute('UID');
-            $teacheractivity = $teacher->getAttribute('POSITION');
+            if ($teacher->hasAttribute('UID')) {
 
-            if ($DB->record_exists('user', array('username' => $teacherlogin))) {
+                $teacherlogin = $teacher->getAttribute('UID');
+                $teacheractivity = $teacher->getAttribute('POSITION');
 
-                $teacherrecord = $DB->get_record('user', array('username' => $teacherlogin));
+                if ($DB->record_exists('user', array('username' => $teacherlogin))) {
 
-                $sqldistinctcourses = "SELECT COUNT(DISTINCT contextid) AS nbdistinctcourses FROM {role_assignments} "
-                        . "WHERE roleid = $roleteacherid AND timemodified > $timestatbeginning AND"
-                        . " userid = $teacherrecord->id";
-                $nbdistinctcourses = $DB->get_record_sql($sqldistinctcourses)->nbdistinctcourses;
+                    $teacherrecord = $DB->get_record('user', array('username' => $teacherlogin));
 
-                if ($nbdistinctcourses) {
+                    $sqldistinctcourses = "SELECT COUNT(DISTINCT contextid) AS nbdistinctcourses FROM {role_assignments}"
+                            . " WHERE roleid = $roleteacherid AND timemodified > $timestatbeginning AND"
+                            . " userid = $teacherrecord->id";
+                    $nbdistinctcourses = $DB->get_record_sql($sqldistinctcourses)->nbdistinctcourses;
 
-                    $hascourse = 1;
-                }
+                    if ($nbdistinctcourses) {
 
-                if ($teacheractivity == "Sursitaire" || $teacheractivity == "Détachement") {
-
-                    $isactive = 0;
-                }
-
-                $teachercorps = $teacher->getAttribute('LIBELLE_CORPS');
-                $teacherservice = $composante->getAttribute('LL_COMPOSANTE');
-
-                if (isset($teachercorps) && isset($teacherservice)) {
-
-                    if ($DB->record_exists('block_ucpfigures_teachertype',
-                            array('teachertype' => $teachercorps, 'servicename' => $teacherservice))) {
-
-                        $teachertyperecord = $DB->get_record('block_ucpfigures_teachertype',
-                                array('teachertype' => $teachercorps, 'servicename' => $teacherservice));
-                        $teachertyperecord->coursecreated += $hascourse;
-                        $teachertyperecord->totalusers++;
-
-                        $DB->update_record('block_ucpfigures_teachertype', $teachertyperecord);
-                    } else {
-
-                        $teachertyperecord = new \stdClass();
-                        $teachertyperecord->servicename = $teacherservice;
-                        $teachertyperecord->teachertype = $teachercorps;
-                        $teachertyperecord->coursecreated = $hascourse;
-                        $teachertyperecord->totalusers = 1;
-
-                        $DB->insert_record('block_ucpfigures_teachertype', $teachertyperecord);
+                        $hascourse = 1;
                     }
 
-                    if ($hascourse) {
+                    if ($teacheractivity == "Sursitaire" || $teacheractivity == "Détachement") {
 
-                        $teachername = $teacherrecord->lastname;
-                        $teacherfirstname = $teacherrecord->firstname;
-                        $teachermail = $teacherrecord->email;
+                        $isactive = 0;
+                    }
 
-                        $teacherinforecord = new \stdClass();
-                        $teacherinforecord->servicename = $teacherservice;
-                        $teacherinforecord->teachertype = $teachercorps;
-                        $teacherinforecord->lastname = $teachername;
-                        $teacherinforecord->firstname = $teacherfirstname;
-                        $teacherinforecord->email = $teachermail;
+                    $teachercorps = $teacher->getAttribute('LIBELLE_CORPS');
+                    $teacherservice = $composante->getAttribute('LL_COMPOSANTE');
 
-                        $DB->insert_record('block_ucpfigures_teacherinfo', $teacherinforecord);
+                    if (isset($teachercorps) && isset($teacherservice)) {
+
+                        if ($DB->record_exists('block_ucpfigures_teachertype',
+                                array('teachertype' => $teachercorps, 'servicename' => $teacherservice))) {
+
+                            $teachertyperecord = $DB->get_record('block_ucpfigures_teachertype',
+                                    array('teachertype' => $teachercorps, 'servicename' => $teacherservice));
+                            $teachertyperecord->coursecreated += $hascourse;
+                            $teachertyperecord->totalusers++;
+
+                            $DB->update_record('block_ucpfigures_teachertype', $teachertyperecord);
+                        } else {
+
+                            $teachertyperecord = new \stdClass();
+                            $teachertyperecord->servicename = $teacherservice;
+                            $teachertyperecord->teachertype = $teachercorps;
+                            $teachertyperecord->coursecreated = $hascourse;
+                            $teachertyperecord->totalusers = 1;
+
+                            $DB->insert_record('block_ucpfigures_teachertype', $teachertyperecord);
+                        }
+
+                        if ($hascourse) {
+
+                            $teachername = $teacherrecord->lastname;
+                            $teacherfirstname = $teacherrecord->firstname;
+                            $teachermail = $teacherrecord->email;
+
+                            $teacherinforecord = new \stdClass();
+                            $teacherinforecord->servicename = $teacherservice;
+                            $teacherinforecord->teachertype = $teachercorps;
+                            $teacherinforecord->lastname = $teachername;
+                            $teacherinforecord->firstname = $teacherfirstname;
+                            $teacherinforecord->email = $teachermail;
+
+                            $DB->insert_record('block_ucpfigures_teacherinfo', $teacherinforecord);
+                        }
                     }
                 }
             }
