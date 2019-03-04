@@ -50,6 +50,7 @@ class teachertypestats extends \core\task\scheduled_task {
         global $DB;
 
         $DB->delete_records('block_ucpfigures_teachertype', array());
+        $DB->delete_records('block_ucpfigures_teacherinfo', array());
 
         $xmldocteachers = new \DOMDocument();
         $xmldocteachers->load('/home/referentiel/sefiap_personnel_composante.xml');
@@ -64,9 +65,13 @@ class teachertypestats extends \core\task\scheduled_task {
 
         foreach ($listteachers as $teacher) {
 
+            $composante = $teacher->parentNode->parentNode;
+
             $hascourse = 0;
+            $isactive = 1;
 
             $teacherlogin = $teacher->getAttribute('UID');
+            $teacheractivity = $teacher->getAttribute('POSITION');
 
             if ($DB->record_exists('user', array('username' => $teacherlogin))) {
 
@@ -82,11 +87,19 @@ class teachertypestats extends \core\task\scheduled_task {
                     $hascourse = 1;
                 }
 
+                if ($teacheractivity == "Sursitaire" || $teacheractivity == "Détachement") {
+
+                    $isactive = 0;
+                }
+
+                $teachercorps = $teacher->getAttribute('LIBELLE_CORPS');
+                $teacherservice = $composante->getAttribute('LL_COMPOSANTE');
+
                 if ($DB->record_exists('block_ucpfigures_teachertype',
-                        array('teachertype' => $teacher->getAttribute('LIBELLE_CORPS')))) {
+                        array('teachertype' => $teachercorps, 'servicename' => $teacherservice))) {
 
                     $teachertyperecord = $DB->get_record('block_ucpfigures_teachertype',
-                        array('teachertype' => $teacher->getAttribute('LIBELLE_CORPS')));
+                            array('teachertype' => $teachercorps, 'servicename' => $teacherservice));
                     $teachertyperecord->coursecreated += $hascourse;
                     $teachertyperecord->totalusers++;
 
@@ -94,11 +107,24 @@ class teachertypestats extends \core\task\scheduled_task {
                 } else {
 
                     $teachertyperecord = new \stdClass();
-                    $teachertyperecord->teachertype = $teacher->getAttribute('LIBELLE_CORPS');
+                    $teachertyperecord->servicename = $teacherservice;
+                    $teachertyperecord->teachertype = $teachercorps;
                     $teachertyperecord->coursecreated = $hascourse;
                     $teachertyperecord->totalusers = 1;
 
                     $DB->insert_record('block_ucpfigures_teachertype', $teachertyperecord);
+                }
+
+                if ($hascourse = 1) {
+
+                    $teacherinforecord = new \stdClass();
+                    $teachertyperecord->servicename = $teacherservice;
+                    $teachertyperecord->teachertype = $teachercorps;
+                    $teachertyperecord->lastname = $teacher->getAttribute('NOM_USUEL');
+                    $teachertyperecord->firstname = $teacher->getAttribute('PRENOM');
+                    $teachertyperecord->email = $teacher->getAttribute('MAIL');
+
+                    $DB->insert_record('block_ucpfigures_teacherinfo', $teachertyperecord);
                 }
             }
         }
