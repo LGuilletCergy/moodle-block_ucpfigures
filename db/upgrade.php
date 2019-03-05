@@ -97,4 +97,31 @@ function xmldb_block_ucpfigures_upgrade($oldversion, $block) {
         // Ucpfigures savepoint reached.
         upgrade_block_savepoint(true, 2019030400, 'ucpfigures');
     }
+
+    if ($oldversion < 2019030500) {
+
+        global $DB;
+        $dbman = $DB->get_manager();
+
+        // Define field servicename to be added to block_ucpfigures_teachertype.
+        $table = new xmldb_table('block_ucpfigures_teachertype');
+        $field = new xmldb_field('composantename', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, 'empty', 'id');
+
+        // Conditionally launch add field servicename.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field servicename to be added to block_ucpfigures_teacherinfo.
+        $table = new xmldb_table('block_ucpfigures_teacherinfo');
+        $field = new xmldb_field('composantename', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, 'empty', 'id');
+
+        // Conditionally launch add field servicename.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Ucpfigures savepoint reached.
+        upgrade_block_savepoint(true, 2019030500, 'ucpfigures');
+    }
 }

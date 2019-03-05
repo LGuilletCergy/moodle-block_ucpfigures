@@ -73,7 +73,8 @@ class teachertypestats extends \core\task\scheduled_task {
 
         foreach ($listteachers as $teacher) {
 
-            $composante = $teacher->parentNode->parentNode;
+            $service = $teacher->parentNode;
+            $composante = $service->parentNode;
 
             $hascourse = 0;
             $isactive = 1;
@@ -108,20 +109,19 @@ class teachertypestats extends \core\task\scheduled_task {
                             $isactive = 0;
                         }
 
+                        $teachercomposante = $composante->getAttribute('LL_COMPOSANTE');
+                        $teacherservice = $service->getAttribute('LL_SERVICE');
                         $teachercorps = $teacher->getAttribute('LIBELLE_CORPS');
-                        $teacherservice = $composante->getAttribute('LL_COMPOSANTE');
-                        if ($teacherservice == "") {
 
-                            $teacherservice = "Service : ".$teacher->parentNode->getAttribute('LL_SERVICE');
-                        }
-
-                        if (isset($teachercorps) && isset($teacherservice)) {
+                        if (isset($teachercorps) && isset($teachercomposante) && isset($teacherservice)) {
 
                             if ($DB->record_exists('block_ucpfigures_teachertype',
-                                    array('teachertype' => $teachercorps, 'servicename' => $teacherservice))) {
+                                    array('composantename' => $teachercomposante, 'servicename' => $teacherservice,
+                                        'teachertype' => $teachercorps))) {
 
                                 $teachertyperecord = $DB->get_record('block_ucpfigures_teachertype',
-                                        array('teachertype' => $teachercorps, 'servicename' => $teacherservice));
+                                    array('composantename' => $teachercomposante, 'servicename' => $teacherservice,
+                                        'teachertype' => $teachercorps));
                                 $teachertyperecord->coursecreated += $hascourse;
                                 $teachertyperecord->totalusers++;
 
@@ -129,6 +129,7 @@ class teachertypestats extends \core\task\scheduled_task {
                             } else {
 
                                 $teachertyperecord = new \stdClass();
+                                $teachertyperecord->composantename = $teachercomposante;
                                 $teachertyperecord->servicename = $teacherservice;
                                 $teachertyperecord->teachertype = $teachercorps;
                                 $teachertyperecord->coursecreated = $hascourse;
@@ -147,6 +148,7 @@ class teachertypestats extends \core\task\scheduled_task {
                                         array('email' => $teachermail))) {
 
                                     $teacherinforecord = new \stdClass();
+                                    $teachertyperecord->composantename = $teachercomposante;
                                     $teacherinforecord->servicename = $teacherservice;
                                     $teacherinforecord->teachertype = $teachercorps;
                                     $teacherinforecord->lastname = $teachername;
