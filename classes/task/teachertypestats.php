@@ -63,6 +63,11 @@ class teachertypestats extends \core\task\scheduled_task {
 
         $roleteacherid = $DB->get_record('role', array('shortname' => 'editingteacher'))->id;
 
+        $yearcategory = $DB->get_record('course_categories', array('idnumber' => $CFG->yearprefix));
+        $yearcategorycontext = $DB->get_record('context',
+                array('contextlevel' => CONTEXT_COURSECAT, 'instanceid' => $yearcategory->id));
+        $pathyearcategorycontext = $yearcategorycontext->path."/";
+
         foreach ($listteachers as $teacher) {
 
             $composante = $teacher->parentNode->parentNode;
@@ -89,7 +94,9 @@ class teachertypestats extends \core\task\scheduled_task {
 
                         $sqldistinctcourses = "SELECT COUNT(DISTINCT contextid) AS nbdistinctcourses "
                                 . "FROM {role_assignments} WHERE roleid = $roleteacherid AND "
-                                . "timemodified > $timestatbeginning AND userid = $teacherrecord->id";
+                                . "timemodified > $timestatbeginning AND userid = $teacherrecord->id "
+                                . "AND contextid IN (SELECT id FROM {context} WHERE"
+                                . " path LIKE $pathyearcategorycontext%)";
                         $nbdistinctcourses = $DB->get_record_sql($sqldistinctcourses)->nbdistinctcourses;
 
                         if ($nbdistinctcourses) {
