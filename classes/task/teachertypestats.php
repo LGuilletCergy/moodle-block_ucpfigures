@@ -148,7 +148,7 @@ class teachertypestats extends \core\task\scheduled_task {
                                         array('email' => $teachermail))) {
 
                                     $teacherinforecord = new \stdClass();
-                                    $teachertyperecord->composantename = $teachercomposante;
+                                    $teacherinforecord->composantename = $teachercomposante;
                                     $teacherinforecord->servicename = $teacherservice;
                                     $teacherinforecord->teachertype = $teachercorps;
                                     $teacherinforecord->lastname = $teachername;
