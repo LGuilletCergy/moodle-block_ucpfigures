@@ -110,6 +110,10 @@ class teachertypestats extends \core\task\scheduled_task {
 
                         $teachercorps = $teacher->getAttribute('LIBELLE_CORPS');
                         $teacherservice = $composante->getAttribute('LL_COMPOSANTE');
+                        if ($teacherservice == "") {
+
+                            $teacherservice = "Service : ".$teacher->parentNode->getAttribute('LL_SERVICE');
+                        }
 
                         if (isset($teachercorps) && isset($teacherservice)) {
 
