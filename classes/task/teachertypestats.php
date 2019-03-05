@@ -95,7 +95,7 @@ class teachertypestats extends \core\task\scheduled_task {
                                 . "FROM {role_assignments} WHERE roleid = $roleteacherid AND "
                                 . "timemodified > $timestatbeginning AND userid = $teacherrecord->id "
                                 . "AND contextid IN (SELECT id FROM {context} WHERE"
-                                . " path LIKE $pathyearcategorycontext%)";
+                                . " path LIKE '$pathyearcategorycontext%')";
                         $nbdistinctcourses = $DB->get_record_sql($sqldistinctcourses)->nbdistinctcourses;
 
                         if ($nbdistinctcourses) {

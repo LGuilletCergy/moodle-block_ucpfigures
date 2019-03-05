@@ -268,8 +268,9 @@ class dailystats extends \core\task\scheduled_task {
 
         echo "Test 1\n";
         $sqldistinctteachers = "SELECT COUNT(DISTINCT userid) AS nbdistinctteachers FROM {role_assignments} "
-                . "WHERE roleid = $roleteacherid AND timemodified > $timestatbeginning "
-                . "AND contextid IN (SELECT id FROM {context} WHERE path LIKE $pathyearcategorycontext%)";
+                . "WHERE roleid = $roleteacherid AND timemodified > $timestatbeginning AND "
+                . "userid IN (SELECT userid FROM {role_assignments} WHERE roleid = $rolelocalteacherid) "
+                . "AND contextid IN (SELECT id FROM {context} WHERE path LIKE '$pathyearcategorycontext%')";
         $nbdistinctteachers = $DB->get_record_sql($sqldistinctteachers)->nbdistinctteachers;
         $record->name = 'distinctteachers';
         $record->value = $nbdistinctteachers;
