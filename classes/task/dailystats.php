@@ -265,6 +265,8 @@ class dailystats extends \core\task\scheduled_task {
 
         $roleteacherid = $DB->get_record('role', array('shortname' => 'editingteacher'))->id;
         $rolelocalteacherid = $DB->get_record('role', array('shortname' => 'localteacher'))->id;
+
+        echo "Test 1\n";
         $sqldistinctteachers = "SELECT COUNT(DISTINCT userid) AS nbdistinctteachers FROM {role_assignments} "
                 . "WHERE roleid = $roleteacherid AND timemodified > $timestatbeginning AND "
                 . "userid IN (SELECT userid FROM {role_assignments} WHERE roleid = $rolelocalteacherid) "
@@ -272,6 +274,8 @@ class dailystats extends \core\task\scheduled_task {
         $nbdistinctteachers = $DB->get_record_sql($sqldistinctteachers)->nbdistinctteachers;
         $record->name = 'distinctteachers';
         $record->value = $nbdistinctteachers;
+
+        echo "Test 2\n";
 
         if ($DB->record_exists('block_ucpfigures_stats', array('name' => 'distinctteachers'))) {
 
