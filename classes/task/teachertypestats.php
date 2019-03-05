@@ -62,6 +62,9 @@ class teachertypestats extends \core\task\scheduled_task {
                 $timestatbeginningtemp['tm_mday'], $timestatbeginningtemp['tm_year'] + 1900);
 
         $roleteacherid = $DB->get_record('role', array('shortname' => 'editingteacher'))->id;
+        $rolelocalteacher = $DB->get_record('role', array('shortname' => 'localteacher'))->id;
+
+        $contextid = \context_system::instance()->id;
 
         $yearcategory = $DB->get_record('course_categories', array('idnumber' => $CFG->yearprefix));
         $yearcategorycontext = $DB->get_record('context',
@@ -83,10 +86,6 @@ class teachertypestats extends \core\task\scheduled_task {
                 if ($DB->record_exists('user', array('username' => $teacherlogin))) {
 
                     $teacherrecord = $DB->get_record('user', array('username' => $teacherlogin));
-
-                    $rolelocalteacher = $DB->get_record('role', array('shortname' => 'localteacher'))->id;
-
-                    $contextid = \context_system::instance()->id;
 
                     if ($DB->record_exists('role_assignments',
                             array('roleid' => $rolelocalteacher, 'contextid' => $contextid,
@@ -140,14 +139,18 @@ class teachertypestats extends \core\task\scheduled_task {
                                 $teacherfirstname = $teacherrecord->firstname;
                                 $teachermail = $teacherrecord->email;
 
-                                $teacherinforecord = new \stdClass();
-                                $teacherinforecord->servicename = $teacherservice;
-                                $teacherinforecord->teachertype = $teachercorps;
-                                $teacherinforecord->lastname = $teachername;
-                                $teacherinforecord->firstname = $teacherfirstname;
-                                $teacherinforecord->email = $teachermail;
+                                if (!$DB->record_exists('block_ucpfigures_teacherinfo',
+                                        array('email' => $teachermail))) {
 
-                                $DB->insert_record('block_ucpfigures_teacherinfo', $teacherinforecord);
+                                    $teacherinforecord = new \stdClass();
+                                    $teacherinforecord->servicename = $teacherservice;
+                                    $teacherinforecord->teachertype = $teachercorps;
+                                    $teacherinforecord->lastname = $teachername;
+                                    $teacherinforecord->firstname = $teacherfirstname;
+                                    $teacherinforecord->email = $teachermail;
+
+                                    $DB->insert_record('block_ucpfigures_teacherinfo', $teacherinforecord);
+                                }
                             }
                         }
                     }

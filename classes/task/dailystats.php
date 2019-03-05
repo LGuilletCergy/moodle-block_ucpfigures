@@ -258,11 +258,17 @@ class dailystats extends \core\task\scheduled_task {
         $timestatbeginning = mktime(0, 0, 0, $timestatbeginningtemp['tm_mon'] + 1,
                 $timestatbeginningtemp['tm_mday'], $timestatbeginningtemp['tm_year'] + 1900);
 
+        $yearcategory = $DB->get_record('course_categories', array('idnumber' => $CFG->yearprefix));
+        $yearcategorycontext = $DB->get_record('context',
+                array('contextlevel' => CONTEXT_COURSECAT, 'instanceid' => $yearcategory->id));
+        $pathyearcategorycontext = $yearcategorycontext->path."/";
+
         $roleteacherid = $DB->get_record('role', array('shortname' => 'editingteacher'))->id;
         $rolelocalteacherid = $DB->get_record('role', array('shortname' => 'localteacher'))->id;
         $sqldistinctteachers = "SELECT COUNT(DISTINCT userid) AS nbdistinctteachers FROM {role_assignments} "
                 . "WHERE roleid = $roleteacherid AND timemodified > $timestatbeginning AND "
-                . "userid IN (SELECT userid FROM {role_assignments} WHERE roleid = $rolelocalteacherid)";
+                . "userid IN (SELECT userid FROM {role_assignments} WHERE roleid = $rolelocalteacherid) "
+                . "AND contextid IN (SELECT id FROM {context} WHERE path LIKE $pathyearcategorycontext%)";
         $nbdistinctteachers = $DB->get_record_sql($sqldistinctteachers)->nbdistinctteachers;
         $record->name = 'distinctteachers';
         $record->value = $nbdistinctteachers;
