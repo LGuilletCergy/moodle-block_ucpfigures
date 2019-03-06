@@ -178,8 +178,9 @@ class teachertypestats extends \core\task\scheduled_task {
 
             print_object($typeteacher);
 
-            $sqlallteacherswithcourse = "SELECT COUNT(DISTINCT userid) AS nbteachers "
-                    . "FROM {block_ucpfigures_teacherinfo} WHERE teachertype = $typeteacher->teachertype AND hascourse=1";
+            $sqlallteacherswithcourse = "SELECT COUNT(DISTINCT userid) AS nbteacherswithcourses "
+                    . "FROM {block_ucpfigures_teacherinfo} WHERE teachertype = $typeteacher->teachertype "
+                    . "AND hascourse=1";
             $sqlallteachers = "SELECT COUNT(DISTINCT userid) AS nbteachers "
                     . "FROM {block_ucpfigures_teacherinfo} WHERE teachertype = $typeteacher->teachertype";
 
