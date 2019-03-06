@@ -139,7 +139,7 @@ function xmldb_block_ucpfigures_upgrade($oldversion, $block) {
             $dbman->add_field($table, $field);
         }
 
-        $field2 = new xmldb_field('hascourse', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, null, 'email');
+        $field2 = new xmldb_field('hascourse', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, 0, 'email');
 
         // Conditionally launch add field hascourse.
         if (!$dbman->field_exists($table, $field2)) {
