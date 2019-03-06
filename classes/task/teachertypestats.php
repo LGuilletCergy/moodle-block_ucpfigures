@@ -163,20 +163,12 @@ class teachertypestats extends \core\task\scheduled_task {
             }
         }
 
-        echo "Test 1\n";
-
         // Ici, rassembler les stats pour avoir les stats par type de prof.
 
         $sqltypeteachers = "SELECT DISTINCT teachertype FROM {block_ucpfigures_teacherinfo} WHERE 1";
         $listtypeteachers = $DB->get_records_sql($sqltypeteachers);
 
-        echo "Test 2\n";
-
         foreach ($listtypeteachers as $typeteacher) {
-
-            echo "Test 3\n";
-
-            print_object($typeteacher);
 
             $sqlallteacherswithcourse = "SELECT COUNT(DISTINCT userid) AS nbteacherswithcourses "
                     . "FROM {block_ucpfigures_teacherinfo} WHERE teachertype LIKE ? "
@@ -184,23 +176,14 @@ class teachertypestats extends \core\task\scheduled_task {
             $sqlallteachers = "SELECT COUNT(DISTINCT userid) AS nbteachers "
                     . "FROM {block_ucpfigures_teacherinfo} WHERE teachertype LIKE ?";
 
-            echo $sqlallteacherswithcourse."\n";
-            echo $sqlallteachers."\n";
-
             $nbteacherswithcourses = $DB->get_record_sql($sqlallteacherswithcourse,
                     array($typeteacher->teachertype))->nbteacherswithcourses;
-            echo "Test 4\n";
             $nbteachers = $DB->get_record_sql($sqlallteachers, array($typeteacher->teachertype))->nbteachers;
-            echo "Test 5\n";
 
             $statstyperecord = new \stdClass();
-            $statstyperecord->teachertype = $typeteacher;
+            $statstyperecord->teachertype = $typeteacher->teachertype;
             $statstyperecord->nbteacherswithcourse = nbteachers;
             $statstyperecord->nbtotalteachers = nbteachers;
-
-            print_object($statstyperecord);
-
-            echo "Test 6\n";
 
             $DB->insert_record('block_ucpfigures_statstype', $statstyperecord);
         }
