@@ -180,7 +180,7 @@ class teachertypestats extends \core\task\scheduled_task {
 
             $sqlallteacherswithcourse = "SELECT COUNT(DISTINCT userid) AS nbteacherswithcourses "
                     . "FROM {block_ucpfigures_teacherinfo} WHERE teachertype = $typeteacher->teachertype "
-                    . "AND hascourse=1";
+                    . "AND hascourse = 1";
             $sqlallteachers = "SELECT COUNT(DISTINCT userid) AS nbteachers "
                     . "FROM {block_ucpfigures_teacherinfo} WHERE teachertype = $typeteacher->teachertype";
 
