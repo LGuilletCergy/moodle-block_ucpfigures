@@ -198,6 +198,8 @@ class teachertypestats extends \core\task\scheduled_task {
             $statstyperecord->nbteacherswithcourse = nbteachers;
             $statstyperecord->nbtotalteachers = nbteachers;
 
+            print_object($statstyperecord);
+
             echo "Test 6\n";
 
             $DB->insert_record('block_ucpfigures_statstype', $statstyperecord);
