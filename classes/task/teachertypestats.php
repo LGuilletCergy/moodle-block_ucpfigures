@@ -165,7 +165,7 @@ class teachertypestats extends \core\task\scheduled_task {
         // Ici, rassembler les stats pour avoir les stats par type de prof.
 
         $sqltypeteachers = "SELECT DISTINCT teachertype FROM {block_ucpfigures_teacherinfo} WHERE 1";
-        $listtypeteachers = $DB->get_record_sql($sqltypeteachers);
+        $listtypeteachers = $DB->get_records_sql($sqltypeteachers);
 
         foreach ($listtypeteachers as $typeteacher) {
 
