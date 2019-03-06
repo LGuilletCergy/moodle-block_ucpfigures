@@ -51,6 +51,7 @@ class teachertypestats extends \core\task\scheduled_task {
 
         $DB->delete_records('block_ucpfigures_teachertype', array());
         $DB->delete_records('block_ucpfigures_teacherinfo', array());
+        $DB->delete_records('block_ucpfigures_statstype', array());
 
         $xmldocteachers = new \DOMDocument();
         $xmldocteachers->load('/home/referentiel/sefiap_personnel_composante.xml');
