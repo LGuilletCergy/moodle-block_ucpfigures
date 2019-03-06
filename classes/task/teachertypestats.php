@@ -179,17 +179,18 @@ class teachertypestats extends \core\task\scheduled_task {
             print_object($typeteacher);
 
             $sqlallteacherswithcourse = "SELECT COUNT(DISTINCT userid) AS nbteacherswithcourses "
-                    . "FROM {block_ucpfigures_teacherinfo} WHERE teachertype LIKE '$typeteacher->teachertype' "
+                    . "FROM {block_ucpfigures_teacherinfo} WHERE teachertype LIKE ? "
                     . "AND hascourse = 1";
             $sqlallteachers = "SELECT COUNT(DISTINCT userid) AS nbteachers "
-                    . "FROM {block_ucpfigures_teacherinfo} WHERE teachertype LIKE '$typeteacher->teachertype'";
+                    . "FROM {block_ucpfigures_teacherinfo} WHERE teachertype LIKE ?";
 
             echo $sqlallteacherswithcourse."\n";
             echo $sqlallteachers."\n";
 
-            $nbteacherswithcourses = $DB->get_record_sql($sqlallteacherswithcourse)->nbteacherswithcourses;
+            $nbteacherswithcourses = $DB->get_record_sql($sqlallteacherswithcourse,
+                    array($typeteacher->teachertype))->nbteacherswithcourses;
             echo "Test 4\n";
-            $nbteachers = $DB->get_record_sql($sqlallteachers)->nbteachers;
+            $nbteachers = $DB->get_record_sql($sqlallteachers, array($typeteacher->teachertype))->nbteachers;
             echo "Test 5\n";
 
             $statstyperecord = new \stdClass();
