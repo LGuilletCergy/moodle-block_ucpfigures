@@ -132,7 +132,7 @@ function xmldb_block_ucpfigures_upgrade($oldversion, $block) {
 
         // Define field userid to be added to block_ucpfigures_teacherinfo.
         $table = new xmldb_table('block_ucpfigures_teacherinfo');
-        $field = new xmldb_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'id');
+        $field = new xmldb_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, 0, 'id');
 
         // Conditionally launch add field userid.
         if (!$dbman->field_exists($table, $field)) {
@@ -151,9 +151,9 @@ function xmldb_block_ucpfigures_upgrade($oldversion, $block) {
 
         // Adding fields to table block_ucpfigures_teacherinfo.
         $table2->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
-        $table2->add_field('teachertype', XMLDB_TYPE_CHAR, '50', null, XMLDB_NOTNULL, null, null);
-        $table2->add_field('nbteacherswithcourse', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
-        $table2->add_field('nbtotalteachers', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table2->add_field('teachertype', XMLDB_TYPE_CHAR, '50', null, XMLDB_NOTNULL, null, '');
+        $table2->add_field('nbteacherswithcourse', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, 0);
+        $table2->add_field('nbtotalteachers', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, 0);
 
         // Adding keys to table block_ucpfigures_teacherinfo.
         $table2->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
