@@ -182,8 +182,8 @@ class teachertypestats extends \core\task\scheduled_task {
 
             $statstyperecord = new \stdClass();
             $statstyperecord->teachertype = $typeteacher->teachertype;
-            $statstyperecord->nbteacherswithcourse = nbteachers;
-            $statstyperecord->nbtotalteachers = nbteachers;
+            $statstyperecord->nbteacherswithcourse = $nbteacherswithcourses;
+            $statstyperecord->nbtotalteachers = $nbteachers;
 
             $DB->insert_record('block_ucpfigures_statstype', $statstyperecord);
         }
