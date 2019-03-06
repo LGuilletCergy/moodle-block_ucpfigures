@@ -139,21 +139,24 @@ class teachertypestats extends \core\task\scheduled_task {
                                 $DB->insert_record('block_ucpfigures_teachertype', $teachertyperecord);
                             }
 
-                            $teachername = $teacherrecord->lastname;
-                            $teacherfirstname = $teacherrecord->firstname;
-                            $teachermail = $teacherrecord->email;
+                            if ($isactive || $hascourse) {
 
-                            $teacherinforecord = new \stdClass();
-                            $teacherinforecord->userid = $teacherrecord->id;
-                            $teacherinforecord->composantename = $teachercomposante;
-                            $teacherinforecord->servicename = $teacherservice;
-                            $teacherinforecord->teachertype = $teachercorps;
-                            $teacherinforecord->lastname = $teachername;
-                            $teacherinforecord->firstname = $teacherfirstname;
-                            $teacherinforecord->email = $teachermail;
-                            $teacherinforecord->hascourse = $hascourse;
+                                $teachername = $teacherrecord->lastname;
+                                $teacherfirstname = $teacherrecord->firstname;
+                                $teachermail = $teacherrecord->email;
 
-                            $DB->insert_record('block_ucpfigures_teacherinfo', $teacherinforecord);
+                                $teacherinforecord = new \stdClass();
+                                $teacherinforecord->userid = $teacherrecord->id;
+                                $teacherinforecord->composantename = $teachercomposante;
+                                $teacherinforecord->servicename = $teacherservice;
+                                $teacherinforecord->teachertype = $teachercorps;
+                                $teacherinforecord->lastname = $teachername;
+                                $teacherinforecord->firstname = $teacherfirstname;
+                                $teacherinforecord->email = $teachermail;
+                                $teacherinforecord->hascourse = $hascourse;
+
+                                $DB->insert_record('block_ucpfigures_teacherinfo', $teacherinforecord);
+                            }
                         }
                     }
                 }
