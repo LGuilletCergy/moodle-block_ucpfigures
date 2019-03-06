@@ -124,4 +124,46 @@ function xmldb_block_ucpfigures_upgrade($oldversion, $block) {
         // Ucpfigures savepoint reached.
         upgrade_block_savepoint(true, 2019030500, 'ucpfigures');
     }
+
+    if ($oldversion < 2019030600) {
+
+        global $DB;
+        $dbman = $DB->get_manager();
+
+        // Define field userid to be added to block_ucpfigures_teacherinfo.
+        $table = new xmldb_table('block_ucpfigures_teacherinfo');
+        $field = new xmldb_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'id');
+
+        // Conditionally launch add field userid.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        $field2 = new xmldb_field('hascourse', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, null, 'email');
+
+        // Conditionally launch add field hascourse.
+        if (!$dbman->field_exists($table, $field2)) {
+            $dbman->add_field($table, $field2);
+        }
+
+        // Define table block_ucpfigures_teacherinfo to be created.
+        $table2 = new xmldb_table('block_ucpfigures_teacherinfo');
+
+        // Adding fields to table block_ucpfigures_teacherinfo.
+        $table2->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table2->add_field('teachertype', XMLDB_TYPE_CHAR, '50', null, XMLDB_NOTNULL, null, null);
+        $table2->add_field('nbteacherswithcourse', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table2->add_field('nbtotalteachers', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table block_ucpfigures_teacherinfo.
+        $table2->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+
+        // Conditionally launch create table for block_ucpfigures_teacherinfo.
+        if (!$dbman->table_exists($table2)) {
+            $dbman->create_table($table2);
+        }
+
+        // Ucpfigures savepoint reached.
+        upgrade_block_savepoint(true, 2019030600, 'ucpfigures');
+    }
 }
