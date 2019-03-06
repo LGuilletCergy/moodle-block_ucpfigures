@@ -146,24 +146,33 @@ function xmldb_block_ucpfigures_upgrade($oldversion, $block) {
             $dbman->add_field($table, $field2);
         }
 
-        // Define table block_ucpfigures_teacherinfo to be created.
-        $table2 = new xmldb_table('block_ucpfigures_teacherinfo');
+        // Ucpfigures savepoint reached.
+        upgrade_block_savepoint(true, 2019030600, 'ucpfigures');
+    }
 
-        // Adding fields to table block_ucpfigures_teacherinfo.
-        $table2->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
-        $table2->add_field('teachertype', XMLDB_TYPE_CHAR, '50', null, XMLDB_NOTNULL, null, '');
-        $table2->add_field('nbteacherswithcourse', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, 0);
-        $table2->add_field('nbtotalteachers', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, 0);
+    if ($oldversion < 2019030601) {
 
-        // Adding keys to table block_ucpfigures_teacherinfo.
-        $table2->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        global $DB;
+        $dbman = $DB->get_manager();
 
-        // Conditionally launch create table for block_ucpfigures_teacherinfo.
-        if (!$dbman->table_exists($table2)) {
-            $dbman->create_table($table2);
+        // Define table block_ucpfigures_statstype to be created.
+        $table = new xmldb_table('block_ucpfigures_statstype');
+
+        // Adding fields to table block_ucpfigures_statstype.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('teachertype', XMLDB_TYPE_CHAR, '50', null, XMLDB_NOTNULL, null, '');
+        $table->add_field('nbteacherswithcourse', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, 0);
+        $table->add_field('nbtotalteachers', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, 0);
+
+        // Adding keys to table block_ucpfigures_statstype.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+
+        // Conditionally launch create table for block_ucpfigures_statstype.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
         }
 
         // Ucpfigures savepoint reached.
-        upgrade_block_savepoint(true, 2019030600, 'ucpfigures');
+        upgrade_block_savepoint(true, 2019030601, 'ucpfigures');
     }
 }
