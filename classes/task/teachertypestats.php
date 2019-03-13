@@ -71,6 +71,7 @@ class teachertypestats extends \core\task\scheduled_task {
         $yearcategorycontext = $DB->get_record('context',
                 array('contextlevel' => CONTEXT_COURSECAT, 'instanceid' => $yearcategory->id));
         $pathyearcategorycontext = $yearcategorycontext->path."/";
+        $teacherstreated = array();
 
         foreach ($listteachers as $teacher) {
 
@@ -116,27 +117,32 @@ class teachertypestats extends \core\task\scheduled_task {
 
                         if (isset($teachercorps) && isset($teachercomposante) && isset($teacherservice)) {
 
-                            if ($DB->record_exists('block_ucpfigures_teachertype',
-                                    array('composantename' => $teachercomposante, 'servicename' => $teacherservice,
-                                        'teachertype' => $teachercorps))) {
+                            if (!isset($teacherstreated[$teacherrecord->id])) {
 
-                                $teachertyperecord = $DB->get_record('block_ucpfigures_teachertype',
-                                    array('composantename' => $teachercomposante, 'servicename' => $teacherservice,
-                                        'teachertype' => $teachercorps));
-                                $teachertyperecord->coursecreated += $hascourse;
-                                $teachertyperecord->totalusers++;
+                                $teacherstreated[$teacherrecord->id] = 1;
 
-                                $DB->update_record('block_ucpfigures_teachertype', $teachertyperecord);
-                            } else {
+                                if ($DB->record_exists('block_ucpfigures_teachertype',
+                                        array('composantename' => $teachercomposante, 'servicename' => $teacherservice,
+                                            'teachertype' => $teachercorps))) {
 
-                                $teachertyperecord = new \stdClass();
-                                $teachertyperecord->composantename = $teachercomposante;
-                                $teachertyperecord->servicename = $teacherservice;
-                                $teachertyperecord->teachertype = $teachercorps;
-                                $teachertyperecord->coursecreated = $hascourse;
-                                $teachertyperecord->totalusers = 1;
+                                    $teachertyperecord = $DB->get_record('block_ucpfigures_teachertype',
+                                        array('composantename' => $teachercomposante, 'servicename' => $teacherservice,
+                                            'teachertype' => $teachercorps));
+                                    $teachertyperecord->coursecreated += $hascourse;
+                                    $teachertyperecord->totalusers++;
 
-                                $DB->insert_record('block_ucpfigures_teachertype', $teachertyperecord);
+                                    $DB->update_record('block_ucpfigures_teachertype', $teachertyperecord);
+                                } else {
+
+                                    $teachertyperecord = new \stdClass();
+                                    $teachertyperecord->composantename = $teachercomposante;
+                                    $teachertyperecord->servicename = $teacherservice;
+                                    $teachertyperecord->teachertype = $teachercorps;
+                                    $teachertyperecord->coursecreated = $hascourse;
+                                    $teachertyperecord->totalusers = 1;
+
+                                    $DB->insert_record('block_ucpfigures_teachertype', $teachertyperecord);
+                                }
                             }
 
                             if ($isactive || $hascourse) {
