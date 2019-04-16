@@ -113,27 +113,40 @@ class teachertypestats extends \core\task\scheduled_task {
 
                             // Version des profs avec cours vide, à désactiver en fonctionnement normal.
 
+                            echo "Test 1\n";
+
                             $sqldistinctcoursescontext = "SELECT DISTINCT contextid "
                                     . "FROM {role_assignments} WHERE roleid = $roleteacherid AND "
                                     . "timemodified > $timestatbeginning AND userid = $teacherrecord->id "
                                     . "AND contextid IN (SELECT id FROM {context} WHERE"
                                     . " path LIKE '$pathyearcategorycontext%')";
                             $distinctcoursescontext = $DB->get_record_sql($sqldistinctcoursescontext);
+                            echo "Test 2\n";
 
                             foreach ($distinctcoursescontext as $coursecontext) {
 
+                                echo "Test 3\n";
+
                                 $courseid = $DB->get_record('context', array('id' => $coursecontext));
+
+                                echo "Test 4\n";
 
                                 $sqlnbmodules = "SELECT COUNT(DISTINCT id) AS nbmodules FROM {course_modules}"
                                         . " WHERE course = $courseid";
 
                                 $nbmodules = $DB->get_record_sql($sqlnbmodules)->nbmodules;
+
+                                echo "Test 5\n";
                             }
 
-                            if ($nbmodules) {
+                            echo "Test 6\n";
+
+                            if ($nbmodules > 1) {
 
                                 $hascourse = 1;
                             }
+
+                            echo "Test 7\n";
 
                             // Fin de la version des profs avec cours vide.
 
@@ -240,6 +253,8 @@ class teachertypestats extends \core\task\scheduled_task {
 
                         // Version des profs avec cours vide, à désactiver en fonctionnement normal.
 
+                        echo "Test 8\n";
+
                         $sqldistinctcoursescontext = "SELECT DISTINCT contextid "
                                 . "FROM {role_assignments} WHERE roleid = $roleteacherid AND "
                                 . "timemodified > $timestatbeginning AND userid = $teacherrecord->id "
@@ -247,20 +262,32 @@ class teachertypestats extends \core\task\scheduled_task {
                                 . " path LIKE '$pathyearcategorycontext%')";
                         $distinctcoursescontext = $DB->get_record_sql($sqldistinctcoursescontext);
 
+                        echo "Test 9\n";
+
                         foreach ($distinctcoursescontext as $coursecontext) {
 
+                            echo "Test 10\n";
+
                             $courseid = $DB->get_record('context', array('id' => $coursecontext));
+
+                            echo "Test 11\n";
 
                             $sqlnbmodules = "SELECT COUNT(DISTINCT id) AS nbmodules FROM {course_modules}"
                                     . " WHERE course = $courseid";
 
                             $nbmodules = $DB->get_record_sql($sqlnbmodules)->nbmodules;
+
+                            echo "Test 12\n";
                         }
+
+                        echo "Test 13\n";
 
                         if ($nbmodules) {
 
                             $hascourse = 1;
                         }
+
+                        echo "Test 14\n";
 
                         // Fin de la version des profs avec cours vide.
 
