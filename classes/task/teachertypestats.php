@@ -127,7 +127,7 @@ class teachertypestats extends \core\task\scheduled_task {
 
                                 echo "Test 3\n";
 
-                                $courseid = $DB->get_record('context', array('id' => $coursecontext));
+                                $courseid = $DB->get_record('context', array('id' => $coursecontext))->id;
 
                                 echo "Test 4\n";
 
@@ -268,7 +268,7 @@ class teachertypestats extends \core\task\scheduled_task {
 
                             echo "Test 10\n";
 
-                            $courseid = $DB->get_record('context', array('id' => $coursecontext));
+                            $courseid = $DB->get_record('context', array('id' => $coursecontext))->id;
 
                             echo "Test 11\n";
 
