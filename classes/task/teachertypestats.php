@@ -96,17 +96,46 @@ class teachertypestats extends \core\task\scheduled_task {
                                 array('roleid' => $rolelocalteacher, 'contextid' => $contextid,
                                     'userid' => $teacherrecord->id))) {
 
-                            $sqldistinctcourses = "SELECT COUNT(DISTINCT contextid) AS nbdistinctcourses "
+
+                            // Version normale
+//                            $sqldistinctcourses = "SELECT COUNT(DISTINCT contextid) AS nbdistinctcourses "
+//                                    . "FROM {role_assignments} WHERE roleid = $roleteacherid AND "
+//                                    . "timemodified > $timestatbeginning AND userid = $teacherrecord->id "
+//                                    . "AND contextid IN (SELECT id FROM {context} WHERE"
+//                                    . " path LIKE '$pathyearcategorycontext%')";
+//                            $nbdistinctcourses = $DB->get_record_sql($sqldistinctcourses)->nbdistinctcourses;
+//
+//                            if ($nbdistinctcourses) {
+//
+//                                $hascourse = 1;
+//                            }
+                            // Fin de la version normale.
+
+                            // Version des profs avec cours vide, à désactiver en fonctionnement normal.
+
+                            $sqldistinctcoursescontext = "SELECT DISTINCT contextid "
                                     . "FROM {role_assignments} WHERE roleid = $roleteacherid AND "
                                     . "timemodified > $timestatbeginning AND userid = $teacherrecord->id "
                                     . "AND contextid IN (SELECT id FROM {context} WHERE"
                                     . " path LIKE '$pathyearcategorycontext%')";
-                            $nbdistinctcourses = $DB->get_record_sql($sqldistinctcourses)->nbdistinctcourses;
+                            $distinctcoursescontext = $DB->get_record_sql($sqldistinctcoursescontext);
 
-                            if ($nbdistinctcourses) {
+                            foreach ($distinctcoursescontext as $coursecontext) {
+
+                                $courseid = $DB->get_record('context', array('id' => $coursecontext));
+
+                                $sqlnbmodules = "SELECT COUNT(DISTINCT id) AS nbmodules FROM {course_modules}"
+                                        . " WHERE course = $courseid";
+
+                                $nbmodules = $DB->get_record_sql($sqlnbmodules)->nbmodules;
+                            }
+
+                            if ($nbmodules) {
 
                                 $hascourse = 1;
                             }
+
+                            // Fin de la version des profs avec cours vide.
 
                             if ($teacheractivity == "Sursitaire" || $teacheractivity == "Détachement") {
 
@@ -195,17 +224,45 @@ class teachertypestats extends \core\task\scheduled_task {
                             array('roleid' => $rolelocalteacher, 'contextid' => $contextid,
                                 'userid' => $teacherrecord->id))) {
 
-                        $sqldistinctcourses = "SELECT COUNT(DISTINCT contextid) AS nbdistinctcourses "
+                        // Version normale
+//                        $sqldistinctcourses = "SELECT COUNT(DISTINCT contextid) AS nbdistinctcourses "
+//                                . "FROM {role_assignments} WHERE roleid = $roleteacherid AND "
+//                                . "timemodified > $timestatbeginning AND userid = $teacherrecord->id "
+//                                . "AND contextid IN (SELECT id FROM {context} WHERE"
+//                                . " path LIKE '$pathyearcategorycontext%')";
+//                        $nbdistinctcourses = $DB->get_record_sql($sqldistinctcourses)->nbdistinctcourses;
+//
+//                        if ($nbdistinctcourses) {
+//
+//                            $hascourse = 1;
+//                        }
+                        // Fin de la version normale.
+
+                        // Version des profs avec cours vide, à désactiver en fonctionnement normal.
+
+                        $sqldistinctcoursescontext = "SELECT DISTINCT contextid "
                                 . "FROM {role_assignments} WHERE roleid = $roleteacherid AND "
                                 . "timemodified > $timestatbeginning AND userid = $teacherrecord->id "
                                 . "AND contextid IN (SELECT id FROM {context} WHERE"
                                 . " path LIKE '$pathyearcategorycontext%')";
-                        $nbdistinctcourses = $DB->get_record_sql($sqldistinctcourses)->nbdistinctcourses;
+                        $distinctcoursescontext = $DB->get_record_sql($sqldistinctcoursescontext);
 
-                        if ($nbdistinctcourses) {
+                        foreach ($distinctcoursescontext as $coursecontext) {
+
+                            $courseid = $DB->get_record('context', array('id' => $coursecontext));
+
+                            $sqlnbmodules = "SELECT COUNT(DISTINCT id) AS nbmodules FROM {course_modules}"
+                                    . " WHERE course = $courseid";
+
+                            $nbmodules = $DB->get_record_sql($sqlnbmodules)->nbmodules;
+                        }
+
+                        if ($nbmodules) {
 
                             $hascourse = 1;
                         }
+
+                        // Fin de la version des profs avec cours vide.
 
                         if ($teacheractivity == "Sursitaire" || $teacheractivity == "Détachement") {
 
