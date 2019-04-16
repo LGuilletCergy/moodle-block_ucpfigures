@@ -137,16 +137,15 @@ class teachertypestats extends \core\task\scheduled_task {
                                 $nbmodules = $DB->get_record_sql($sqlnbmodules)->nbmodules;
 
                                 echo "Test 5\n";
+
+                                if ($nbmodules > 1) {
+
+                                    $hascourse = 1;
+                                    break;
+                                }
                             }
 
                             echo "Test 6\n";
-
-                            if ($nbmodules > 1) {
-
-                                $hascourse = 1;
-                            }
-
-                            echo "Test 7\n";
 
                             // Fin de la version des profs avec cours vide.
 
@@ -278,16 +277,15 @@ class teachertypestats extends \core\task\scheduled_task {
                             $nbmodules = $DB->get_record_sql($sqlnbmodules)->nbmodules;
 
                             echo "Test 12\n";
+
+                            if ($nbmodules > 1) {
+
+                                $hascourse = 1;
+                                break;
+                            }
                         }
 
                         echo "Test 13\n";
-
-                        if ($nbmodules) {
-
-                            $hascourse = 1;
-                        }
-
-                        echo "Test 14\n";
 
                         // Fin de la version des profs avec cours vide.
 
