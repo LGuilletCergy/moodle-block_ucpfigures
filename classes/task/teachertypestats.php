@@ -140,6 +140,8 @@ class teachertypestats extends \core\task\scheduled_task {
 
                                 if ($nbmodules > 1) {
 
+                                    echo "Test 5.5";
+
                                     $hascourse = 1;
                                     break;
                                 }
