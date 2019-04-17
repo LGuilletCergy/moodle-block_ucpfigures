@@ -138,9 +138,13 @@ class teachertypestats extends \core\task\scheduled_task {
 
                                 echo "Test 5\n";
 
+                                echo "Course id : $courseid\n";
+                                echo "Nombre modules : $nbmodules\n";
+
+
                                 if ($nbmodules > 1) {
 
-                                    echo "Test 5.5";
+                                    echo "Test 5.5\n";
 
                                     $hascourse = 1;
                                     break;
